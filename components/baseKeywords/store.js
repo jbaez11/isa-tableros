@@ -26,8 +26,23 @@ function addBaseKeywords(baseKeywords){
 
 }
 
+async function updateBaseKeywords(id,keyword,module,category){
+    const foundBaseKeywords = await Model.findOne({
+        _id : id
+    });
+
+    foundBaseKeywords.keyword = keyword ;
+    foundBaseKeywords.module = module ;
+    foundBaseKeywords.category = category ;
+    const newBaseKeywords = await foundBaseKeywords.save();
+    console.log('new bae', newBaseKeywords);
+    return newBaseKeywords;
+
+}
+
 
 module.exports = {
     list:getBaseKeywords,
     add: addBaseKeywords,
+    updateText: updateBaseKeywords,
 }
