@@ -19,7 +19,15 @@ async function getBaseKeywords(){
     return basekeywords;
 }
 
+function addBaseKeywords(baseKeywords){
+
+    const myBaseKeywords = new Model(baseKeywords);
+    myBaseKeywords.save();
+
+}
+
 
 module.exports = {
-    list:getBaseKeywords
+    list:getBaseKeywords,
+    add: addBaseKeywords,
 }

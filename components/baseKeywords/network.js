@@ -14,4 +14,14 @@ router.get('/', function(req,res){
 
 });
 
+router.post('/', function(req,res){
+    controller.addBaseKeywords(req.body.keyword, req.body.module, req.body.category)
+        .then((fullBaseKeywords) => {
+            response.success(req,res, fullBaseKeywords, 201 );
+        })
+        .catch(e => {
+            response.error(req,res,'Informacion Invalida', 400, 'error en el controller post');
+        })
+})
+
 module.exports = router;
