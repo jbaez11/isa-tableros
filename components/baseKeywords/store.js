@@ -41,8 +41,15 @@ async function updateBaseKeywords(id,keyword,module,category){
 }
 
 
+function removeBaseKeywords(id){
+    return Model.deleteOne({
+        _id:id
+    });
+}
+
 module.exports = {
     list:getBaseKeywords,
     add: addBaseKeywords,
     updateText: updateBaseKeywords,
+    remove:removeBaseKeywords,
 }

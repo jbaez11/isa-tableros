@@ -44,8 +44,25 @@ function updateBaseKeywords(id, keyword,module,category){//
         resolve(result);
     })
 }
+
+function deleteBaseKeywords(id){
+    return new Promise((resolve,reject) => {
+        if(!id){
+            reject('ID Invalido');
+            return false;
+        }
+        store.remove(id)
+            .then(()=> {
+                resolve();
+            })
+            .catch(e => {
+                reject(e)
+            });
+    });
+}
 module.exports = {
     getBaseKeywords,
     addBaseKeywords,
     updateBaseKeywords,
+    deleteBaseKeywords,
 }

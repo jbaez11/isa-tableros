@@ -37,4 +37,14 @@ router.patch('/:id', function(req,res){
         });
 });
 
+router.delete('/:id', function(req,res){
+    controller.deleteBaseKeywords(req.params.id)
+        .then(() => {
+            response.success(req,res, `BaseKeywords ${req.params.id} eliminado `,200);
+        })
+        .catch(e => {
+            response.error(req,res, 'Error Interno', 500, e);
+        });
+});
+
 module.exports = router;
