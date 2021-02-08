@@ -19,18 +19,18 @@
               <thead>
                 <tr class="orange accent-3 ">
                   <!--<th class="white--text">ID</th>-->
-                  <th class="white--text">KEYWORD</th>
-                  <th class="white--text">MODULE</th>
-                  <th class="white--text">CATEGORY</th>
+                  <th class="white--text">NAME</th>
+                  <th class="white--text">iDENTIFICATION</th>
+                  <th class="white--text">GENDER</th>
                   <th class="white--text text-center">ACCIONES</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="basekeyword in basekeywords" :key="basekeyword._id">
-                  <!--<td>{{ basekeyword._id }}</td>-->
-                  <td>{{ basekeyword.keyword }}</td>
-                  <td>{{ basekeyword.module }}</td>
-                  <td>{{ basekeyword.category }}</td>
+                <tr v-for="agent in agents" :key="agent._id">
+                  <!--<td>{{ agent._id }}</td>-->
+                  <td>{{ agent.name }}</td>
+                  <td>{{ agent.identification }}</td>
+                  <td>{{ agent.gender }}</td>
                   <td>
                     <v-btn
                       class="orange"
@@ -39,10 +39,10 @@
                       fab
                       @click="
                         formEditar(
-                          basekeyword._id,
-                          basekeyword.keyword,
-                          basekeyword.module,
-                          basekeyword.category
+                          agent._id,
+                          agent.name,
+                          agent.identification,
+                          agent.gender
                         )
                       "
                       ><v-icon>mdi-pencil</v-icon></v-btn
@@ -52,7 +52,7 @@
                       fab
                       dark
                       small
-                      @click="borrar(basekeyword._id)"
+                      @click="borrar(agent._id)"
                       ><v-icon>mdi-delete</v-icon></v-btn
                     >
                   </td>
@@ -64,20 +64,20 @@
         <!--Inicio modal-->
   <v-dialog v-model="dialog" max-width="500">        
         <v-form> <v-card>
-          <v-card-title class="orange accent-3 white--text">BaseKeyword</v-card-title>    
+          <v-card-title class="orange accent-3 white--text">Agent</v-card-title>    
           <v-card-text>            
                 <!---->       
               <v-container>
                 <v-row>
-                  <input v-model="basekeyword._id" hidden></input>
+                  <input v-model="agent._id" hidden></input>
                   <v-col cols="12" md="4">
-                    <v-text-field v-model="basekeyword.keyword" label="Keyword" solo required>{{basekeyword.keyword}}</v-text-field>
+                    <v-text-field v-model="agent.name" label="Name" solo required>{{agent.name}}</v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
-                    <v-text-field v-model="basekeyword.module" label="Module" solo required>{{basekeyword.module}}</v-text-field>
+                    <v-text-field v-model="agent.identification" label="Identification" solo required>{{agent.identification}}</v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
-                    <v-text-field v-model="basekeyword.category" label="Category" solo required>{{basekeyword.category}}</v-text-field>
+                    <v-text-field v-model="agent.gender" label="Gender" solo required>{{agent.gender}}</v-text-field>
                   </v-col>
                 </v-row>
               </v-container>            
@@ -98,22 +98,21 @@
 </template>
 
 <script>
-let url = "http://localhost:3000/basekeywords/";
+let url = "http://localhost:3000/agents/";
  
 export default {
   
-  name: "PxTableBasekeywords",
+  name: "PxTableAgents",
   data() {
     return {
       
-      basekeywords: [],
+      agents: [],
       dialog: false,
       operacion: "",
-      basekeyword: {
+      agent: {
         _id: null,
         keyword: "",
-        module: "",
-        category:"",
+        module: ""
       }
     };
   },
@@ -123,31 +122,31 @@ export default {
   methods:{
     async mostrar() {
       const response = await this.axios.get(url);
-      this.basekeywords=response.data.body;
+      this.agents=response.data.body;
     },
     
     crear() {
       let parametros = {
-        keyword: this.basekeyword.keyword,
-        module: this.basekeyword.module,
-        category: this.basekeyword.category
+        name: this.agent.name,
+        identification: this.agent.identification,
+        gender: this.agent.gender
       };
       this.axios.post(url, parametros).then(response => {
       console.log(response.data);
       this.mostrar();
       });
-      this.basekeyword.keyword = "";
-      this.basekeyword.module = "";
-      this.basekeyword.category = "";
+      this.agent.name = "";
+      this.agent.identification = "";
+      this.agent.gender = "";
     },
     editar() {
       let parametros = {
-        id: this.basekeyword._id,
-        keyword: this.basekeyword.keyword,
-        module: this.basekeyword.module,
-        category: this.basekeyword.category
+        id: this.agent._id,
+        name: this.agent.name,
+        identification: this.agent.identification,
+        gender: this.agent.gender
       };
-      this.axios.patch(url + this.basekeyword._id, parametros).then(response => {
+      this.axios.patch(url + this.agent._id, parametros).then(response => {
         console.log(response)
         //this.mostrar();
       });
@@ -184,15 +183,15 @@ export default {
     formNuevo: function() {
       this.dialog = true;
       this.operacion = "crear";
-      this.basekeyword.keyword = "";
-      this.basekeyword.module = "";
-      this.basekeyword.category = "";
+      this.agent.name = "";
+      this.agent.identification = "";
+      this.agent.gender = "";
     },
-    formEditar: function(id, keyword, module, category) {
-      this.basekeyword._id = id;
-      this.basekeyword.keyword = keyword;
-      this.basekeyword.module = module;
-      this.basekeyword.category = category;
+    formEditar: function(id, name, identification, gender) {
+      this.agent._id = id;
+      this.agent.name = name;
+      this.agent.identification = identification;
+      this.agent.gender = gender;
       this.dialog = true;
       this.operacion = "editar";
     }
