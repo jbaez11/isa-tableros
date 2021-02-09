@@ -14,16 +14,11 @@ import Chartick from "vue-chartkick";
 //poder utilizar efectos de carga
 import { VueSpinners } from "@saeris/vue-spinners";
 //poder utilizar alertas
-import VueSweetalert2 from "vue-sweetalert2";
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
-
-
-
-
-
-
-Vue.use(VueAxios, axios);
 Vue.use(VueSweetalert2);
+Vue.use(VueAxios, axios);
 Vue.use(VueSpinners);
 Vue.use(Chartick.use(Chart));
 Vue.config.productionTip = false;

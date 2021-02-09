@@ -2,33 +2,48 @@
   <div class="app">
     <v-app>
       <v-main>
-        <!--<h2 class="text-center">CRUD usando APIREST con Node JS</h2>-->
+        <!--<h2 class="text-center">AGENTS</h2>-->
         <!-- Botón CREAR -->
         <v-card
-          class="mx-auto mt-5"
+          class="mx-auto"
           color="transparent"
           max-width="1280"
           elevation="0"
-        >
+        >   
           <v-btn class="mx-2" fab dark color="#FF9B00" @click="formNuevo()"
             ><v-icon dark>mdi-plus</v-icon></v-btn
           >
+          <input
+                        class=""
+                        id="filter"
+                        placeholder="Buscar..."
+                        type="text"
+                        v-model="filter"
+                        name="filter"
+                        
+                        
+                       
+                    />
           <!-- Tabla y formulario -->
+         
           <v-simple-table class="mt-5">
             <template v-slot:default>
               <thead>
                 <tr class="orange accent-3 ">
                   <!--<th class="white--text">ID</th>-->
-                  <th class="white--text">NAME</th>
-                  <th class="white--text">iDENTIFICATION</th>
-                  <th class="white--text">GENDER</th>
-                  <th class="white--text text-center">ACCIONES</th>
+                  <th class="white--text ">NAME</th>
+                  <th class="white--text ">iDENTIFICATION</th>
+                  <th class="white--text ">GENDER</th>
+                  <th class="white--text ">ACCIONES</th>
+                
                 </tr>
               </thead>
-              <tbody>
-                <tr v-for="agent in agents" :key="agent._id">
+              <tbody v-show="!filter">
+                <tr  v-for="agent in displayedAgents" :key="agent._id">
+                
+                  
                   <!--<td>{{ agent._id }}</td>-->
-                  <td>{{ agent.name }}</td>
+                  <td class="">{{ agent.name }}</td>
                   <td>{{ agent.identification }}</td>
                   <td>{{ agent.gender }}</td>
                   <td>
@@ -58,13 +73,64 @@
                   </td>
                 </tr>
               </tbody>
+
+              <!--filterd-->
+                <tbody v-if="filter">
+                <tr  v-for="agent in filteredAgents" :key="agent._id">
+                
+                  
+                  <!--<td>{{ agent._id }}</td>-->
+                  <td class="">{{ agent.name }}</td>
+                  <td>{{ agent.identification }}</td>
+                  <td>{{ agent.gender }}</td>
+                  <td>
+                    <v-btn
+                      class="orange"
+                      dark
+                      small
+                      fab
+                      @click="
+                        formEditar(
+                          agent._id,
+                          agent.name,
+                          agent.identification,
+                          agent.gender
+                        )
+                      "
+                      ><v-icon>mdi-pencil</v-icon></v-btn
+                    >
+                    <v-btn
+                      class="error"
+                      fab
+                      dark
+                      small
+                      @click="borrar(agent._id)"
+                      ><v-icon>mdi-delete</v-icon></v-btn
+                    >
+                  </td>
+                </tr>
+              </tbody>
+              <!--End filter-->
             </template>
           </v-simple-table>
         </v-card>
+         <div v-show="!filter" class="" style="">
+          <div class="" style="display: flex; justify-content: center; align-items: center;" >
+          <v-btn v-if="page != 1" @click="page--" >
+            Before
+          </v-btn>
+          <v-btn v-for="pageNmber in pages.slice(page-1, page+2) " :key="pageNmber" @click="page = pageNmber" >
+           {{pageNmber}}
+          </v-btn>
+          <v-btn   v-if="page < pages.length" @click="page++">
+            Next
+          </v-btn>
+        </div>
+       </div>
         <!--Inicio modal-->
   <v-dialog v-model="dialog" max-width="500">        
         <v-form> <v-card>
-          <v-card-title class="orange accent-3 white--text">Agent</v-card-title>    
+          <v-card-title class="orange accent-3 white--text">Agent</v-card-title>
           <v-card-text>            
                 <!---->       
               <v-container>
@@ -77,7 +143,13 @@
                     <v-text-field v-model="agent.identification" label="Identification" solo required>{{agent.identification}}</v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
-                    <v-text-field v-model="agent.gender" label="Gender" solo required>{{agent.gender}}</v-text-field>
+                   <select style="width:80px; height:50px" v-model="agent.gender">
+                        <option disabled value="">Gender</option>
+                        <option >F</option>
+                        <option >M</option>
+                   
+                    </select> 
+                   
                   </v-col>
                 </v-row>
               </v-container>            
@@ -98,31 +170,59 @@
 </template>
 
 <script>
+
+
+
+
 let url = "http://localhost:3000/agents/";
  
 export default {
   
+  
   name: "PxTableAgents",
   data() {
     return {
-      
+      filter: null,
+      gender: '',
+      filterActive:null,
       agents: [],
       dialog: false,
       operacion: "",
       agent: {
         _id: null,
-        keyword: "",
-        module: ""
-      }
+        name: "",
+        identification: "",
+        gender:this.gender
+      },
+      page: 1,
+      perPage: 10,
+      pages: []
     };
   },
+  
+  
   created() {
     this.mostrar();
+    
   },
   methods:{
+    
     async mostrar() {
       const response = await this.axios.get(url);
       this.agents=response.data.body;
+    },
+    paginate(agents){
+      let page = this.page;
+      let perPage = this.perPage;
+      let from = (page*perPage)- perPage;
+      let to = (page*perPage);
+      return agents.slice(from,to);
+    },
+    setAgents(){
+        let numberOfPages = Math.ceil(this.agents.length / this.perPage)
+        for (let i=1 ; i<=numberOfPages; i++ ){
+            this.pages.push(i);
+        }
     },
     
     crear() {
@@ -195,7 +295,36 @@ export default {
       this.dialog = true;
       this.operacion = "editar";
     }
+  },
+  computed:{
+    
+      displayedAgents(){
+          return this.paginate(this.agents);
+      },
+      filteredAgents(){
+           
+            return this.agents.filter(agent => agent.name.toUpperCase().includes(this.filter.toUpperCase())
+            || agent.identification.toUpperCase().includes(this.filter.toUpperCase()))
+           
+        }
+        
+  },
+  watch:{
+      agents(){
+          this.setAgents();
+      },
+      checkFilterActivate: function(e){
+      if(this.filter == null){
+        
+        return null;
+      }
+      if(this.filter != null){
+        return true
+      }
+    },
+     
   }
+
 };
 </script>
 
