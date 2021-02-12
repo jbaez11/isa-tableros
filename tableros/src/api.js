@@ -1,13 +1,53 @@
-const url = "https://api.coincap.io/v2";
+const url = "http://localhost:3000/"
+
+
+function getModules(){
+  return fetch(`${url}/basekeywords`)
+    .then(res => res.json())
+    .then(res => res.data);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const url2 = "https://api.coincap.io/v2";
 
 function getAssets() {
-  return fetch(`${url}/assets?limit=20`)
+  return fetch(`${url2}/assets?limit=20`)
     .then(res => res.json())
     .then(res => res.data);
 }
 
 function getAsset(coin) {
-  return fetch(`${url}/assets/${coin}`)
+  return fetch(`${url2}/assets/${coin}`)
     .then(res => res.json())
     .then(res => res.data);
 }
@@ -25,18 +65,19 @@ function getAssetHistory(coin) {
 }
 
 function getMarkets(coin) {
-  return fetch(`${url}/assets/${coin}/markets?limit=5`)
+  return fetch(`${url2}/assets/${coin}/markets?limit=5`)
     .then(res => res.json())
     .then(res => res.data);
 }
 
 function getExchange(id) {
-  return fetch(`${url}/exchanges/${id}`)
+  return fetch(`${url2}/exchanges/${id}`)
     .then(res => res.json())
     .then(res => res.data);
 }
 
 export default {
+  getModules,
   getAssets,
   getAsset,
   getAssetHistory,

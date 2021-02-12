@@ -1,51 +1,50 @@
 const store = require('./store');
 
-function getAgents(){
+function getBasePhrases(){
     return new Promise((resolve,reject) => {
         console.log(store.list())
         resolve(store.list());  
     });
 }
 
-function addAgents(name,identification,gender){
+function addBasePhrases(phrase,module,category){
 
     return new Promise((resolve,reject) => {
-        if(!name || !identification || !gender){
-            console.log('[Message Controller] no hay name o identification o gender');
+        if(!phrase || !module || !category){
+            console.log('[Message Controller] no hay Phrase o module o category');
             reject('Los datos son incorrectos');
             return false;
         }
 
-        const  fullAgents = {
-            name:name,
-            identification:identification,
-            gender: gender,
+        const  fullBasePhrases = {
+            phrase:phrase,
+            module:module,
+            category: category,
         }
-        store.add(fullAgents);
-        resolve(fullAgents);
+        store.add(fullBasePhrases);
+        resolve(fullBasePhrases);
 
     })
     
 }
 
-function updateAgents(id, name,identification,gender){//
+function updateBasePhrases(id, phrase,module,category){//
     return new Promise(async(resolve,reject) => {
         console.log('id', id);
-        console.log('name', name);
-        console.log('identification' , identification);
-        console.log('gender', gender);
-        if(!id || !name || !identification || !gender){
+        console.log('phrase', phrase);
+        console.log('module' , module);
+        console.log('category', category);
+        if(!id || !phrase || !module || !category){
             reject('Invalid Data');
             return false;
         }
 
-        const result = await store.updateText(id,name,identification,gender);
+        const result = await store.updateText(id,phrase,module,category);
 
         resolve(result);
     })
 }
-
-function deleteAgents(id){
+function deleteBasePhrases(id){
     return new Promise((resolve,reject) => {
         if(!id){
             reject('ID Invalido');
@@ -61,8 +60,8 @@ function deleteAgents(id){
     });
 }
 module.exports = {
-    getAgents,
-    addAgents,
-    updateAgents,
-    deleteAgents,
+    getBasePhrases,
+    addBasePhrases,
+    updateBasePhrases,
+    deleteBasePhrases,
 }

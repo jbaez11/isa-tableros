@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const baseKeywordsSchema = new Schema({
-    keyword :{
+const basePhrasesSchema = new Schema({
+    phrase :{
         type: String,
         unique:true
     },
@@ -11,6 +11,6 @@ const baseKeywordsSchema = new Schema({
     category: String,
 });
 
-const model = mongoose.model('Basekeywords', baseKeywordsSchema);
+const model = mongoose.model('Basephrases', basePhrasesSchema);
 
 module.exports = model;
