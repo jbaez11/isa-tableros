@@ -12,7 +12,7 @@ function addAgents(agents){
 
 }
 
-async function updateAgents(id,name,identification,gender){
+async function updateAgents(id,name,identification,gender,createdAt){
     const foundAgents = await Model.findOne({
         _id : id
     });
@@ -20,6 +20,7 @@ async function updateAgents(id,name,identification,gender){
     foundAgents.name = name ;
     foundAgents.identification = identification ;
     foundAgents.gender = gender ;
+    foundAgents.createdAt = createdAt;
     const newAgents = await foundAgents.save();
     console.log('new bae', newAgents);
     return newAgents;

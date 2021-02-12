@@ -28,18 +28,19 @@ function addBaseKeywords(keyword,module,category){
     
 }
 
-function updateBaseKeywords(id, keyword,module,category){//
+function updateBaseKeywords(id, keyword,module,category,createdAt){//
     return new Promise(async(resolve,reject) => {
         console.log('id', id);
         console.log('keyword', keyword);
         console.log('module' , module);
         console.log('category', category);
+        createdAt=new Date();
         if(!id || !keyword || !module || !category){
             reject('Invalid Data');
             return false;
         }
 
-        const result = await store.updateText(id,keyword,module,category);
+        const result = await store.updateText(id,keyword,module,category,createdAt);
 
         resolve(result);
     })

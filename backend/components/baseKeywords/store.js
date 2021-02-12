@@ -12,7 +12,7 @@ function addBaseKeywords(baseKeywords){
 
 }
 
-async function updateBaseKeywords(id,keyword,module,category){
+async function updateBaseKeywords(id,keyword,module,category,createdAt){
     const foundBaseKeywords = await Model.findOne({
         _id : id
     });
@@ -20,6 +20,7 @@ async function updateBaseKeywords(id,keyword,module,category){
     foundBaseKeywords.keyword = keyword ;
     foundBaseKeywords.module = module ;
     foundBaseKeywords.category = category ;
+    foundBaseKeywords.createdAt=createdAt;
     const newBaseKeywords = await foundBaseKeywords.save();
     console.log('new bae', newBaseKeywords);
     return newBaseKeywords;

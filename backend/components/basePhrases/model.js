@@ -9,6 +9,11 @@ const basePhrasesSchema = new Schema({
     },
     module: String,
     category: String,
+    createdAt: { 
+        type: Date, 
+        default: Date.now 
+    },
+
 });
 
 const model = mongoose.model('Basephrases', basePhrasesSchema);

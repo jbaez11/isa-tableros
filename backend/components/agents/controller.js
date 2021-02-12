@@ -28,18 +28,19 @@ function addAgents(name,identification,gender){
     
 }
 
-function updateAgents(id, name,identification,gender){//
+function updateAgents(id, name,identification,gender,createdAt){//
     return new Promise(async(resolve,reject) => {
         console.log('id', id);
         console.log('name', name);
         console.log('identification' , identification);
         console.log('gender', gender);
-        if(!id || !name || !identification || !gender){
+        createdAt=new Date();
+        if(!id || !name || !identification || !gender || !createdAt){
             reject('Invalid Data');
             return false;
         }
 
-        const result = await store.updateText(id,name,identification,gender);
+        const result = await store.updateText(id,name,identification,gender,createdAt);
 
         resolve(result);
     })

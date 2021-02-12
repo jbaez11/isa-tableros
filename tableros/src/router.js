@@ -27,7 +27,7 @@ export default new Router({
       component: Agents
     },
     {
-      path: "/basephrases",
+      path: "/igsSerfinanzaCO/basephrases",
       name: "basephrases",
       component: Basephrases
     }

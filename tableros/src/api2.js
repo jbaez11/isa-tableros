@@ -1,17 +1,3 @@
-const url = "http://localhost:3000/"
-
-
-function getModules(){
-  return fetch(`${url}/basekeywords`)
-    .then(res => res.json())
-    .then(res => res.data);
-}
-
-
-
-
-
-
 
 
 

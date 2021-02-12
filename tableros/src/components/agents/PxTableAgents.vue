@@ -147,6 +147,7 @@
                         <option disabled value="">Gender</option>
                         <option >F</option>
                         <option >M</option>
+                        <option >X</option>
                    
                     </select> 
                    
@@ -233,6 +234,12 @@ export default {
       };
       this.axios.post(url, parametros).then(response => {
       console.log(response.data);
+      if(!response.data){
+        
+        this.$swal.fire("¡Phrase ya existente!", "", "warning");
+      }else{
+        this.$swal.fire("¡Creado!", "", "success");
+      }
       this.mostrar();
       });
       this.agent.name = "";

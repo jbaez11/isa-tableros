@@ -6,7 +6,7 @@ exports.success = function(req,res, baseKeywords, status){
 }
 
 exports.error = function(req,res, baseKeywords , status, details){
-    console.error('[ Response Error Components/Basekeywords]' + details);
+    console.error('[ Response Error Components/DATA]' + details);
     res.status(status || 500).send({
         error : baseKeywords,
         body: ''

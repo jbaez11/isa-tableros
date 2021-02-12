@@ -17,6 +17,10 @@ const agentsSchema = new Schema({
         type: String,
         required:true,
     },
+    createdAt: { 
+        type: Date, 
+        default: Date.now 
+    },
 });
 
 const model = mongoose.model('Agents', agentsSchema);

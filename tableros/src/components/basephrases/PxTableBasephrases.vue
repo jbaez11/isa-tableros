@@ -135,7 +135,7 @@
                     <v-text-field v-model="basephrase.phrase" label="Phrase" solo required>{{basephrase.phrase}}</v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
-                     <select style="width:100px; height:50px" v-model="basephrase.module">
+                     <!--<select style="width:100px; height:50px" v-model="basephrase.module">
                         <option disabled value="">Module</option>
                         <option >Saludo</option>
                         <option >Producto</option>
@@ -144,17 +144,19 @@
                         <option >Despedida</option>
                          <option >Cierre</option>
                    
-                    </select> 
+                    </select>-->
+                    <v-text-field v-model="basephrase.module" label="Module" solo required>{{basephrase.module}}</v-text-field> 
                     
                   </v-col>
                   <v-col cols="12" md="4">
-                    <select style="width:110px; height:50px" v-model="basephrase.category">
+                   <!-- <select style="width:110px; height:50px" v-model="basephrase.category">
                         <option disabled value="">Category</option>
                         <option >Infaltable</option>
                         <option >Recomendacion</option>
                         <option >No permitida</option>
                    
-                    </select> 
+                    </select>--> 
+                    <v-text-field v-model="basephrase.category" label="Category" solo required>{{basephrase.category}}</v-text-field>
                   </v-col>
                 </v-row>
               </v-container>            
@@ -176,6 +178,7 @@
 
 <script>
 let url = "http://localhost:3000/basephrases/";
+
  
 export default {
   
@@ -201,11 +204,14 @@ export default {
   },
   created() {
     this.mostrar();
+    let currentUrl = window.location.pathname;
+    console.log(currentUrl);
   },
   methods:{
     async mostrar() {
       const response = await this.axios.get(url);
       this.basephrases=response.data.body;
+      
     },
     paginate(basephrases){
       let page = this.page;
@@ -228,7 +234,14 @@ export default {
         category: this.basephrase.category
       };
       this.axios.post(url, parametros).then(response => {
-      console.log(response.data);
+      console.log("respuesta response.data",response.data);
+      if(!response.data){
+        
+        this.$swal.fire("¡Phrase ya existente!", "", "warning");
+      }else{
+        this.$swal.fire("¡Creado!", "", "success");
+      }
+      
       //this.mostrar();
       });
       this.basephrase.phrase = "";
