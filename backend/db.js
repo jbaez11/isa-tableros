@@ -5,6 +5,7 @@ db.Promise = global.Promise;
 async function connect(url){
 
     await db.connect(url,{
+        
         useNewUrlParser: true, 
         useFindAndModify:false,
         useCreateIndex: true,
@@ -16,7 +17,17 @@ async function connect(url){
      console.log('DB conectada con exito');
 }
 
+function disconnect(){
+    db.disconnect();
+}
 
-module.exports = connect;
+
+
+
+
+module.exports = {
+    connect,
+    disconnect
+}
 
  

@@ -177,9 +177,11 @@
 </template>
 
 <script>
-let url = "http://localhost:3000/basephrases/";
+let currentUrl = window.location.pathname;
+    console.log('currenturl',currentUrl);
+let url = `http://localhost:3000${currentUrl}`;//igsSerfinanzaCO/basephrases/
+console.log('url',url)
 
- 
 export default {
   
   name: "PxTableBasephrases",
@@ -204,8 +206,8 @@ export default {
   },
   created() {
     this.mostrar();
-    let currentUrl = window.location.pathname;
-    console.log(currentUrl);
+    // let currentUrl = window.location.pathname;
+    // console.log(currentUrl);
   },
   methods:{
     async mostrar() {

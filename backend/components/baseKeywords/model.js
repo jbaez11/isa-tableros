@@ -5,10 +5,17 @@ const Schema = mongoose.Schema;
 const baseKeywordsSchema = new Schema({
     keyword :{
         type: String,
-        unique:true
+        unique:true,
+        lowercase: true
     },
-    module: String,
-    category: String,
+    module: {
+        type: String,
+        lowercase: true
+    },
+    category: {
+        type: String,
+        lowercase: true
+    },
     createdAt: { 
         type: Date, 
         default: Date.now 

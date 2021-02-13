@@ -17,17 +17,17 @@ export default new Router({
       component: Error
     },
     {
-      path: "/basekeywords",
+      path: "/:bd/basekeywords",
       name: "basekeywords",
       component: Basekeywords
     },
     {
-      path: "/agents",
+      path: "/:bd/agents",
       name: "agents",
       component: Agents
     },
     {
-      path: "/igsSerfinanzaCO/basephrases",
+      path: "/:bd/basephrases",
       name: "basephrases",
       component: Basephrases
     }

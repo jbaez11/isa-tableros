@@ -174,8 +174,11 @@
 
 
 
-
-let url = "http://localhost:3000/agents/";
+let currentUrl = window.location.pathname;
+    console.log('currenturl',currentUrl);
+let url = `http://localhost:3000${currentUrl}`;//igsSerfinanzaCO/basephrases/
+console.log('url',url)
+//let url = "http://localhost:3000/agents/";
  
 export default {
   
