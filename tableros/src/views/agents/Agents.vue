@@ -8,7 +8,6 @@ export default {
   name: "Agents",
   components: {
     PxTableAgents
-   
   }
 };
 </script>

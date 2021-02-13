@@ -14,17 +14,14 @@
             ><v-icon dark>mdi-plus</v-icon></v-btn
           >
           <input
-                        class=""
-                        id="filter"
-                        placeholder="Buscar..."
-                        type="text"
-                        v-model="filter"
-                        name="filter"
-                        
-                        
-                       
-                    />
-      
+            class=""
+            id="filter"
+            placeholder="Buscar..."
+            type="text"
+            v-model="filter"
+            name="filter"
+          />
+
           <!-- Tabla y formulario -->
           <v-simple-table class="mt-5">
             <template v-slot:default>
@@ -38,7 +35,10 @@
                 </tr>
               </thead>
               <tbody v-show="!filter">
-                <tr v-for="basekeyword in displayedBasekeywords" :key="basekeyword._id">
+                <tr
+                  v-for="basekeyword in displayedBasekeywords"
+                  :key="basekeyword._id"
+                >
                   <!--<td>{{ basekeyword._id }}</td>-->
                   <td>{{ basekeyword.keyword }}</td>
                   <td>{{ basekeyword.module }}</td>
@@ -71,8 +71,11 @@
                 </tr>
               </tbody>
               <!--filterd-->
-                <tbody v-if="filter">
-                <tr v-for="basekeyword in filteredBasekeywords" :key="basekeyword._id">
+              <tbody v-if="filter">
+                <tr
+                  v-for="basekeyword in filteredBasekeywords"
+                  :key="basekeyword._id"
+                >
                   <!--<td>{{ basekeyword._id }}</td>-->
                   <td>{{ basekeyword.keyword }}</td>
                   <td>{{ basekeyword.module }}</td>
@@ -104,38 +107,54 @@
                   </td>
                 </tr>
               </tbody>
-              <!--enfilter--> 
+              <!--enfilter-->
             </template>
           </v-simple-table>
         </v-card>
         <!--Pagination-->
         <div v-show="!filter" class="" style="">
-          <div class="" style="display: flex; justify-content: center; align-items: center;" >
-          <v-btn v-if="page != 1" @click="page--" >
-            Before
-          </v-btn>
-          <v-btn v-for="pageNmber in pages.slice(page-1, page+2) " :key="pageNmber" @click="page = pageNmber" >
-           {{pageNmber}}
-          </v-btn>
-          <v-btn   v-if="page < pages.length" @click="page++">
-            Next
-          </v-btn>
+          <div
+            class=""
+            style="display: flex; justify-content: center; align-items: center;"
+          >
+            <v-btn v-if="page != 1" @click="page--">
+              Before
+            </v-btn>
+            <v-btn
+              v-for="pageNmber in pages.slice(page - 1, page + 2)"
+              :key="pageNmber"
+              @click="page = pageNmber"
+            >
+              {{ pageNmber }}
+            </v-btn>
+            <v-btn v-if="page < pages.length" @click="page++">
+              Next
+            </v-btn>
+          </div>
         </div>
-       </div>
         <!--Inicio modal-->
-  <v-dialog v-model="dialog" max-width="500">        
-        <v-form> <v-card>
-          <v-card-title class="orange accent-3 white--text">BaseKeyword</v-card-title>    
-          <v-card-text>            
-                <!---->       
-              <v-container>
-                <v-row> 
-                  <input v-model="basekeyword._id" hidden></input>
-                  <v-col cols="12" md="4">
-                    <v-text-field v-model="basekeyword.keyword" label="Keyword" solo required>{{basekeyword.keyword}}</v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <!-- <select style="width:100px; height:50px" v-model="basekeyword.module">
+        <v-dialog v-model="dialog" max-width="500">
+          <v-form>
+            <v-card>
+              <v-card-title class="orange accent-3 white--text"
+                >BaseKeyword</v-card-title
+              >
+              <v-card-text>
+                <!---->
+                <v-container>
+                  <v-row>
+                    <!--<input v-model="basekeyword._id" hidden></input>-->
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="basekeyword.keyword"
+                        label="Keyword"
+                        solo
+                        required
+                        >{{ basekeyword.keyword }}</v-text-field
+                      >
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <!-- <select style="width:100px; height:50px" v-model="basekeyword.module">
                         <option disabled value="">Module</option>
                         <option >Saludo</option>
                         <option >Producto</option>
@@ -144,33 +163,52 @@
                         <option >Despedida</option>
                          <option >Cierre</option>
                    
-                    </select>--> 
-                    <v-text-field v-model="basekeyword.module" label="Module" solo required>{{basekeyword.module}}</v-text-field>
-                    
-                  </v-col>
-                  <v-col cols="12" md="4">
-                   <!-- <select style="width:110px; height:50px" v-model="basekeyword.category">
+                    </select>-->
+                      <v-text-field
+                        v-model="basekeyword.module"
+                        label="Module"
+                        solo
+                        required
+                        >{{ basekeyword.module }}</v-text-field
+                      >
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <!-- <select style="width:110px; height:50px" v-model="basekeyword.category">
                         <option disabled value="">Category</option>
                         <option >Infaltable</option>
                         <option >Recomendacion</option>
                         <option >No permitida</option>
                    
                     </select> -->
-                    <v-text-field v-model="basekeyword.category" label="Category" solo required>{{basekeyword.category}}</v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>            
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn @click="dialog=false" color="blue-grey" dark>Cancelar</v-btn>
-            <v-btn @click="guardar()" type="submit" color="orange accent-3" dark>Guardar</v-btn>
-          </v-card-actions>
-          <!--</v-form>-->
-        </v-card>
-        </v-form>
-      </v-dialog>
-   <!--fin modal-->
+                      <v-text-field
+                        v-model="basekeyword.category"
+                        label="Category"
+                        solo
+                        required
+                        >{{ basekeyword.category }}</v-text-field
+                      >
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn @click="dialog = false" color="blue-grey" dark
+                  >Cancelar</v-btn
+                >
+                <v-btn
+                  @click="guardar()"
+                  type="submit"
+                  color="orange accent-3"
+                  dark
+                  >Guardar</v-btn
+                >
+              </v-card-actions>
+              <!--</v-form>-->
+            </v-card>
+          </v-form>
+        </v-dialog>
+        <!--fin modal-->
       </v-main>
     </v-app>
   </div>
@@ -178,19 +216,18 @@
 
 <script>
 let currentUrl = window.location.pathname;
-    console.log('currenturl',currentUrl);
-let url = `http://localhost:3000${currentUrl}`;//igsSerfinanzaCO/basephrases/
-console.log('url',url)
+console.log("currenturl", currentUrl);
+let url = `https://backendimetrix.herokuapp.com${currentUrl}`; //igsSerfinanzaCO/basephrases/
+console.log("url", url);
 //let url = "http://localhost:3000/basekeywords/";
- 
+
 export default {
-  
   name: "PxTableBasekeywords",
   data() {
     return {
       filter: null,
-      module:'',
-      category:'',
+      module: "",
+      category: "",
       basekeywords: [],
       dialog: false,
       operacion: "",
@@ -198,7 +235,7 @@ export default {
         _id: null,
         keyword: "",
         module: this.module,
-        category:this.category,
+        category: this.category
       },
       page: 1,
       perPage: 10,
@@ -208,25 +245,25 @@ export default {
   created() {
     this.mostrar();
   },
-  methods:{
+  methods: {
     async mostrar() {
       const response = await this.axios.get(url);
-      this.basekeywords=response.data.body;
+      this.basekeywords = response.data.body;
     },
-    paginate(basekeywords){
+    paginate(basekeywords) {
       let page = this.page;
       let perPage = this.perPage;
-      let from = (page*perPage)- perPage;
-      let to = (page*perPage);
-      return basekeywords.slice(from,to);
+      let from = page * perPage - perPage;
+      let to = page * perPage;
+      return basekeywords.slice(from, to);
     },
-    setBasekeywords(){
-        let numberOfPages = Math.ceil(this.basekeywords.length / this.perPage)
-        for (let i=1 ; i<=numberOfPages; i++ ){
-            this.pages.push(i);
-        }
+    setBasekeywords() {
+      let numberOfPages = Math.ceil(this.basekeywords.length / this.perPage);
+      for (let i = 1; i <= numberOfPages; i++) {
+        this.pages.push(i);
+      }
     },
-    
+
     crear() {
       let parametros = {
         keyword: this.basekeyword.keyword,
@@ -234,14 +271,13 @@ export default {
         category: this.basekeyword.category
       };
       this.axios.post(url, parametros).then(response => {
-      console.log(response.data);
-      if(!response.data){
-        
-        this.$swal.fire("¡Phrase ya existente!", "", "warning");
-      }else{
-        this.$swal.fire("¡Creado!", "", "success");
-      }
-      this.mostrar();
+        console.log(response.data);
+        if (!response.data) {
+          this.$swal.fire("¡Phrase ya existente!", "", "warning");
+        } else {
+          this.$swal.fire("¡Creado!", "", "success");
+        }
+        this.mostrar();
       });
       this.basekeyword.keyword = "";
       this.basekeyword.module = "";
@@ -254,10 +290,12 @@ export default {
         module: this.basekeyword.module,
         category: this.basekeyword.category
       };
-      this.axios.patch(url + this.basekeyword._id, parametros).then(response => {
-        console.log(response)
-        //this.mostrar();
-      });
+      this.axios
+        .patch(url + this.basekeyword._id, parametros)
+        .then(response => {
+          console.log(response);
+          this.mostrar();
+        });
     },
     borrar(id) {
       this.$swal
@@ -271,6 +309,7 @@ export default {
             //procedimiento borrar
             this.axios.delete(url + id).then(response => {
               this.mostrar();
+              console.log(response);
             });
             this.$swal.fire("¡Eliminado!", "", "success");
           } else if (result.isDenied) {
@@ -304,34 +343,29 @@ export default {
       this.operacion = "editar";
     }
   },
-  computed:{
-    
-      displayedBasekeywords(){
-          return this.paginate(this.basekeywords);
-      },
-      filteredBasekeywords(){
-           
-            return this.basekeywords.filter(basekeyword =>basekeyword.keyword.toLowerCase().includes(this.filter.toLowerCase()))
-           
-        }
-        
+  computed: {
+    displayedBasekeywords() {
+      return this.paginate(this.basekeywords);
+    },
+    filteredBasekeywords() {
+      return this.basekeywords.filter(basekeyword =>
+        basekeyword.keyword.toLowerCase().includes(this.filter.toLowerCase())
+      );
+    }
   },
-  watch:{
-      basekeywords(){
-          this.setBasekeywords();
-      },
-      checkFilterActivate: function(e){
-      if(this.filter == null){
-        
+  watch: {
+    basekeywords() {
+      this.setBasekeywords();
+    },
+    checkFilterActivate: function(e) {
+      if (this.filter == null) {
+        console.log(e);
         return null;
       }
-      if(this.filter != null){
-        return true
+      if (this.filter != null) {
+        return true;
       }
-    },
-     
+    }
   }
 };
 </script>
-
-

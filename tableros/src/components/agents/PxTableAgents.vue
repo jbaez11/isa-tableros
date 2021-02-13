@@ -9,23 +9,20 @@
           color="transparent"
           max-width="1280"
           elevation="0"
-        >   
+        >
           <v-btn class="mx-2" fab dark color="#FF9B00" @click="formNuevo()"
             ><v-icon dark>mdi-plus</v-icon></v-btn
           >
           <input
-                        class=""
-                        id="filter"
-                        placeholder="Buscar..."
-                        type="text"
-                        v-model="filter"
-                        name="filter"
-                        
-                        
-                       
-                    />
+            class=""
+            id="filter"
+            placeholder="Buscar..."
+            type="text"
+            v-model="filter"
+            name="filter"
+          />
           <!-- Tabla y formulario -->
-         
+
           <v-simple-table class="mt-5">
             <template v-slot:default>
               <thead>
@@ -35,13 +32,10 @@
                   <th class="white--text ">iDENTIFICATION</th>
                   <th class="white--text ">GENDER</th>
                   <th class="white--text ">ACCIONES</th>
-                
                 </tr>
               </thead>
               <tbody v-show="!filter">
-                <tr  v-for="agent in displayedAgents" :key="agent._id">
-                
-                  
+                <tr v-for="agent in displayedAgents" :key="agent._id">
                   <!--<td>{{ agent._id }}</td>-->
                   <td class="">{{ agent.name }}</td>
                   <td>{{ agent.identification }}</td>
@@ -75,10 +69,8 @@
               </tbody>
 
               <!--filterd-->
-                <tbody v-if="filter">
-                <tr  v-for="agent in filteredAgents" :key="agent._id">
-                
-                  
+              <tbody v-if="filter">
+                <tr v-for="agent in filteredAgents" :key="agent._id">
                   <!--<td>{{ agent._id }}</td>-->
                   <td class="">{{ agent.name }}</td>
                   <td>{{ agent.identification }}</td>
@@ -114,81 +106,107 @@
             </template>
           </v-simple-table>
         </v-card>
-         <div v-show="!filter" class="" style="">
-          <div class="" style="display: flex; justify-content: center; align-items: center;" >
-          <v-btn v-if="page != 1" @click="page--" >
-            Before
-          </v-btn>
-          <v-btn v-for="pageNmber in pages.slice(page-1, page+2) " :key="pageNmber" @click="page = pageNmber" >
-           {{pageNmber}}
-          </v-btn>
-          <v-btn   v-if="page < pages.length" @click="page++">
-            Next
-          </v-btn>
+        <div v-show="!filter" class="" style="">
+          <div
+            class=""
+            style="display: flex; justify-content: center; align-items: center;"
+          >
+            <v-btn v-if="page != 1" @click="page--">
+              Before
+            </v-btn>
+            <v-btn
+              v-for="pageNmber in pages.slice(page - 1, page + 2)"
+              :key="pageNmber"
+              @click="page = pageNmber"
+            >
+              {{ pageNmber }}
+            </v-btn>
+            <v-btn v-if="page < pages.length" @click="page++">
+              Next
+            </v-btn>
+          </div>
         </div>
-       </div>
         <!--Inicio modal-->
-  <v-dialog v-model="dialog" max-width="500">        
-        <v-form> <v-card>
-          <v-card-title class="orange accent-3 white--text">Agent</v-card-title>
-          <v-card-text>            
-                <!---->       
-              <v-container>
-                <v-row>
-                  <input v-model="agent._id" hidden></input>
-                  <v-col cols="12" md="4">
-                    <v-text-field v-model="agent.name" label="Name" solo required>{{agent.name}}</v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <v-text-field v-model="agent.identification" label="Identification" solo required>{{agent.identification}}</v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                   <select style="width:80px; height:50px" v-model="agent.gender">
+        <v-dialog v-model="dialog" max-width="500">
+          <v-form>
+            <v-card>
+              <v-card-title class="orange accent-3 white--text"
+                >Agent</v-card-title
+              >
+              <v-card-text>
+                <!---->
+                <v-container>
+                  <v-row>
+                    <!--<input v-model="agent._id" hidden></input>-->
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="agent.name"
+                        label="Name"
+                        solo
+                        required
+                        >{{ agent.name }}</v-text-field
+                      >
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <v-text-field
+                        v-model="agent.identification"
+                        label="Identification"
+                        solo
+                        required
+                        >{{ agent.identification }}</v-text-field
+                      >
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <select
+                        style="width:80px; height:50px"
+                        v-model="agent.gender"
+                      >
                         <option disabled value="">Gender</option>
-                        <option >F</option>
-                        <option >M</option>
-                        <option >X</option>
-                   
-                    </select> 
-                   
-                  </v-col>
-                </v-row>
-              </v-container>            
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn @click="dialog=false" color="blue-grey" dark>Cancelar</v-btn>
-            <v-btn @click="guardar()" type="submit" color="orange accent-3" dark>Guardar</v-btn>
-          </v-card-actions>
-          <!--</v-form>-->
-        </v-card>
-        </v-form>
-      </v-dialog>
-   <!--fin modal-->
+                        <option>F</option>
+                        <option>M</option>
+                        <option>X</option>
+                      </select>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn @click="dialog = false" color="blue-grey" dark
+                  >Cancelar</v-btn
+                >
+                <v-btn
+                  @click="guardar()"
+                  type="submit"
+                  color="orange accent-3"
+                  dark
+                  >Guardar</v-btn
+                >
+              </v-card-actions>
+              <!--</v-form>-->
+            </v-card>
+          </v-form>
+        </v-dialog>
+        <!--fin modal-->
       </v-main>
     </v-app>
   </div>
 </template>
 
 <script>
-
-
-
 let currentUrl = window.location.pathname;
-    console.log('currenturl',currentUrl);
-let url = `http://localhost:3000${currentUrl}`;//igsSerfinanzaCO/basephrases/
-console.log('url',url)
+console.log("currenturl", currentUrl);
+let url = `https://backendimetrix.herokuapp.com${currentUrl}`; //igsSerfinanzaCO/basephrases/
+console.log("url", url);
 //let url = "http://localhost:3000/agents/";
- 
+
 export default {
-  
-  
   name: "PxTableAgents",
   data() {
     return {
       filter: null,
-      gender: '',
-      filterActive:null,
+      gender: "",
+      filterActive: null,
       agents: [],
       dialog: false,
       operacion: "",
@@ -196,39 +214,36 @@ export default {
         _id: null,
         name: "",
         identification: "",
-        gender:this.gender
+        gender: this.gender
       },
       page: 1,
       perPage: 10,
       pages: []
     };
   },
-  
-  
+
   created() {
     this.mostrar();
-    
   },
-  methods:{
-    
+  methods: {
     async mostrar() {
       const response = await this.axios.get(url);
-      this.agents=response.data.body;
+      this.agents = response.data.body;
     },
-    paginate(agents){
+    paginate(agents) {
       let page = this.page;
       let perPage = this.perPage;
-      let from = (page*perPage)- perPage;
-      let to = (page*perPage);
-      return agents.slice(from,to);
+      let from = page * perPage - perPage;
+      let to = page * perPage;
+      return agents.slice(from, to);
     },
-    setAgents(){
-        let numberOfPages = Math.ceil(this.agents.length / this.perPage)
-        for (let i=1 ; i<=numberOfPages; i++ ){
-            this.pages.push(i);
-        }
+    setAgents() {
+      let numberOfPages = Math.ceil(this.agents.length / this.perPage);
+      for (let i = 1; i <= numberOfPages; i++) {
+        this.pages.push(i);
+      }
     },
-    
+
     crear() {
       let parametros = {
         name: this.agent.name,
@@ -236,14 +251,13 @@ export default {
         gender: this.agent.gender
       };
       this.axios.post(url, parametros).then(response => {
-      console.log(response.data);
-      if(!response.data){
-        
-        this.$swal.fire("¡Phrase ya existente!", "", "warning");
-      }else{
-        this.$swal.fire("¡Creado!", "", "success");
-      }
-      this.mostrar();
+        console.log(response.data);
+        if (!response.data) {
+          this.$swal.fire("¡Phrase ya existente!", "", "warning");
+        } else {
+          this.$swal.fire("¡Creado!", "", "success");
+        }
+        this.mostrar();
       });
       this.agent.name = "";
       this.agent.identification = "";
@@ -257,7 +271,7 @@ export default {
         gender: this.agent.gender
       };
       this.axios.patch(url + this.agent._id, parametros).then(response => {
-        console.log(response)
+        console.log(response);
         //this.mostrar();
       });
     },
@@ -273,6 +287,7 @@ export default {
             //procedimiento borrar
             this.axios.delete(url + id).then(response => {
               this.mostrar();
+              console.log(response);
             });
             this.$swal.fire("¡Eliminado!", "", "success");
           } else if (result.isDenied) {
@@ -306,36 +321,31 @@ export default {
       this.operacion = "editar";
     }
   },
-  computed:{
-    
-      displayedAgents(){
-          return this.paginate(this.agents);
-      },
-      filteredAgents(){
-           
-            return this.agents.filter(agent => agent.name.toUpperCase().includes(this.filter.toUpperCase())
-            || agent.identification.toUpperCase().includes(this.filter.toUpperCase()))
-           
-        }
-        
+  computed: {
+    displayedAgents() {
+      return this.paginate(this.agents);
+    },
+    filteredAgents() {
+      return this.agents.filter(
+        agent =>
+          agent.name.toUpperCase().includes(this.filter.toUpperCase()) ||
+          agent.identification.toUpperCase().includes(this.filter.toUpperCase())
+      );
+    }
   },
-  watch:{
-      agents(){
-          this.setAgents();
-      },
-      checkFilterActivate: function(e){
-      if(this.filter == null){
-        
+  watch: {
+    agents() {
+      this.setAgents();
+    },
+    checkFilterActivate: function(e) {
+      if (this.filter == null) {
+        console.log(e);
         return null;
       }
-      if(this.filter != null){
-        return true
+      if (this.filter != null) {
+        return true;
       }
-    },
-     
+    }
   }
-
 };
 </script>
-
-

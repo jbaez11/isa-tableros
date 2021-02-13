@@ -3,8 +3,7 @@
 </template>
 
 <script>
-
-import PxTableBasephrases from '@/components/basephrases/PxTableBasephrases.vue';
+import PxTableBasephrases from "@/components/basephrases/PxTableBasephrases.vue";
 
 export default {
   name: "Basephrases",

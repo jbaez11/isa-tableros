@@ -6,16 +6,16 @@ import App from "./App.vue";
 import "@/router";
 import router from "@/router";
 //poder utilizar axios
-import axios from 'axios'
-import VueAxios from 'vue-axios'
+import axios from "axios";
+import VueAxios from "vue-axios";
 //poder utilizar graficas
 import Chart from "chart.js";
 import Chartick from "vue-chartkick";
 //poder utilizar efectos de carga
 import { VueSpinners } from "@saeris/vue-spinners";
 //poder utilizar alertas
-import VueSweetalert2 from 'vue-sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 Vue.use(VueSweetalert2);
 Vue.use(VueAxios, axios);
