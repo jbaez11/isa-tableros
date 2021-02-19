@@ -196,7 +196,7 @@
 <script>
 let currentUrl = window.location.pathname;
 console.log("currenturl", currentUrl);
-let url = `https://backendimetrix.herokuapp.com${currentUrl}`; //igsSerfinanzaCO/basephrases/
+let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}/`; //igsSerfinanzaCO/basephrases/
 console.log("url", url);
 //let url = "http://localhost:3000/agents/";
 
@@ -251,13 +251,14 @@ export default {
         gender: this.agent.gender
       };
       this.axios.post(url, parametros).then(response => {
-        console.log(response.data);
-        if (!response.data) {
-          this.$swal.fire("¡Phrase ya existente!", "", "warning");
-        } else {
-          this.$swal.fire("¡Creado!", "", "success");
-        }
+        console.log(response);
+
+        //this.$swal.fire("¡Phrase ya existente!", "", "warning");
+
+        this.$swal.fire("¡Creado!", "", "success");
+
         this.mostrar();
+        console.log(response);
       });
       this.agent.name = "";
       this.agent.identification = "";
@@ -272,7 +273,9 @@ export default {
       };
       this.axios.patch(url + this.agent._id, parametros).then(response => {
         console.log(response);
-        //this.mostrar();
+        this.$swal.fire("¡Modificado!", "", "success");
+        this.mostrar();
+        console.log(response);
       });
     },
     borrar(id) {

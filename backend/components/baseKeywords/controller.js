@@ -1,8 +1,9 @@
 const store = require('./store');
+const utf8 = require('utf8');
 
 function getBaseKeywords(){
     return new Promise((resolve,reject) => {
-        console.log(store.list())
+        //console.log(store.list.length)
         resolve(store.list());  
     });
 }
@@ -15,7 +16,23 @@ function addBaseKeywords(keyword,module,category){
             reject('Los datos son incorrectos');
             return false;
         }
+        store.list()
+        .then(lista=>{
+            let keywordList = [];
+            let numKeywords=lista.length;
+            let bufferMix=0;
+            for(let i =0;i<numKeywords;i++){
+                keywordList.push(lista[i].keyword);
+                let keywordUTF8 = utf8.encode(lista[i].keyword);
+                console.log(keywordUTF8)
+                bufferMix +=  keywordUTF8.length;
+                
+            }
 
+            let buffer_bytes = bufferMix + 4 *numKeywords+110;
+
+            //console.log(buffer_bytes);
+        })
         const  fullBaseKeywords = {
             keyword:keyword,
             module:module,

@@ -1,0 +1,5 @@
+applications:
+  - name: tableros
+    random-route: true
+    memory: 2048M
+    instances: 1

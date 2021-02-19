@@ -6,10 +6,7 @@ async function connect(url){
 
     await db.connect(url,{
         
-        useNewUrlParser: true, 
-        useFindAndModify:false,
-        useCreateIndex: true,
-        useUnifiedTopology: true, 
+        useNewUrlParser: true, useUnifiedTopology: true,
         tls: true, 
         tlsCAFile: `${__dirname}/7cf7953e-9946-4392-9e1b-b577d67d9005`
      });
@@ -21,13 +18,7 @@ function disconnect(){
     db.disconnect();
 }
 
-
-
-
-
 module.exports = {
     connect,
     disconnect
 }
-
- 

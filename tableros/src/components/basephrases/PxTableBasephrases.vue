@@ -217,7 +217,7 @@
 <script>
 let currentUrl = window.location.pathname;
 console.log("currenturl", currentUrl);
-let url = `https://backendimetrix.herokuapp.com${currentUrl}`; //igsSerfinanzaCO/basephrases/
+let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}/`; //igsSerfinanzaCO/basephrases/
 console.log("url", url);
 
 export default {
@@ -273,13 +273,10 @@ export default {
       };
       this.axios.post(url, parametros).then(response => {
         console.log("respuesta response.data", response.data);
-        if (!response.data) {
-          this.$swal.fire("¡Phrase ya existente!", "", "warning");
-        } else {
-          this.$swal.fire("¡Creado!", "", "success");
-        }
 
-        //this.mostrar();
+        this.$swal.fire("¡Creado!", "", "success");
+
+        this.mostrar();
       });
       this.basephrase.phrase = "";
       this.basephrase.module = "";
@@ -294,6 +291,7 @@ export default {
       };
       this.axios.patch(url + this.basephrase._id, parametros).then(response => {
         console.log(response);
+        this.$swal.fire("¡Modificado!", "", "success");
         this.mostrar();
       });
     },
