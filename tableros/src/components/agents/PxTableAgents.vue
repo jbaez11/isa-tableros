@@ -29,9 +29,9 @@
                 <tr class="orange accent-3 ">
                   <!--<th class="white--text">ID</th>-->
                   <th class="white--text ">NAME</th>
-                  <th class="white--text ">iDENTIFICATION</th>
+                  <th class="white--text ">IDENTIFICATION</th>
                   <th class="white--text ">GENDER</th>
-                  <th class="white--text ">ACCIONES</th>
+                  <th class="white--text ">ACTIONS</th>
                 </tr>
               </thead>
               <tbody v-show="!filter">
@@ -196,8 +196,9 @@
 <script>
 let currentUrl = window.location.pathname;
 console.log("currenturl", currentUrl);
-let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}/`; //igsSerfinanzaCO/basephrases/
+let url = `http://localhost:3000${currentUrl}/`; //igsSerfinanzaCO/basephrases/
 console.log("url", url);
+
 //let url = "http://localhost:3000/agents/";
 
 export default {
@@ -208,6 +209,7 @@ export default {
       gender: "",
       filterActive: null,
       agents: [],
+      crearAgents:[],
       dialog: false,
       operacion: "",
       agent: {
@@ -229,6 +231,7 @@ export default {
     async mostrar() {
       const response = await this.axios.get(url);
       this.agents = response.data.body;
+      console.log('mostrar todo',response.data.body);
     },
     paginate(agents) {
       let page = this.page;
@@ -252,11 +255,8 @@ export default {
       };
       this.axios.post(url, parametros).then(response => {
         console.log(response);
-
         //this.$swal.fire("¡Phrase ya existente!", "", "warning");
-
         this.$swal.fire("¡Creado!", "", "success");
-
         this.mostrar();
         console.log(response);
       });

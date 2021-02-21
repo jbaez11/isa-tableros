@@ -16,37 +16,47 @@ function addAgents(name,identification,gender){
             reject('Los datos son incorrectos');
             return false;
         }
+
+        /*const  fullAgents = {
+            name:name,
+            identification:identification,
+            gender: gender,
+        }
+        store.add(fullAgents);
+        resolve(fullAgents);*/
         
            
             //console.log('funcion agents',store.list());
             store.list()
             .then(lista=>{
-                console.log('funcion agents',typeof(lista.length));
+                //console.log('funcion agents',typeof(lista.length));
+                let validador = false;
                 let tam = lista.length;
                 for(let i=0;i<tam;i++){
                     
                      if(lista[i].identification==identification){
-                         console.log('dato repetido')
+                         reject('dato repetido')
+                         validador = true;
+                         resolve('');
                          return false;
                      }
                 }
-                const  fullAgents = {
-                    name:name,
-                    identification:identification,
-                    gender: gender,
+                if(!validador){
+                    const  fullAgents = {
+                        name:name,
+                        identification:identification,
+                        gender: gender,
+                    }
+                    store.add(fullAgents);
+                    resolve(fullAgents);
+                    
                 }
-                store.add(fullAgents);
-                resolve(fullAgents);
+
+
+                
                 
                 //console.log('funcion agents',lista);
             })
-
-
-            
-        
-        
-        
-        
         
 
     })

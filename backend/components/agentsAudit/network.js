@@ -4,7 +4,8 @@ const controller = require('./controller');
 const router = express.Router();
 
 router.get('/', function(req,res){
-    controller.getAsesores()
+    const filterAgentsAudit = req.query.eventDatetime || null;
+    controller.getAsesores(filterAgentsAudit)
     .then((asesoresList) => {
         response.success(req,res, asesoresList, 200);
     })

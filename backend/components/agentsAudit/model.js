@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const asesoresSchema = new Schema({
     keyfile : String,
+    eventDatetime: Date,
     agent :{
         name : String,
         identification: String,
@@ -14,7 +15,8 @@ const asesoresSchema = new Schema({
         type: Array,
         // aqui lo inicializas por defecto como un array vacío
         default: []
-    }
+    },
+    createAt:Date
 
     
 });

@@ -217,7 +217,7 @@
 <script>
 let currentUrl = window.location.pathname;
 console.log("currenturl", currentUrl);
-let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}/`; //igsSerfinanzaCO/basephrases/
+let url = `http://localhost:3000${currentUrl}/`; //igsSerfinanzaCO/basephrases/
 console.log("url", url);
 //let url = "http://localhost:3000/basekeywords/";
 
@@ -275,7 +275,7 @@ export default {
 
         this.$swal.fire("¡Creado!", "", "success");
 
-        this.mostrar();
+        
       });
       this.basekeyword.keyword = "";
       this.basekeyword.module = "";
