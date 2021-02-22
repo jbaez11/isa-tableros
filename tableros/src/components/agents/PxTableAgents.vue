@@ -209,7 +209,7 @@ export default {
       gender: "",
       filterActive: null,
       agents: [],
-      crearAgents:[],
+      crearAgents: [],
       dialog: false,
       operacion: "",
       agent: {
@@ -231,7 +231,7 @@ export default {
     async mostrar() {
       const response = await this.axios.get(url);
       this.agents = response.data.body;
-      console.log('mostrar todo',response.data.body);
+      console.log("mostrar todo", response.data.body);
     },
     paginate(agents) {
       let page = this.page;

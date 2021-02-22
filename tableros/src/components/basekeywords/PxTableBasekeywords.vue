@@ -274,8 +274,6 @@ export default {
         console.log(response.data);
 
         this.$swal.fire("¡Creado!", "", "success");
-
-        
       });
       this.basekeyword.keyword = "";
       this.basekeyword.module = "";

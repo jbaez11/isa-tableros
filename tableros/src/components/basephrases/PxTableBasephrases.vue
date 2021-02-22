@@ -275,8 +275,6 @@ export default {
         console.log("respuesta response.data", response.data);
 
         this.$swal.fire("¡Creado!", "", "success");
-
-        
       });
       this.basephrase.phrase = "";
       this.basephrase.module = "";

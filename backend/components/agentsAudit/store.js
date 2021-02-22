@@ -2,9 +2,10 @@ const Model = require('./model');
 
 async function getAsesores(filterAgentsAudit){
     let filter = {};
+    
     if(filterAgentsAudit != null){
         filter = {
-            eventDatetime:filterAgentsAudit
+            eventDate:filterAgentsAudit
         };
     }
     const asesores = await Model.find(filter);

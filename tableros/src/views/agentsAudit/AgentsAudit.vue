@@ -1,5 +1,5 @@
 <template>
-    <px-agents-audit></px-agents-audit>
+  <px-agents-audit></px-agents-audit>
 </template>
 
 <script>
