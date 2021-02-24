@@ -46,17 +46,17 @@ import api from '@/api';
               <tr class="orange accent-3">
                 <th class="white--text ">NOMBRE</th>
                 <th class="white--text ">GRABACIONES</th>
-                <th class="white--text ">INFALTABLE POSITIVE</th>
-                <th class="white--text ">INFALTABLE NEGATIVE</th>
-                <th class="white--text ">NO PERMITIDA POSITIVE</th>
-                <th class="white--text ">NO PERMITIDA NEGATIVE</th>
-                <th class="white--text ">RECOMENDACION POSITIVE</th>
-                <th class="white--text ">RECOMENDACION NEGATIVE</th>
+                <th class="white--text ">INFALTABLE </th>
+                <th class="white--text ">INFALTABLE NOT FOUND</th>
+                <th class="white--text ">NO PERMITIDA </th>
+                <!-- <th class="white--text ">NO PERMITIDA NEGATIVE</th> -->
+                <th class="white--text ">RECOMENDACION</th>
+                <!-- <th class="white--text ">RECOMENDACION NEGATIVE</th> -->
               </tr>
             </thead>
             <tbody>
               <tr v-for="agentAudit in topByCategory" :key="agentAudit.name">
-                <td>{{ agentAudit.name }}</td>
+                <td @click="mostrarDetalleKeyfile(agentAudit.name)">{{ agentAudit.name }}</td>
                 <td style="text-align: center;">
                   {{ agentAudit.results.records }}
                 </td>
@@ -69,15 +69,15 @@ import api from '@/api';
                 <td style="text-align: center;">
                   {{ agentAudit.results["no permitidas positivas"] }}
                 </td>
-                <td style="text-align: center;">
+                <!-- <td style="text-align: center;">
                   {{ agentAudit.results["no permitidas negativas"] }}
-                </td>
+                </td> -->
                 <td style="text-align: center;">
                   {{ agentAudit.results["recomendaciones positivas"] }}
                 </td>
-                <td style="text-align: center;">
+                <!-- <td style="text-align: center;">
                   {{ agentAudit.results["recomendaciones negativas"] }}
-                </td>
+                </td> -->
               </tr>
             </tbody>
           </template>
@@ -85,15 +85,15 @@ import api from '@/api';
 
         <!--ENDTABLE Mostrar nombre y cantidad-->
         <!--TABLE LLAMADAS-->
-        <v-simple-table class="mt-5" v-show="topByCategory != false">
+        <v-simple-table class="mt-5" v-show="agentSelected != ''">
           <template>
             <thead>
               <tr class="orange accent-3">
                 <th class="white--text ">GRABACIÓN</th>
-                <th class="white--text ">INFALTABLE POSITIVE</th>
-                <th class="white--text ">INFALTABLE NEGATIVE</th>
-                <th class="white--text ">NO PERMITIDA POSITIVE</th>
-                <th class="white--text ">RECOMENDACION POSITIVE</th>
+                <th class="white--text ">INFALTABLE </th>
+                <th class="white--text ">INFALTABLE NOT FOUND</th>
+                <th class="white--text ">NO PERMITIDA </th>
+                <th class="white--text ">RECOMENDACION </th>
               </tr>
             </thead>
             <tbody>
@@ -101,7 +101,7 @@ import api from '@/api';
                 v-for="agentAudit in recordsByCategory"
                 :key="agentAudit.name"
               >
-                <td>{{ agentAudit.name }}</td>
+                <td @click="mostrarDetalleCall(agentAudit.name)">{{ agentAudit.name }}</td>
                 <td style="text-align: center;">
                   {{ agentAudit.results.infaltable.positive }}
                 </td>
@@ -121,7 +121,7 @@ import api from '@/api';
           </template>
         </v-simple-table>
         <!--ENDTABLE LLAMADAS-->
-        <v-simple-table class="mt-5" v-show="topByCategory != false">
+        <v-simple-table class="mt-5" v-show="keyfileSelected != ''">
           <template>
             <thead>
               <tr class="orange accent-3">
@@ -134,7 +134,7 @@ import api from '@/api';
             </thead>
             <tbody>
               <tr v-for="element in keywordsResults" :key="element.id">
-                <td>{{ element.name }}</td>
+                <td >{{ element.name }}</td>
 
                 <td>{{ element.results.category }}</td>
                 <td>{{ element.results.module }}</td>
@@ -177,13 +177,29 @@ export default {
       recordsByCategory: [],
       topByCategory: [],
       grabaciones: [],
-      keywordsResults: []
+      keywordsResults: [],
+      agentSelected:"",
+      keyfileSelected:""
     };
   },
   created() {
     this.mostrar();
   },
+  watch:{
+    
+  },
   methods: {
+     mostrarDetalleKeyfile(name){
+       this.agentSelected=name;
+       console.log('este es el agente clikeado',this.agentSelected);
+      this.mostrar();
+     
+     },
+     mostrarDetalleCall(keyfile){
+       this.keyfileSelected=keyfile;
+       console.log('el keyfile selected es este',this.keyfileSelected);
+       this.mostrar();
+     },
     async mostrar() {
       const response = await this.axios.get(
         url + `?eventDate=${this.date}T00:00:00.000Z`
@@ -232,7 +248,9 @@ export default {
           }
         }
       }
-      let agentSelected = "LUZ STELLA  PINILLA BEJARANO";
+      let agentSelected = this.agentSelected;//ALVAREZ GOMEZ CRISTHIAN CAMILO//LUZ STELLA  PINILLA BEJARANO
+      console.log(' let agents selected', agentSelected);
+      console.log('this.agents selected', this.agentSelected);
       let recordsByCategoryArray = [];
       for (let keyfile in recordsByCategory[agentSelected]) {
         let infoByAgent = {
@@ -304,7 +322,7 @@ export default {
       this.topByCategory = topByCategoryArray;
       console.log("topByCategory", this.topByCategory);
 
-      let keyfileSelected = "100_52489757_20210209-082612_3208779096-all.mp3";
+      let keyfileSelected = this.keyfileSelected;//"100_52489757_20210209-082612_3208779096-all.mp3";//BANCOBI2_20210222-075251_1901585_1613998371_1023028062_45987990-all.mp3//100_52489757_20210209-082612_3208779096-all.mp3
       let keywordsSelected;
       for (let i = 0; i < this.auditAgents.length; i++) {
         if (this.auditAgents[i].keyfile == keyfileSelected) {
@@ -358,7 +376,10 @@ export default {
       console.log(date);
       this.mostrar();
       return date;
-    }
-  }
+    },
+    
+    
+  },
+  
 };
 </script>
