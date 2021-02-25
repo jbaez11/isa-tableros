@@ -5,7 +5,7 @@ import Basekeywords from "@/views/basekeywords/Basekeywords";
 import Agents from "@/views/agents/Agents";
 import Basephrases from "@/views/basephrases/Basephrases";
 import AgentsAudit from "@/views/agentsAudit/AgentsAudit";
-import Consumption from '@/views/consumption/Consumption';
+import Consumption from "@/views/consumption/Consumption";
 
 Vue.use(Router);
 

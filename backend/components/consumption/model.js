@@ -30,7 +30,13 @@ const consumptionSchema = new Schema({
     notes: {
         type: String,
     },
-     createdAt: { 
+    yearMonthString:{
+        type:String,
+    },
+    dayString:{
+        type:String,
+    },
+    createdAt: { 
          type: Date, 
          
      },

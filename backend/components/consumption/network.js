@@ -4,7 +4,7 @@ const controller = require('./controller');
 const router = express.Router();
 
 router.get('/', function(req,res){
-    const filterConsumption = req.query.eventDate || null;
+    const filterConsumption = req.query.yearMonthString || null;
     console.log('filter agents ', filterConsumption)
     controller.getConsumption(filterConsumption)
     .then((consumptionList) => {

@@ -260,7 +260,7 @@ export default {
       agentSelected: "",
       keyfileSelected: "",
       //formatDate:new Date().toISOString().substr(0, 10),
-      dateFormatted: '24-02-2021',
+      dateFormatted: "24-02-2021",
       menu1: false
     };
   },

@@ -5,7 +5,7 @@ async function getConsumption(filterConsumption){
     
     if(filterConsumption != null){
         filter = {
-            eventDate:filterConsumption
+            yearMonthString:filterConsumption
         };
     }
     const consumption = await Model.find(filter);

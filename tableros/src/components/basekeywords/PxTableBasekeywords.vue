@@ -154,16 +154,18 @@
                       >
                     </v-col>
                     <v-col cols="12" md="4">
-                       <select style="width:100px; height:50px" v-model="basekeyword.module">
+                      <select
+                        style="width:100px; height:50px"
+                        v-model="basekeyword.module"
+                      >
                         <option disabled value="">Module</option>
-                        <option >Saludo</option>
-                        <option >Producto</option>
-                        <option >Validacion</option>
-                        <option >Venta</option>
-                        <option >Despedida</option>
-                         <option >Cierre</option>
-                   
-                    </select>
+                        <option>Saludo</option>
+                        <option>Producto</option>
+                        <option>Validacion</option>
+                        <option>Venta</option>
+                        <option>Despedida</option>
+                        <option>Cierre</option>
+                      </select>
                       <!-- <v-text-field
                         v-model="basekeyword.module"
                         label="Module"
@@ -173,13 +175,15 @@
                       > -->
                     </v-col>
                     <v-col cols="12" md="4">
-                       <select style="width:110px; height:50px" v-model="basekeyword.category">
+                      <select
+                        style="width:110px; height:50px"
+                        v-model="basekeyword.category"
+                      >
                         <option disabled value="">Category</option>
-                        <option >Infaltable</option>
-                        <option >Recomendacion</option>
-                        <option >No permitida</option>
-                   
-                    </select> 
+                        <option>Infaltable</option>
+                        <option>Recomendacion</option>
+                        <option>No permitida</option>
+                      </select>
                       <!-- <v-text-field
                         v-model="basekeyword.category"
                         label="Category"
