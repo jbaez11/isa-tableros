@@ -3,29 +3,58 @@ import api from '@/api';
   <div class="app">
     <v-app>
       <v-main>
-        <h2 class="text-center orange--text">AGENTS AUDIT</h2>
+        <h2 class="text-center orange--text">AUDIT AGENTS</h2>
         <!--calendar and numCall-->
         <v-container class="">
           <v-row>
             <v-col
               style="justify-content: center; align-items: center;text-align: center;"
             >
-              <h2 class="orange--text">
-                Fecha <span style="color:gray;">a</span> auditar
-              </h2>
-              <v-date-picker
+              <h3 class="orange--text">
+                DATE
+                <!-- Date <span style="color:gray;">of</span> records -->
+              </h3>
+              <v-menu
+                ref="menu1"
+                v-model="menu1"
+                :close-on-content-click="false"
+                transition="scale-transition"
+                color="orange accent-3 lighten-1"
+                offset-y
+                max-width="290px"
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="dateFormatted"
+                    color="orange accent-3 lighten-1"
+                    label="Date"
+                    hint="DD/MM/YYYY"
+                    persistent-hint
+                    prepend-icon="mdi-calendar"
+                    v-bind="attrs"
+                    @blur="date = parseDate(dateFormatted)"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  color="orange accent-3 lighten-1"
+                  v-model="date"
+                  no-title
+                  @input="menu1 = false"
+                ></v-date-picker>
+              </v-menu>
+              <!-- <v-date-picker
                 color="orange accent-3 lighten-1"
                 v-model="date"
-              ></v-date-picker>
+              ></v-date-picker> -->
               <!-- <p>{{date}}</p>-->
               <p v-show="false">{{ submitDate }}</p>
             </v-col>
             <v-col
               style="justify-content: center; align-items: center;text-align: center;"
             >
-              <h3 class="orange--text">
-                Cantidad <span style="color:gray;">Grabaciones</span>
-              </h3>
+              <h3 class="orange--text">TOTAL <span style="">RECORDS</span></h3>
               <span class="text-h2 orange--text">{{
                 this.cantidadLlamadas
               }}</span>
@@ -44,19 +73,41 @@ import api from '@/api';
           <template>
             <thead>
               <tr class="orange accent-3">
-                <th class="white--text ">NOMBRE</th>
-                <th class="white--text ">GRABACIONES</th>
-                <th class="white--text ">INFALTABLE </th>
-                <th class="white--text ">INFALTABLE NOT FOUND</th>
-                <th class="white--text ">NO PERMITIDA </th>
+                <th style="text-align: center;" class="white--text ">
+                  AGENT NAME
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  RECORDS
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  CATEGORY <br /><span style="text-align: center;"
+                    >[ infaltable ]</span
+                  >
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  CATEGORY NOT FOUND <br /><span style="text-align: center;"
+                    >[ infalatble ]</span
+                  >
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  CATEGORY <br /><span style="text-align: center;"
+                    >[ no permitida ]</span
+                  >
+                </th>
                 <!-- <th class="white--text ">NO PERMITIDA NEGATIVE</th> -->
-                <th class="white--text ">RECOMENDACION</th>
+                <th style="text-align: center;" class="white--text ">
+                  CATEGORY <br /><span style="text-align: center;"
+                    >[ recomendación ]</span
+                  >
+                </th>
                 <!-- <th class="white--text ">RECOMENDACION NEGATIVE</th> -->
               </tr>
             </thead>
             <tbody>
               <tr v-for="agentAudit in topByCategory" :key="agentAudit.name">
-                <td @click="mostrarDetalleKeyfile(agentAudit.name)">{{ agentAudit.name }}</td>
+                <td @click="mostrarDetalleKeyfile(agentAudit.name)">
+                  {{ agentAudit.name }}
+                </td>
                 <td style="text-align: center;">
                   {{ agentAudit.results.records }}
                 </td>
@@ -89,11 +140,29 @@ import api from '@/api';
           <template>
             <thead>
               <tr class="orange accent-3">
-                <th class="white--text ">GRABACIÓN</th>
-                <th class="white--text ">INFALTABLE </th>
-                <th class="white--text ">INFALTABLE NOT FOUND</th>
-                <th class="white--text ">NO PERMITIDA </th>
-                <th class="white--text ">RECOMENDACION </th>
+                <th style="text-align: center;" class="white--text ">
+                  RECORD NAME
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  CATEGORY <br /><span style="text-align: center;"
+                    >[ infaltable ]</span
+                  >
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  CATEGORY NOT FOUND <br /><span style="text-align: center;"
+                    >[ infaltable ]</span
+                  >
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  CATEGORY <br /><span style="text-align: center;"
+                    >[ no permitida ]</span
+                  >
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  CATEGORY <br /><span style="text-align: center;"
+                    >[ recomendación ]</span
+                  >
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -101,7 +170,9 @@ import api from '@/api';
                 v-for="agentAudit in recordsByCategory"
                 :key="agentAudit.name"
               >
-                <td @click="mostrarDetalleCall(agentAudit.name)">{{ agentAudit.name }}</td>
+                <td @click="mostrarDetalleCall(agentAudit.name)">
+                  {{ agentAudit.name }}
+                </td>
                 <td style="text-align: center;">
                   {{ agentAudit.results.infaltable.positive }}
                 </td>
@@ -134,7 +205,15 @@ import api from '@/api';
             </thead>
             <tbody>
               <tr v-for="element in keywordsResults" :key="element.id">
-                <td >{{ element.name }}</td>
+                <td
+                  v-bind:style="
+                    element.results.category == 'no permitida'
+                      ? 'color:#E57373'
+                      : 'color:#FFB74D'
+                  "
+                >
+                  {{ element.name }}
+                </td>
 
                 <td>{{ element.results.category }}</td>
                 <td>{{ element.results.module }}</td>
@@ -159,7 +238,7 @@ import api from '@/api';
 //import api from "@/apiAgentAudit";
 let currentUrl = window.location.pathname;
 console.log("currenturl", currentUrl);
-let url = `http://localhost:3000${currentUrl}`; //igsSerfinanzaCO/basephrases/
+let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`; //igsSerfinanzaCO/basephrases/
 console.log("url", url);
 //let urlfecha = url+'?eventDate=2021-02-08T00:00:00.000Z';
 //console.log('url fecha completa',urlfecha);
@@ -178,28 +257,58 @@ export default {
       topByCategory: [],
       grabaciones: [],
       keywordsResults: [],
-      agentSelected:"",
-      keyfileSelected:""
+      agentSelected: "",
+      keyfileSelected: "",
+      //formatDate:new Date().toISOString().substr(0, 10),
+      dateFormatted: '24-02-2021',
+      menu1: false
     };
   },
   created() {
     this.mostrar();
   },
-  watch:{
-    
+  computed: {
+    submitDate() {
+      const date = new Date(this.date);
+
+      console.log(date);
+      this.mostrar();
+      return date;
+    },
+    computedDateFormatted() {
+      return this.formatDate(this.date);
+    }
+  },
+  watch: {
+    date(val) {
+      console.log(val);
+      this.dateFormatted = this.formatDate(this.date);
+    }
   },
   methods: {
-     mostrarDetalleKeyfile(name){
-       this.agentSelected=name;
-       console.log('este es el agente clikeado',this.agentSelected);
+    formatDate(date) {
+      if (!date) return null;
+
+      const [year, month, day] = date.split("-");
+      return `${month}/${day}/${year}`;
+    },
+    parseDate(date) {
+      if (!date) return null;
+
+      const [month, day, year] = date.split("/");
+      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    },
+
+    mostrarDetalleKeyfile(name) {
+      this.agentSelected = name;
+      console.log("este es el agente clikeado", this.agentSelected);
       this.mostrar();
-     
-     },
-     mostrarDetalleCall(keyfile){
-       this.keyfileSelected=keyfile;
-       console.log('el keyfile selected es este',this.keyfileSelected);
-       this.mostrar();
-     },
+    },
+    mostrarDetalleCall(keyfile) {
+      this.keyfileSelected = keyfile;
+      console.log("el keyfile selected es este", this.keyfileSelected);
+      this.mostrar();
+    },
     async mostrar() {
       const response = await this.axios.get(
         url + `?eventDate=${this.date}T00:00:00.000Z`
@@ -248,9 +357,9 @@ export default {
           }
         }
       }
-      let agentSelected = this.agentSelected;//ALVAREZ GOMEZ CRISTHIAN CAMILO//LUZ STELLA  PINILLA BEJARANO
-      console.log(' let agents selected', agentSelected);
-      console.log('this.agents selected', this.agentSelected);
+      let agentSelected = this.agentSelected; //ALVAREZ GOMEZ CRISTHIAN CAMILO//LUZ STELLA  PINILLA BEJARANO
+      console.log(" let agents selected", agentSelected);
+      console.log("this.agents selected", this.agentSelected);
       let recordsByCategoryArray = [];
       for (let keyfile in recordsByCategory[agentSelected]) {
         let infoByAgent = {
@@ -322,7 +431,7 @@ export default {
       this.topByCategory = topByCategoryArray;
       console.log("topByCategory", this.topByCategory);
 
-      let keyfileSelected = this.keyfileSelected;//"100_52489757_20210209-082612_3208779096-all.mp3";//BANCOBI2_20210222-075251_1901585_1613998371_1023028062_45987990-all.mp3//100_52489757_20210209-082612_3208779096-all.mp3
+      let keyfileSelected = this.keyfileSelected; //"100_52489757_20210209-082612_3208779096-all.mp3";//BANCOBI2_20210222-075251_1901585_1613998371_1023028062_45987990-all.mp3//100_52489757_20210209-082612_3208779096-all.mp3
       let keywordsSelected;
       for (let i = 0; i < this.auditAgents.length; i++) {
         if (this.auditAgents[i].keyfile == keyfileSelected) {
@@ -368,18 +477,6 @@ export default {
       this.keywordsResults = keywordsSelectedArray;
       console.log("keywordsSelectedArray", keywordsSelectedArray);
     }
-  },
-  computed: {
-    submitDate() {
-      const date = new Date(this.date);
-
-      console.log(date);
-      this.mostrar();
-      return date;
-    },
-    
-    
-  },
-  
+  }
 };
 </script>

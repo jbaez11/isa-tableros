@@ -154,7 +154,7 @@
                       >
                     </v-col>
                     <v-col cols="12" md="4">
-                      <!-- <select style="width:100px; height:50px" v-model="basekeyword.module">
+                       <select style="width:100px; height:50px" v-model="basekeyword.module">
                         <option disabled value="">Module</option>
                         <option >Saludo</option>
                         <option >Producto</option>
@@ -163,30 +163,30 @@
                         <option >Despedida</option>
                          <option >Cierre</option>
                    
-                    </select>-->
-                      <v-text-field
+                    </select>
+                      <!-- <v-text-field
                         v-model="basekeyword.module"
                         label="Module"
                         solo
                         required
                         >{{ basekeyword.module }}</v-text-field
-                      >
+                      > -->
                     </v-col>
                     <v-col cols="12" md="4">
-                      <!-- <select style="width:110px; height:50px" v-model="basekeyword.category">
+                       <select style="width:110px; height:50px" v-model="basekeyword.category">
                         <option disabled value="">Category</option>
                         <option >Infaltable</option>
                         <option >Recomendacion</option>
                         <option >No permitida</option>
                    
-                    </select> -->
-                      <v-text-field
+                    </select> 
+                      <!-- <v-text-field
                         v-model="basekeyword.category"
                         label="Category"
                         solo
                         required
                         >{{ basekeyword.category }}</v-text-field
-                      >
+                      > -->
                     </v-col>
                   </v-row>
                 </v-container>
@@ -217,7 +217,7 @@
 <script>
 let currentUrl = window.location.pathname;
 console.log("currenturl", currentUrl);
-let url = `http://localhost:3000${currentUrl}/`; //igsSerfinanzaCO/basephrases/
+let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}/`; //igsSerfinanzaCO/basephrases/
 console.log("url", url);
 //let url = "http://localhost:3000/basekeywords/";
 
