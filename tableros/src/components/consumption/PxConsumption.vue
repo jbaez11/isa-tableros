@@ -49,6 +49,7 @@
                                 </v-btn>
                                 </v-date-picker>
                             </v-menu>
+                            <p v-show="false">{{ submitDate }}</p>
                         </v-col>
                     </v-row>
                     <v-row>
@@ -64,6 +65,25 @@
                         <v-col>
                             <h3 style="color:#FF9B00;text-align: center;">CALL READ <br> <span style="color:#4C4C4C;">99.900</span></h3>
                         </v-col>
+                    </v-row>
+                    
+                </v-container>
+                <v-container class="pt-lg-12">
+                    
+                    <v-row>
+                        <br>
+                        <h3 class="ml-lg-10" style="color:#FF9B00;">Minutes</h3>
+                        <br>
+                        <br>    
+                        <column-chart :colors="['#FF9B00','#CC7C00']" :data="[['1', 32], ['2', 46], ['3', 28],['4', 32], ['5', 46], ['6', 28],['7', 32], ['8', 46], ['9', 28],['10', 32], ['11', 46], ['12', 28],['13', 46], ['14', 28],['15', 32], ['16', 46], ['17', 28]]"></column-chart>
+                    </v-row>
+                    <v-row>
+                        <br>
+                        <h3 class="ml-lg-10 pt-lg-8 pb-lg-8" style="color:#FF9B00;">Call records</h3>
+                        <br>
+                        <br>
+                        <column-chart :colors="['#FF9B00']" :data="[['1', 32], ['2', 46], ['3', 28],['4', 32], ['5', 46], ['6', 28],['7', 32], ['8', 46], ['9', 28],['10', 32], ['11', 46], ['12', 28],['13', 46], ['14', 28],['15', 32], ['16', 46], ['17', 28]]"></column-chart>
+
                     </v-row>
                 </v-container>
             </v-main>
@@ -83,6 +103,14 @@ export default {
             date: new Date().toISOString().substr(0, 7),
             menu: false,
         }
+    },
+    computed: {
+        submitDate() {
+        const date = new Date(this.date).toISOString().substr(0, 7);
+        
+        console.log(date);
+        return date;
+        },
     }
 
 }
