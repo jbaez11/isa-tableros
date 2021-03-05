@@ -26,12 +26,12 @@
           <v-simple-table class="mt-5">
             <template v-slot:default>
               <thead>
-                <tr class="orange accent-3 ">
+                <tr class=" ">
                   <!--<th class="white--text">ID</th>-->
-                  <th class="white--text ">NAME</th>
-                  <th class="white--text ">IDENTIFICATION</th>
-                  <th class="white--text ">GENDER</th>
-                  <th class="white--text ">ACTIONS</th>
+                  <th class=""><h2>NAME</h2></th>
+                  <th class=""><h2>IDENTIFICATION</h2></th>
+                  <th class=""><h2>GENDER</h2></th>
+                  <th class=""><h2>ACTIONS</h2></th>
                 </tr>
               </thead>
               <tbody v-show="!filter">

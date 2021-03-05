@@ -70,7 +70,7 @@
             <br />
             <br />
             <column-chart
-              :colors="['#FF9B00','#CC7C00']"
+              :colors="['#FF9B00', '#CC7C00']"
               :data="graficaMinutes"
             ></column-chart>
           </v-row>
@@ -125,7 +125,9 @@ export default {
   },
   methods: {
     async mostar() {
-      const response = await this.axios.get(url + `?yearMonthString=${this.date}`);
+      const response = await this.axios.get(
+        url + `?yearMonthString=${this.date}`
+      );
       //console.log('fecha peticion = ', this.date)
       this.fechas = response.data.body;
       //console.log('fechas = ', this.fechas);

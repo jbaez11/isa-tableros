@@ -4,6 +4,8 @@ const agents = require('../components/agents/network');
 const basephrases = require('../components/basePhrases/network');
 const agentsaudit = require('../components/agentsAudit/network');
 const consumption = require('../components/consumption/network');
+const keywords = require('../components/keywords/network');
+
 
 const routes = function(server){
     server.use(`/:bd/basekeywords`, basekeywords);
@@ -11,6 +13,7 @@ const routes = function(server){
     server.use('/:bd/basephrases', basephrases);
     server.use('/:bd/agentsaudit', agentsaudit);
     server.use('/:bd/consumption', consumption);
+    server.use('/:bd/keywords', keywords);
     
 }
 

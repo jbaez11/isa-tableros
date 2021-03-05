@@ -1,17 +1,17 @@
 import api from '@/api';
-<template>
-  <div class="app">
+<template  >
+  <div class="app" >
     <v-app>
       <v-main>
-        <h2 class="text-center orange--text">AUDIT AGENTS</h2>
+        <h2 class="ml-3" style="color:#FF9B00">AUDITORIA <span style="color:#CACACA">DE AGENTES</span> </h2>
         <!--calendar and numCall-->
         <v-container class="">
           <v-row>
             <v-col
-              style="justify-content: center; align-items: center;text-align: center;"
+              style=""
             >
-              <h3 class="orange--text">
-                DATE
+              <h3 style="color:#FF9B00">
+                FECHA
                 <!-- Date <span style="color:gray;">of</span> records -->
               </h3>
               <v-menu
@@ -28,7 +28,7 @@ import api from '@/api';
                   <v-text-field
                     v-model="dateFormatted"
                     color="orange accent-3 lighten-1"
-                    label="Date"
+                    
                     hint="DD/MM/YYYY"
                     persistent-hint
                     prepend-icon="mdi-calendar"
@@ -54,7 +54,7 @@ import api from '@/api';
             <v-col
               style="justify-content: center; align-items: center;text-align: center;"
             >
-              <h3 class="orange--text">TOTAL <span style="">RECORDS</span></h3>
+              <h3 class="orange--text">TOTAL <span style="color:#CACACA">GRABACIONES</span></h3>
               <span class="text-h2 orange--text">{{
                 this.cantidadLlamadas
               }}</span>
@@ -69,43 +69,57 @@ import api from '@/api';
         <!--<span>Checked names: {{ checkedNames | json }}</span>-->
 
         <!--TABLE Mostrar nombre y cantidad-->
-        <v-simple-table class="mt-5" v-show="topByCategory != false">
-          <template>
+
+        <input class="" placeholder="Buscar..." type="text" v-model="search" />
+        <v-simple-table class="mt-5">
+          <template v-slot:default>
             <thead>
-              <tr class="orange accent-3">
+              <tr  style="background-color:#CACACA">
                 <th style="text-align: center;" class="white--text ">
-                  AGENT NAME
+                  NOMBRE
                 </th>
                 <th style="text-align: center;" class="white--text ">
-                  RECORDS
-                </th>
-                <th style="text-align: center;" class="white--text ">
-                  CATEGORY <br /><span style="text-align: center;"
-                    >[ infaltable ]</span
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrder('a.results.records')"
+                    >GRABACIONES</span
                   >
                 </th>
                 <th style="text-align: center;" class="white--text ">
-                  CATEGORY NOT FOUND <br /><span style="text-align: center;"
-                    >[ infalatble ]</span
-                  >
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrder('a.results.infaltable.positive')"
+                    >INFALTABLE
+                  </span>
                 </th>
                 <th style="text-align: center;" class="white--text ">
-                  CATEGORY <br /><span style="text-align: center;"
-                    >[ no permitida ]</span
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrder('a.results.infaltable.negative')"
+                    >INFALTABLE NO HALLADA
+                  </span>
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrder('a.results.nopermitidas.positive')"
+                    >NO PERMITIDA</span
                   >
                 </th>
                 <!-- <th class="white--text ">NO PERMITIDA NEGATIVE</th> -->
                 <th style="text-align: center;" class="white--text ">
-                  CATEGORY <br /><span style="text-align: center;"
-                    >[ recomendación ]</span
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrder('a.results.recomendacion.positive')"
+                    >RECOMENDACIÓN</span
                   >
                 </th>
                 <!-- <th class="white--text ">RECOMENDACION NEGATIVE</th> -->
               </tr>
             </thead>
             <tbody>
-              <tr v-for="agentAudit in topByCategory" :key="agentAudit.name">
-                <td @click="mostrarDetalleKeyfile(agentAudit.name)">
+              <tr v-for="agentAudit in filteredAgents" :key="agentAudit.name">
+               <td @click="mostrarDetalleCall(agentAudit.name)">
                   {{ agentAudit.name }}
                 </td>
                 <td style="text-align: center;">
@@ -117,18 +131,13 @@ import api from '@/api';
                 <td style="text-align: center;">
                   {{ agentAudit.results["infaltables negativas"] }}
                 </td>
+
                 <td style="text-align: center;">
                   {{ agentAudit.results["no permitidas positivas"] }}
                 </td>
-                <!-- <td style="text-align: center;">
-                  {{ agentAudit.results["no permitidas negativas"] }}
-                </td> -->
                 <td style="text-align: center;">
                   {{ agentAudit.results["recomendaciones positivas"] }}
                 </td>
-                <!-- <td style="text-align: center;">
-                  {{ agentAudit.results["recomendaciones negativas"] }}
-                </td> -->
               </tr>
             </tbody>
           </template>
@@ -136,98 +145,135 @@ import api from '@/api';
 
         <!--ENDTABLE Mostrar nombre y cantidad-->
         <!--TABLE LLAMADAS-->
-        <v-simple-table class="mt-5" v-show="agentSelected != ''">
+        <input 
+        class="" hidden placeholder="Buscar..." type="text" v-model="search2" />
+        <v-simple-table class="mt-5" v-show="recordsByCategory != false">
           <template>
             <thead>
-              <tr class="orange accent-3">
+              <tr style="background-color:#CACACA">
                 <th style="text-align: center;" class="white--text ">
-                  RECORD NAME
+                  NOMBRE GRABACIÓN
                 </th>
                 <th style="text-align: center;" class="white--text ">
-                  CATEGORY <br /><span style="text-align: center;"
-                    >[ infaltable ]</span
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderCalls('a.results.infaltable.positive')"
+                    >INFALTABLE
+                  </span>
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderCalls('a.results.infaltable.negative')"
+                    >INFALTABLE NO HALLADA
+                  </span>
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderCalls('a.results.nopermitidas.positive')"
+                    >NO PERMITIDA</span
                   >
                 </th>
+                <!-- <th class="white--text ">NO PERMITIDA NEGATIVE</th> -->
                 <th style="text-align: center;" class="white--text ">
-                  CATEGORY NOT FOUND <br /><span style="text-align: center;"
-                    >[ infaltable ]</span
-                  >
-                </th>
-                <th style="text-align: center;" class="white--text ">
-                  CATEGORY <br /><span style="text-align: center;"
-                    >[ no permitida ]</span
-                  >
-                </th>
-                <th style="text-align: center;" class="white--text ">
-                  CATEGORY <br /><span style="text-align: center;"
-                    >[ recomendación ]</span
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderCalls('a.results.recomendacion.positive')"
+                    >RECOMENDACIÓN</span
                   >
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr
-                v-for="agentAudit in recordsByCategory"
-                :key="agentAudit.name"
+                v-for="agentAudit in filteredCalls"
+                :key="agentAudit.keyfile"
               >
-                <td @click="mostrarDetalleCall(agentAudit.name)">
-                  {{ agentAudit.name }}
+                <td @click="mostrarConversacionSelected(agentAudit.keyfile)">
+                  {{ agentAudit.keyfile }}
                 </td>
-                <td style="text-align: center;">
-                  {{ agentAudit.results.infaltable.positive }}
+                <td>
+                  {{ agentAudit.results.infaltable.positive || 0}}
                 </td>
-                <td style="text-align: center;">
-                  {{ agentAudit.results.infaltable.negative }}
+                <td>
+                  {{ agentAudit.results.infaltable.negative || 0}}
                 </td>
-                <td style="text-align: center;">
-                  {{ agentAudit.results["no permitida"].positive }}
-                </td>
-                <!-- <td>{{agentAudit.results["no permitida"].negative}}</td> -->
-                <td style="text-align: center;">
-                  {{ agentAudit.results["recomendación"].positive }}
-                </td>
+                <td>{{ agentAudit.results["no permitida"].positive || 0 }}</td>
+                <td>{{ agentAudit.results["recomendación"].positive || 0 }}</td>
+
                 <!-- <td>{{agentAudit.results["recomendación"].negative}}</td> -->
               </tr>
             </tbody>
           </template>
         </v-simple-table>
         <!--ENDTABLE LLAMADAS-->
-        <v-simple-table class="mt-5" v-show="keyfileSelected != ''">
+        <!-- TABLE DATOS-->
+        <v-container v-show="keywordsResults != false" class="pt-10">
+          <h3 style="color:#FF9B00">Clasificación</h3>
+          <v-row>
+          <v-col>
+           
+          <input 
+            type="radio"
+            id="infaltable"
+            value="infaltable"
+            v-model="picked"
+          />
+          <label style="color:#FF9B00" for="infaltable"> Infaltable</label>
+          <br />
+            
+          </v-col>
+          <v-col>
+          <input
+            type="radio"
+            id="No permitida"
+            value="no permitida"
+            v-model="picked"
+          />
+          <label style="color:red" for="No permitida"> No permitida</label>
+          <br />
+          </v-col>
+          <v-col>
+          <input
+            type="radio"
+            id="Recomendación"
+            value="recomendación"
+            v-model="picked"
+          />
+          <label for="Recomendación"> Recomendación</label>
+          <br />
+          </v-col>
+         </v-row>
+        </v-container>
+        <v-simple-table class="mt-5" v-show="keywordsResults != false">
           <template>
             <thead>
-              <tr class="orange accent-3">
+              <tr style="background-color:#CACACA">
                 <th class="white--text ">KEYWORD</th>
-                <th class="white--text ">CATEGORY</th>
-                <th class="white--text ">MODULE</th>
-                <th class="white--text ">FROM</th>
-                <th class="white--text ">TO</th>
+                <th class="white--text ">CATEGORIA</th>
+                <th class="white--text ">MODULO</th>
+                <th class="white--text ">DESDE</th>
+                <th class="white--text ">HASTA</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="element in keywordsResults" :key="element.id">
-                <td
-                  v-bind:style="
-                    element.results.category == 'no permitida'
-                      ? 'color:#E57373'
-                      : 'color:#FFB74D'
-                  "
-                >
+              <tr v-for="element in filterRadio" :key="element.id">
+                <td>
                   {{ element.name }}
                 </td>
 
-                <td>{{ element.results.category }}</td>
-                <td>{{ element.results.module }}</td>
-                <td>{{ element.results.from }}</td>
+                <td style="text-transform: capitalize" >{{ element.category }}</td>
+                <td style="text-transform: capitalize">{{ element.module }}</td>
+                <td>{{ element.from }}</td>
 
-                <td>{{ element.results.to }}</td>
+                <td>{{ element.to }}</td>
 
                 <!-- <td>{{agentAudit.keywords}}</td> -->
               </tr>
             </tbody>
           </template>
         </v-simple-table>
-        <!-- TABLE DATOS-->
-
         <!-- ENDTABLE DATOS-->
       </v-main>
     </v-app>
@@ -236,36 +282,42 @@ import api from '@/api';
 
 <script>
 //import api from "@/apiAgentAudit";
-let currentUrl = window.location.pathname;
-console.log("currenturl", currentUrl);
-let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`; //igsSerfinanzaCO/basephrases/
-console.log("url", url);
-//let urlfecha = url+'?eventDate=2021-02-08T00:00:00.000Z';
-//console.log('url fecha completa',urlfecha);
 
-//let url = "http://localhost:3000/agents/";
+let currentUrl = window.location.pathname;
+//console.log("currenturl", currentUrl);
+let url = `http://localhost:3000${currentUrl}`; //igsSerfinanzaCO/basephrases/
+let urlKeywords = `http://localhost:3000/igsSerfinanzaCO/keywords`;
+console.log(urlKeywords);
 
 export default {
   name: "PxAgentsAudit",
   data() {
     return {
-      auditAgents: {},
+      auditAgents: [],
+      keywords: {},
       date: new Date().toISOString().substr(0, 10),
       cantidadLlamadas: 0,
-      totalCategory: [],
-      recordsByCategory: [],
+      dateFormatted: new Date().toISOString().substr(0, 10),
       topByCategory: [],
-      grabaciones: [],
-      keywordsResults: [],
+      recordsByCategory: [],
       agentSelected: "",
       keyfileSelected: "",
-      //formatDate:new Date().toISOString().substr(0, 10),
-      dateFormatted: "24-02-2021",
-      menu1: false
+      keywordsResults: [],
+      menu1: false,
+      search: "",
+      search2: "",
+      picked: "",
+      sortOrder: 1,
+      sortOrderCalls: 1,
+      ordenamiento1: Number,
+      ordenamiento1Calls: Number,
+      bandera:false,
+      banderaConver:false,
     };
   },
   created() {
     this.mostrar();
+    this.traerKeywords();
   },
   computed: {
     submitDate() {
@@ -277,6 +329,112 @@ export default {
     },
     computedDateFormatted() {
       return this.formatDate(this.date);
+    },
+
+    filteredAgents: function() {
+      const altOrder = this.sortOrder == 1 ? -1 : 1;
+      const filtrarPor1 = this.ordenamiento1;
+
+      return this.topByCategory
+        .filter(agent => {
+          return agent.name.match(this.search);
+        })
+        .sort((a, b) => {
+          if (filtrarPor1 == "a.results.records") {
+            if (parseInt(a.results.records) > parseInt(b.results.records)) {
+              return this.sortOrder;
+            }
+          }
+          if (filtrarPor1 == "a.results.infaltable.positive") {
+            if (
+              parseInt(a.results["infaltables positivas"]) >
+              parseInt(b.results["infaltables positivas"])
+            ) {
+              return this.sortOrder;
+            }
+          }
+          if (filtrarPor1 == "a.results.infaltable.negative") {
+            if (
+              parseInt(a.results["infaltables negativas"]) >
+              parseInt(b.results["infaltables negativas"])
+            ) {
+              return this.sortOrder;
+            }
+          }
+          if (filtrarPor1 == "a.results.nopermitidas.positive") {
+            if (
+              parseInt(a.results["no permitidas positivas"]) >
+              parseInt(b.results["no permitidas positivas"])
+            ) {
+              return this.sortOrder;
+            }
+          }
+          if (filtrarPor1 == "a.results.recomendacion.positive") {
+            if (
+              parseInt(a.results["recomendaciones positivas"]) >
+              parseInt(b.results["recomendaciones positivas"])
+            ) {
+              return this.sortOrder;
+            }
+          }
+
+          this.ordenamiento1 = "";
+
+          return altOrder;
+        });
+    },
+    filteredCalls: function() {
+      const altOrderCalls = this.sortOrderCalls == 1 ? -1 : 1;
+      const filtrarPor1 = this.ordenamiento1Calls;
+
+      return this.recordsByCategory
+        .filter(agent => {
+          return agent.keyfile.match(this.search2);
+        })
+        .sort((a, b) => {
+         
+          if (filtrarPor1 == "a.results.infaltable.positive") {
+            if (
+              parseInt(a.results.infaltable.positive) >
+              parseInt(b.results.infaltable.positive)
+            ) {
+              return this.sortOrderCalls;
+            }
+          }
+          if (filtrarPor1 == "a.results.infaltable.negative") {
+            if (
+              parseInt(a.results.infaltable.negative) >
+              parseInt(b.results.infaltable.negative)
+            ) {
+              return this.sortOrderCalls;
+            }
+          }
+          if (filtrarPor1 == "a.results.nopermitidas.positive") {
+            if (
+              parseInt(a.results["no permitida"].positive) >
+              parseInt(b.results["no permitida"].positive)
+            ) {
+              return this.sortOrderCalls;
+            }
+          }
+          if (filtrarPor1 == "a.results.recomendacion.positive") {
+            if (
+              parseInt(a.results["recomendación"].positive) >
+              parseInt(b.results["recomendación"].positive)
+            ) {
+              return this.sortOrderCalls;
+            }
+          }
+
+          this.ordenamiento1Calls = "";
+
+          return altOrderCalls;
+        });
+    },
+    filterRadio: function() {
+      return this.keywordsResults.filter(keyword => {
+        return keyword.category.match(this.picked);
+      });
     }
   },
   watch: {
@@ -286,6 +444,19 @@ export default {
     }
   },
   methods: {
+    changeSortOrder(order1) {
+      this.sortOrder = this.sortOrder == 1 ? -1 : 1;
+      this.ordenamiento1 = order1;
+
+      console.log("como se va a organizar", this.ordenamiento);
+    },
+    changeSortOrderCalls(order1) {
+      this.sortOrderCalls = this.sortOrderCalls == 1 ? -1 : 1;
+      this.ordenamiento1Calls = order1;
+
+      
+    },
+
     formatDate(date) {
       if (!date) return null;
 
@@ -299,183 +470,130 @@ export default {
       return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
     },
 
-    mostrarDetalleKeyfile(name) {
+    mostrarDetalleCall(name) {
       this.agentSelected = name;
-      console.log("este es el agente clikeado", this.agentSelected);
+      console.log("el agent seleccionado", this.agentSelected);
+      
+      if(this.bandera==false){
+        this.search=name;
+        this.bandera=true;
+        
+      }else{
+        this.search="";
+        this.bandera=false;
+      }
       this.mostrar();
     },
-    mostrarDetalleCall(keyfile) {
-      this.keyfileSelected = keyfile;
-      console.log("el keyfile selected es este", this.keyfileSelected);
+    mostrarConversacionSelected(name) {
+      this.keyfileSelected = name;
+      console.log("keyfile seleccionado", this.keyfileSelected);
+      if(this.banderaConver==false){
+        this.search2=name;
+        this.banderaConver=true;
+        
+      }else{
+        this.search2="";
+        this.banderaConver=false;
+      }
       this.mostrar();
     },
     async mostrar() {
       const response = await this.axios.get(
         url + `?eventDate=${this.date}T00:00:00.000Z`
       );
-      //   console.log('toda la dta',response.data.body);
+
       this.auditAgents = response.data.body;
-      this.cantidadLlamadas = this.auditAgents.length;
+      console.log("object", this.auditAgents[0].callDetailByAgent);
+      console.log("primera impresion agent", this.agentSelected);
+      console.log("primera impresion keyfile", this.keyfileSelected);
 
-      let recordsByCategory = {};
-      for (let i = 0; i < this.auditAgents.length; i++) {
-        let nameAgent = this.auditAgents[i].agent.name;
-        if (!(nameAgent in recordsByCategory)) {
-          recordsByCategory[nameAgent] = {};
-          recordsByCategory[nameAgent] = {};
-        }
-        let keyfile = this.auditAgents[i].keyfile;
-        recordsByCategory[nameAgent][keyfile] = {};
-
-        for (let keyword in this.auditAgents[i].keywords) {
-          let category = this.auditAgents[i].keywords[keyword].clasification
-            .category;
-          if (!(category in recordsByCategory[nameAgent][keyfile])) {
-            recordsByCategory[nameAgent][keyfile][category] = {};
-          }
-          let haveResults = false;
-          if (this.auditAgents[i].keywords[keyword].results.length > 0) {
-            haveResults = true;
-          }
-
-          if (haveResults) {
-            if (
-              !("positive" in recordsByCategory[nameAgent][keyfile][category])
-            ) {
-              recordsByCategory[nameAgent][keyfile][category]["positive"] = 1;
-            } else {
-              recordsByCategory[nameAgent][keyfile][category]["positive"] += 1;
-            }
-          } else {
-            if (
-              !("negative" in recordsByCategory[nameAgent][keyfile][category])
-            ) {
-              recordsByCategory[nameAgent][keyfile][category]["negative"] = 1;
-            } else {
-              recordsByCategory[nameAgent][keyfile][category]["negative"] += 1;
-            }
-          }
+      this.mostrarCantidadDeLLamadas(this.auditAgents[0].callDetailByAgent);
+      this.mostrarTableDetailOfAgents(this.auditAgents);
+      this.mostrarTableCallDetailByAgent(
+        this.auditAgents[0].callDetailByAgent,
+        this.agentSelected
+      );
+      if (this.keyfileSelected.length > 0) {
+        const responseKeyword = await this.axios.get(
+          urlKeywords + `?keyfile=${this.keyfileSelected}`
+        );
+        console.log(
+          "url keywords",
+          urlKeywords + `?keyfile=${this.keyfileSelected}`
+        );
+        console.log("object", responseKeyword.data.body);
+        this.keywords = responseKeyword.data.body;
+        this.mostrarTableKeywords(this.keywords, this.keyfileSelected);
+      }
+    },
+    mostrarCantidadDeLLamadas(data) {
+      let suma = 0;
+      for (let key in data) {
+        suma += data[key].length;
+      }
+      this.cantidadLlamadas = suma;
+    },
+    mostrarTableDetailOfAgents(data) {
+      this.topByCategory = data[0].detailOfAgent;
+    },
+    mostrarTableCallDetailByAgent(data, name) {
+      for (let key in data) {
+        if (key == name) {
+          this.recordsByCategory = data[key];
         }
       }
-      let agentSelected = this.agentSelected; //ALVAREZ GOMEZ CRISTHIAN CAMILO//LUZ STELLA  PINILLA BEJARANO
-      console.log(" let agents selected", agentSelected);
-      console.log("this.agents selected", this.agentSelected);
-      let recordsByCategoryArray = [];
-      for (let keyfile in recordsByCategory[agentSelected]) {
-        let infoByAgent = {
-          name: keyfile,
-          results: recordsByCategory[agentSelected][keyfile]
-        };
-
-        recordsByCategoryArray.push(infoByAgent);
-      }
-      this.recordsByCategory = recordsByCategoryArray;
-      console.log("this.recordsByCategory", this.recordsByCategory);
-      console.log("recordsByCategory", recordsByCategory);
-      let topByCategory = {};
-
-      for (let agent in recordsByCategory) {
-        if (!(agent in topByCategory)) {
-          topByCategory[agent] = {};
-          topByCategory[agent]["records"] = 0;
-          topByCategory[agent]["infaltables positivas"] = 0;
-          topByCategory[agent]["infaltables negativas"] = 0;
-          topByCategory[agent]["no permitidas positivas"] = 0;
-          topByCategory[agent]["no permitidas negativas"] = 0;
-          topByCategory[agent]["recomendaciones positivas"] = 0;
-          topByCategory[agent]["recomendaciones negativas"] = 0;
-        }
-        for (let keyfile in recordsByCategory[agent]) {
-          topByCategory[agent]["records"] += 1;
-          console.log("key", keyfile);
-          if ("positive" in recordsByCategory[agent][keyfile]["infaltable"]) {
-            topByCategory[agent]["infaltables positivas"] +=
-              recordsByCategory[agent][keyfile]["infaltable"]["positive"];
-          }
-          if ("negative" in recordsByCategory[agent][keyfile]["infaltable"]) {
-            topByCategory[agent]["infaltables negativas"] +=
-              recordsByCategory[agent][keyfile]["infaltable"]["negative"];
-          }
-          if ("positive" in recordsByCategory[agent][keyfile]["no permitida"]) {
-            topByCategory[agent]["no permitidas positivas"] +=
-              recordsByCategory[agent][keyfile]["no permitida"]["positive"];
-          }
-          if ("negative" in recordsByCategory[agent][keyfile]["no permitida"]) {
-            topByCategory[agent]["no permitidas negativas"] +=
-              recordsByCategory[agent][keyfile]["no permitida"]["negative"];
-          }
-          if (
-            "positive" in recordsByCategory[agent][keyfile]["recomendación"]
-          ) {
-            topByCategory[agent]["recomendaciones positivas"] +=
-              recordsByCategory[agent][keyfile]["recomendación"]["positive"];
-          }
-          if (
-            "negative" in recordsByCategory[agent][keyfile]["recomendación"]
-          ) {
-            topByCategory[agent]["recomendaciones negativas"] +=
-              recordsByCategory[agent][keyfile]["recomendación"]["negative"];
-          }
-        }
-      }
-      let topByCategoryArray = [];
-      for (let agent in topByCategory) {
-        let infoByAgent = {
-          name: agent,
-          results: topByCategory[agent]
-        };
-
-        topByCategoryArray.push(infoByAgent);
-      }
-
-      this.topByCategory = topByCategoryArray;
-      console.log("topByCategory", this.topByCategory);
-
-      let keyfileSelected = this.keyfileSelected; //"100_52489757_20210209-082612_3208779096-all.mp3";//BANCOBI2_20210222-075251_1901585_1613998371_1023028062_45987990-all.mp3//100_52489757_20210209-082612_3208779096-all.mp3
-      let keywordsSelected;
-      for (let i = 0; i < this.auditAgents.length; i++) {
-        if (this.auditAgents[i].keyfile == keyfileSelected) {
-          keywordsSelected = this.auditAgents[i].keywords;
-        }
-      }
-      console.log("keywordsSelected = ", keywordsSelected);
-
-      // Seconds to time (HH:MM:SS.ss)
-      function secondsToTime(seconds) {
-        return new Date(seconds * 1000).toISOString().substr(11, 11);
-      }
-
-      let keywordsSelectedArray = [];
+    },
+    mostrarTableKeywords(data, keyfile) {
+      //let keywords = {};
+      //let listKeywords={};
+      console.log("keyfile", keyfile);
+      let keywords = data[0].keywords;
+      let keywordsArray = [];
       let id = 0;
-      for (let keyword in keywordsSelected) {
-        //if(keywordsSelected[keyword].results.length >0){
-        for (let i = 0; i < keywordsSelected[keyword].results.length; i++) {
-          if (keywordsSelected[keyword]["results"][i]["speaker"] == "agent") {
-            let keywordResult = {
-              name: keyword,
-              results: keywordsSelected[keyword]["results"][i],
-              id: id
-            };
-            keywordResult["results"]["from"] = secondsToTime(
-              keywordResult["results"]["from"]
-            );
-            keywordResult["results"]["to"] = secondsToTime(
-              keywordResult["results"]["to"]
-            );
-
-            id++;
-            keywordResult["results"]["category"] =
-              keywordsSelected[keyword]["clasification"]["category"];
-            keywordResult["results"]["module"] =
-              keywordsSelected[keyword]["clasification"]["module"];
-
-            keywordsSelectedArray.push(keywordResult);
-          }
+      for (let key in keywords) {
+        for (let i = 0; i < keywords[key].results.length; i++) {
+          console.log("mostrar", keywords[key].results[i]);
+          let keywordPackage = {
+            id: id,
+            name: key,
+            module: keywords[key].clasification.module,
+            category: keywords[key].clasification.category
+          };
+          keywordPackage["speaker"] = keywords[key].results[i]["speaker"];
+          keywordPackage["from"] = keywords[key].results[i]["from"];
+          keywordPackage["to"] = keywords[key].results[i]["to"];
+          keywordPackage["confidence"] = keywords[key].results[i]["confidence"];
+          console.log("package", keywordPackage);
+          keywordsArray.push(keywordPackage);
         }
-        //}
+        if (keywords[key].results.length == 0) {
+          let keywordPackage = {
+            id: id,
+            name: key,
+            module: keywords[key].clasification.module,
+            category: keywords[key].clasification.category
+          };
+          keywordPackage["speaker"] = "-";
+          keywordPackage["from"] = "-";
+          keywordPackage["to"] = "-";
+          keywordPackage["confidence"] = "-";
+          keywordsArray.push(keywordPackage);
+        }
+        id++;
       }
-      this.keywordsResults = keywordsSelectedArray;
-      console.log("keywordsSelectedArray", keywordsSelectedArray);
+      console.log("keywordsArray", keywordsArray);
+      let keywordsFound = [];
+      let keywordsNotFound = [];
+      for (let i = 0; i < keywordsArray.length; i++) {
+        if (keywordsArray[i].speaker != "-") {
+          keywordsFound.push(keywordsArray[i]);
+        } else {
+          keywordsNotFound.push(keywordsArray[i]);
+        }
+      }
+      keywordsArray = keywordsFound.concat(keywordsNotFound);
+      console.log("keywordArray", keywordsArray);
+      this.keywordsResults = keywordsArray;
     }
   }
 };
