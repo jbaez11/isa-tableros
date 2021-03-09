@@ -2,7 +2,7 @@
   <div class="app">
     <v-app>
       <v-main>
-        <h2 class="text-center orange--text">CONSUMPTION</h2>
+        <h2 class="text-center orange--text">CONSUMO</h2>
         <v-container>
           <v-row>
             <v-col lg="2" cols="5" sm="5">
@@ -13,14 +13,16 @@
                 :return-value.sync="date"
                 transition="scale-transition"
                 offset-y
+                color="orange accent-3 lighten-1"
                 max-width="290px"
                 min-width="auto"
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     v-model="date"
-                    label="Picker in menu"
+                    label="Fecha"
                     prepend-icon="mdi-calendar"
+                    color="orange accent-3 lighten-1"
                     readonly
                     v-bind="attrs"
                     v-on="on"
@@ -43,21 +45,21 @@
             <v-col>
               <v-card elevation="2">
                 <h3 style="color:#FF9B00;text-align: center;">
-                  TOTAL MINUTES <br />
+                  TOTAL MINUTOS <br />
                   <span style="color:#4C4C4C;">{{ totalMinutes }}</span>
                 </h3>
               </v-card>
             </v-col>
             <v-col>
               <h3 style="color:#FF9B00;text-align: center;">
-                TOTAL <span style=""> CALL </span> RECORDS
+                TOTAL <span style=""> GRABACIONES </span>
                 <br /><!--color:#4C4C4C;-->
                 <span style="color:#4C4C4C;">{{ totalCallRecords }}</span>
               </h3>
             </v-col>
             <v-col>
               <h3 style="color:#FF9B00;text-align: center;">
-                CALL READ <br />
+                GRABACIONES LEIDAS <br />
                 <span style="color:#4C4C4C;">{{ callRead }}</span>
               </h3>
             </v-col>
@@ -66,7 +68,7 @@
         <v-container class="pt-lg-12">
           <v-row>
             <br />
-            <h3 class="ml-lg-10" style="color:#FF9B00;">MINUTES</h3>
+            <h3 class="ml-lg-10" style="color:#FF9B00;">MINUTOS</h3>
             <br />
             <br />
             <column-chart
@@ -77,7 +79,7 @@
           <v-row>
             <br />
             <h3 class="ml-lg-10 pt-lg-8 pb-lg-8" style="color:#FF9B00;">
-              CALL RECORDS
+              GRABACIONES
             </h3>
             <br />
             <br />

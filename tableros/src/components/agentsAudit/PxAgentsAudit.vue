@@ -1,15 +1,15 @@
 import api from '@/api';
-<template  >
-  <div class="app" >
+<template>
+  <div class="app">
     <v-app>
       <v-main>
-        <h2 class="ml-3" style="color:#FF9B00">AUDITORIA <span style="color:#CACACA">DE AGENTES</span> </h2>
+        <h2 class="ml-3" style="color:#FF9B00">
+          AUDITORIA <span style="color:#CACACA">DE AGENTES</span>
+        </h2>
         <!--calendar and numCall-->
         <v-container class="">
           <v-row>
-            <v-col
-              style=""
-            >
+            <v-col style="">
               <h3 style="color:#FF9B00">
                 FECHA
                 <!-- Date <span style="color:gray;">of</span> records -->
@@ -28,7 +28,6 @@ import api from '@/api';
                   <v-text-field
                     v-model="dateFormatted"
                     color="orange accent-3 lighten-1"
-                    
                     hint="DD/MM/YYYY"
                     persistent-hint
                     prepend-icon="mdi-calendar"
@@ -54,7 +53,9 @@ import api from '@/api';
             <v-col
               style="justify-content: center; align-items: center;text-align: center;"
             >
-              <h3 class="orange--text">TOTAL <span style="color:#CACACA">GRABACIONES</span></h3>
+              <h3 class="orange--text">
+                TOTAL <span style="color:#CACACA">GRABACIONES</span>
+              </h3>
               <span class="text-h2 orange--text">{{
                 this.cantidadLlamadas
               }}</span>
@@ -74,11 +75,12 @@ import api from '@/api';
         <v-simple-table class="mt-5">
           <template v-slot:default>
             <thead>
-              <tr  style="background-color:#CACACA">
+              <tr style="background-color:#CACACA">
                 <th style="text-align: center;" class="white--text ">
                   NOMBRE
                 </th>
                 <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrder('a.results.records')"
@@ -86,6 +88,7 @@ import api from '@/api';
                   >
                 </th>
                 <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrder('a.results.infaltable.positive')"
@@ -93,6 +96,7 @@ import api from '@/api';
                   </span>
                 </th>
                 <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrder('a.results.infaltable.negative')"
@@ -100,6 +104,7 @@ import api from '@/api';
                   </span>
                 </th>
                 <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrder('a.results.nopermitidas.positive')"
@@ -108,6 +113,7 @@ import api from '@/api';
                 </th>
                 <!-- <th class="white--text ">NO PERMITIDA NEGATIVE</th> -->
                 <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrder('a.results.recomendacion.positive')"
@@ -119,7 +125,7 @@ import api from '@/api';
             </thead>
             <tbody>
               <tr v-for="agentAudit in filteredAgents" :key="agentAudit.name">
-               <td @click="mostrarDetalleCall(agentAudit.name)">
+                <td @click="mostrarDetalleCall(agentAudit.name)">
                   {{ agentAudit.name }}
                 </td>
                 <td style="text-align: center;">
@@ -145,8 +151,13 @@ import api from '@/api';
 
         <!--ENDTABLE Mostrar nombre y cantidad-->
         <!--TABLE LLAMADAS-->
-        <input 
-        class="" hidden placeholder="Buscar..." type="text" v-model="search2" />
+        <input
+          class=""
+          hidden
+          placeholder="Buscar..."
+          type="text"
+          v-model="search2"
+        />
         <v-simple-table class="mt-5" v-show="recordsByCategory != false">
           <template>
             <thead>
@@ -155,49 +166,58 @@ import api from '@/api';
                   NOMBRE GRABACIÓN
                 </th>
                 <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
-                    @click="changeSortOrderCalls('a.results.infaltable.positive')"
+                    @click="
+                      changeSortOrderCalls('a.results.infaltable.positive')
+                    "
                     >INFALTABLE
                   </span>
                 </th>
                 <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
-                    @click="changeSortOrderCalls('a.results.infaltable.negative')"
+                    @click="
+                      changeSortOrderCalls('a.results.infaltable.negative')
+                    "
                     >INFALTABLE NO HALLADA
                   </span>
                 </th>
                 <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
-                    @click="changeSortOrderCalls('a.results.nopermitidas.positive')"
+                    @click="
+                      changeSortOrderCalls('a.results.nopermitidas.positive')
+                    "
                     >NO PERMITIDA</span
                   >
                 </th>
                 <!-- <th class="white--text ">NO PERMITIDA NEGATIVE</th> -->
                 <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
-                    @click="changeSortOrderCalls('a.results.recomendacion.positive')"
+                    @click="
+                      changeSortOrderCalls('a.results.recomendacion.positive')
+                    "
                     >RECOMENDACIÓN</span
                   >
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="agentAudit in filteredCalls"
-                :key="agentAudit.keyfile"
-              >
+              <tr v-for="agentAudit in filteredCalls" :key="agentAudit.keyfile">
                 <td @click="mostrarConversacionSelected(agentAudit.keyfile)">
                   {{ agentAudit.keyfile }}
                 </td>
                 <td>
-                  {{ agentAudit.results.infaltable.positive || 0}}
+                  {{ agentAudit.results.infaltable.positive || 0 }}
                 </td>
                 <td>
-                  {{ agentAudit.results.infaltable.negative || 0}}
+                  {{ agentAudit.results.infaltable.negative || 0 }}
                 </td>
                 <td>{{ agentAudit.results["no permitida"].positive || 0 }}</td>
                 <td>{{ agentAudit.results["recomendación"].positive || 0 }}</td>
@@ -212,39 +232,37 @@ import api from '@/api';
         <v-container v-show="keywordsResults != false" class="pt-10">
           <h3 style="color:#FF9B00">Clasificación</h3>
           <v-row>
-          <v-col>
-           
-          <input 
-            type="radio"
-            id="infaltable"
-            value="infaltable"
-            v-model="picked"
-          />
-          <label style="color:#FF9B00" for="infaltable"> Infaltable</label>
-          <br />
-            
-          </v-col>
-          <v-col>
-          <input
-            type="radio"
-            id="No permitida"
-            value="no permitida"
-            v-model="picked"
-          />
-          <label style="color:red" for="No permitida"> No permitida</label>
-          <br />
-          </v-col>
-          <v-col>
-          <input
-            type="radio"
-            id="Recomendación"
-            value="recomendación"
-            v-model="picked"
-          />
-          <label for="Recomendación"> Recomendación</label>
-          <br />
-          </v-col>
-         </v-row>
+            <v-col>
+              <input
+                type="radio"
+                id="infaltable"
+                value="infaltable"
+                v-model="picked"
+              />
+              <label style="color:#FF9B00" for="infaltable"> Infaltable</label>
+              <br />
+            </v-col>
+            <v-col>
+              <input
+                type="radio"
+                id="No permitida"
+                value="no permitida"
+                v-model="picked"
+              />
+              <label style="color:red" for="No permitida"> No permitida</label>
+              <br />
+            </v-col>
+            <v-col>
+              <input
+                type="radio"
+                id="Recomendación"
+                value="recomendación"
+                v-model="picked"
+              />
+              <label for="Recomendación"> Recomendación</label>
+              <br />
+            </v-col>
+          </v-row>
         </v-container>
         <v-simple-table class="mt-5" v-show="keywordsResults != false">
           <template>
@@ -253,8 +271,15 @@ import api from '@/api';
                 <th class="white--text ">KEYWORD</th>
                 <th class="white--text ">CATEGORIA</th>
                 <th class="white--text ">MODULO</th>
-                <th class="white--text ">DESDE</th>
-                <th class="white--text ">HASTA</th>
+                <th class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
+                  <span class="underline cursor-pointer" >
+                    DESDE</span>
+                </th>
+                <th class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
+                  <span class="underline cursor-pointer">HASTA</span>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -263,7 +288,9 @@ import api from '@/api';
                   {{ element.name }}
                 </td>
 
-                <td style="text-transform: capitalize" >{{ element.category }}</td>
+                <td style="text-transform: capitalize">
+                  {{ element.category }}
+                </td>
                 <td style="text-transform: capitalize">{{ element.module }}</td>
                 <td>{{ element.from }}</td>
 
@@ -285,8 +312,8 @@ import api from '@/api';
 
 let currentUrl = window.location.pathname;
 //console.log("currenturl", currentUrl);
-let url = `http://localhost:3000${currentUrl}`; //igsSerfinanzaCO/basephrases/
-let urlKeywords = `http://localhost:3000/igsSerfinanzaCO/keywords`;
+let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`; //igsSerfinanzaCO/basephrases/
+let urlKeywords = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/igsSerfinanzaCO/keywords`;
 console.log(urlKeywords);
 
 export default {
@@ -306,13 +333,16 @@ export default {
       menu1: false,
       search: "",
       search2: "",
+      search3: "",
       picked: "",
       sortOrder: 1,
       sortOrderCalls: 1,
+      sortOrderKeywords: 1,
+      ordenamiento1Keywords: Number,
       ordenamiento1: Number,
       ordenamiento1Calls: Number,
-      bandera:false,
-      banderaConver:false,
+      bandera: false,
+      banderaConver: false
     };
   },
   created() {
@@ -392,7 +422,6 @@ export default {
           return agent.keyfile.match(this.search2);
         })
         .sort((a, b) => {
-         
           if (filtrarPor1 == "a.results.infaltable.positive") {
             if (
               parseInt(a.results.infaltable.positive) >
@@ -431,6 +460,7 @@ export default {
           return altOrderCalls;
         });
     },
+
     filterRadio: function() {
       return this.keywordsResults.filter(keyword => {
         return keyword.category.match(this.picked);
@@ -453,8 +483,10 @@ export default {
     changeSortOrderCalls(order1) {
       this.sortOrderCalls = this.sortOrderCalls == 1 ? -1 : 1;
       this.ordenamiento1Calls = order1;
-
-      
+    },
+    changeSortOrderKeywords(order1) {
+      this.sortOrderKeywords = this.sortOrderKeywords == 1 ? -1 : 1;
+      this.ordenamiento1Keywords = order1;
     },
 
     formatDate(date) {
@@ -473,27 +505,25 @@ export default {
     mostrarDetalleCall(name) {
       this.agentSelected = name;
       console.log("el agent seleccionado", this.agentSelected);
-      
-      if(this.bandera==false){
-        this.search=name;
-        this.bandera=true;
-        
-      }else{
-        this.search="";
-        this.bandera=false;
+
+      if (this.bandera == false) {
+        this.search = name;
+        this.bandera = true;
+      } else {
+        this.search = "";
+        this.bandera = false;
       }
       this.mostrar();
     },
     mostrarConversacionSelected(name) {
       this.keyfileSelected = name;
       console.log("keyfile seleccionado", this.keyfileSelected);
-      if(this.banderaConver==false){
-        this.search2=name;
-        this.banderaConver=true;
-        
-      }else{
-        this.search2="";
-        this.banderaConver=false;
+      if (this.banderaConver == false) {
+        this.search2 = name;
+        this.banderaConver = true;
+      } else {
+        this.search2 = "";
+        this.banderaConver = false;
       }
       this.mostrar();
     },
@@ -546,6 +576,9 @@ export default {
     mostrarTableKeywords(data, keyfile) {
       //let keywords = {};
       //let listKeywords={};
+      function secondsToTime(seconds) {
+        return new Date(seconds * 1000).toISOString().substr(11, 11);
+      }
       console.log("keyfile", keyfile);
       let keywords = data[0].keywords;
       let keywordsArray = [];
@@ -559,6 +592,12 @@ export default {
             module: keywords[key].clasification.module,
             category: keywords[key].clasification.category
           };
+          keywords[key].results[i]["from"] = secondsToTime(
+            keywords[key].results[i]["from"]
+          );
+          keywords[key].results[i]["to"] = secondsToTime(
+            keywords[key].results[i]["to"]
+          );
           keywordPackage["speaker"] = keywords[key].results[i]["speaker"];
           keywordPackage["from"] = keywords[key].results[i]["from"];
           keywordPackage["to"] = keywords[key].results[i]["to"];

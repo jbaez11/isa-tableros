@@ -26,12 +26,12 @@
           <v-simple-table class="mt-5">
             <template v-slot:default>
               <thead>
-                <tr class="orange accent-3 ">
+                <tr class=" ">
                   <!--<th class="white--text">ID</th>-->
-                  <th class="white--text">KEYWORD</th>
-                  <th class="white--text">MODULE</th>
-                  <th class="white--text">CATEGORY</th>
-                  <th class="white--text">ACCIONES</th>
+                  <th class=""><h2>KEYWORD</h2></th>
+                  <th class=""><h2>MODULO</h2></th>
+                  <th class=""><h2>CATEGORIA</h2></th>
+                  <th class=""><h2>ACCIONES</h2></th>
                 </tr>
               </thead>
               <tbody v-show="!filter">
@@ -118,7 +118,7 @@
             style="display: flex; justify-content: center; align-items: center;"
           >
             <v-btn v-if="page != 1" @click="page--">
-              Before
+              Anterior
             </v-btn>
             <v-btn
               v-for="pageNmber in pages.slice(page - 1, page + 2)"
@@ -128,7 +128,7 @@
               {{ pageNmber }}
             </v-btn>
             <v-btn v-if="page < pages.length" @click="page++">
-              Next
+              Siguiente
             </v-btn>
           </div>
         </div>
@@ -158,7 +158,7 @@
                         style="width:100px; height:50px"
                         v-model="basekeyword.module"
                       >
-                        <option disabled value="">Module</option>
+                        <option disabled value="">Modulo</option>
                         <option>Saludo</option>
                         <option>Producto</option>
                         <option>Validacion</option>
@@ -179,7 +179,7 @@
                         style="width:110px; height:50px"
                         v-model="basekeyword.category"
                       >
-                        <option disabled value="">Category</option>
+                        <option disabled value="">Categoria</option>
                         <option>Infaltable</option>
                         <option>Recomendacion</option>
                         <option>No permitida</option>

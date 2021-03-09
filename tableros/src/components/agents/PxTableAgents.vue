@@ -28,10 +28,10 @@
               <thead>
                 <tr class=" ">
                   <!--<th class="white--text">ID</th>-->
-                  <th class=""><h2>NAME</h2></th>
-                  <th class=""><h2>IDENTIFICATION</h2></th>
-                  <th class=""><h2>GENDER</h2></th>
-                  <th class=""><h2>ACTIONS</h2></th>
+                  <th class=""><h2>NOMBRE</h2></th>
+                  <th class=""><h2>IDENTIFICACIÓN</h2></th>
+                  <th class=""><h2>GENERO</h2></th>
+                  <th class=""><h2>ACCIONES</h2></th>
                 </tr>
               </thead>
               <tbody v-show="!filter">
@@ -112,7 +112,7 @@
             style="display: flex; justify-content: center; align-items: center;"
           >
             <v-btn v-if="page != 1" @click="page--">
-              Before
+              Anterior
             </v-btn>
             <v-btn
               v-for="pageNmber in pages.slice(page - 1, page + 2)"
@@ -122,7 +122,7 @@
               {{ pageNmber }}
             </v-btn>
             <v-btn v-if="page < pages.length" @click="page++">
-              Next
+              Siguiente
             </v-btn>
           </div>
         </div>
@@ -131,7 +131,7 @@
           <v-form>
             <v-card>
               <v-card-title class="orange accent-3 white--text"
-                >Agent</v-card-title
+                >Agentes</v-card-title
               >
               <v-card-text>
                 <!---->
@@ -141,7 +141,7 @@
                     <v-col cols="12" md="4">
                       <v-text-field
                         v-model="agent.name"
-                        label="Name"
+                        label="Nombre"
                         solo
                         required
                         >{{ agent.name }}</v-text-field
@@ -150,7 +150,7 @@
                     <v-col cols="12" md="4">
                       <v-text-field
                         v-model="agent.identification"
-                        label="Identification"
+                        label="Identificación"
                         solo
                         required
                         >{{ agent.identification }}</v-text-field
@@ -161,7 +161,7 @@
                         style="width:80px; height:50px"
                         v-model="agent.gender"
                       >
-                        <option disabled value="">Gender</option>
+                        <option disabled value="">Genero</option>
                         <option>F</option>
                         <option>M</option>
                         <option>X</option>
