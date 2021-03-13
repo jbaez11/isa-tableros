@@ -44,24 +44,30 @@
           <v-row>
             <v-col>
               <v-card elevation="2">
-                <h3 style="color:#FF9B00;text-align: center;">
+                <h5 style="color:#FF9B00;text-align: center;">
                   TOTAL MINUTOS <br />
+                </h5>
+                <h1 style="text-align: center;">
                   <span style="color:#4C4C4C;">{{ totalMinutes }}</span>
-                </h3>
+                </h1>
               </v-card>
             </v-col>
             <v-col>
-              <h3 style="color:#FF9B00;text-align: center;">
+              <h5 style="color:#FF9B00;text-align: center;">
                 TOTAL <span style=""> GRABACIONES </span>
                 <br /><!--color:#4C4C4C;-->
+              </h5>
+              <h1 style=";text-align: center;">
                 <span style="color:#4C4C4C;">{{ totalCallRecords }}</span>
-              </h3>
+              </h1>
             </v-col>
             <v-col>
-              <h3 style="color:#FF9B00;text-align: center;">
+              <h5 style="color:#FF9B00;text-align: center;">
                 GRABACIONES LEIDAS <br />
+              </h5>
+              <h1 style="text-align: center;">
                 <span style="color:#4C4C4C;">{{ callRead }}</span>
-              </h3>
+              </h1>
             </v-col>
           </v-row>
         </v-container>

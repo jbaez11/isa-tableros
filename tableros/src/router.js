@@ -5,6 +5,7 @@ import Basekeywords from "@/views/basekeywords/Basekeywords";
 import Agents from "@/views/agents/Agents";
 import Basephrases from "@/views/basephrases/Basephrases";
 import AgentsAudit from "@/views/agentsAudit/AgentsAudit";
+import AgentsAuditPhrases from "@/views/agentsAuditPhrases/AgentsAuditPhrases";
 import Consumption from "@/views/consumption/Consumption";
 
 Vue.use(Router);
@@ -37,6 +38,11 @@ export default new Router({
       path: "/:bd/agentsaudit",
       name: "agentsaudit",
       component: AgentsAudit
+    },
+    {
+      path: "/:bd/agentsauditphrases",
+      name: "agentsauditphrases",
+      component: AgentsAuditPhrases
     },
     {
       path: "/:bd/consumption",

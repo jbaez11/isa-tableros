@@ -1,10 +1,9 @@
-import api from '@/api';
 <template>
   <div class="app">
     <v-app>
       <v-main>
         <h2 class="ml-3" style="color:#FF9B00">
-          AUDITORIA <span style="color:#CACACA">DE AGENTES</span>
+          AUDITORIA <span style="color:#CACACA">DE AGENTES </span>POR FRASES
         </h2>
         <!--calendar and numCall-->
         <v-container class="">
@@ -116,14 +115,14 @@ import api from '@/api';
                   >
                 </th>
                 <!-- <th class="white--text ">NO PERMITIDA NEGATIVE</th> -->
-                <th style="text-align: center;" class="white--text ">
+                <!-- <th style="text-align: center;" class="white--text ">
                   <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrder('a.results.recomendacion.positive')"
                     >RECOMENDACIÓN</span
                   >
-                </th>
+                </th> -->
                 <!-- <th class="white--text ">RECOMENDACION NEGATIVE</th> -->
               </tr>
             </thead>
@@ -145,9 +144,9 @@ import api from '@/api';
                 <td style="text-align: center;">
                   {{ agentAudit.results["no permitidas positivas"] }}
                 </td>
-                <td style="text-align: center;">
+                <!-- <td style="text-align: center;">
                   {{ agentAudit.results["recomendaciones positivas"] }}
-                </td>
+                </td> -->
               </tr>
             </tbody>
           </template>
@@ -200,7 +199,7 @@ import api from '@/api';
                   >
                 </th>
                 <!-- <th class="white--text ">NO PERMITIDA NEGATIVE</th> -->
-                <th style="text-align: center;" class="white--text ">
+                <!-- <th style="text-align: center;" class="white--text ">
                   <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
@@ -209,7 +208,7 @@ import api from '@/api';
                     "
                     >RECOMENDACIÓN</span
                   >
-                </th>
+                </th> -->
               </tr>
             </thead>
             <tbody>
@@ -224,7 +223,7 @@ import api from '@/api';
                   {{ agentAudit.results.infaltable.negative || 0 }}
                 </td>
                 <td>{{ agentAudit.results["no permitida"].positive || 0 }}</td>
-                <td>{{ agentAudit.results["recomendación"].positive || 0 }}</td>
+                <!-- <td>{{ agentAudit.results["recomendación"].positive || 0}}</td> -->
 
                 <!-- <td>{{agentAudit.results["recomendación"].negative}}</td> -->
               </tr>
@@ -233,7 +232,7 @@ import api from '@/api';
         </v-simple-table>
         <!--ENDTABLE LLAMADAS-->
         <!-- TABLE DATOS-->
-        <v-container v-show="keywordsResults != false" class="pt-10">
+        <v-container v-show="phrasesResults != false" class="pt-10">
           <h3 style="color:#FF9B00">Clasificación</h3>
           <v-row>
             <v-col>
@@ -268,11 +267,11 @@ import api from '@/api';
             </v-col>
           </v-row>
         </v-container>
-        <v-simple-table class="mt-5" v-show="keywordsResults != false">
+        <v-simple-table class="mt-5" v-show="phrasesResults != false">
           <template>
             <thead>
               <tr style="background-color:#CACACA">
-                <th class="white--text ">KEYWORD</th>
+                <th class="white--text ">PHRASES</th>
                 <th class="white--text ">CATEGORIA</th>
                 <th class="white--text ">MODULO</th>
                 <th class="white--text ">
@@ -309,22 +308,17 @@ import api from '@/api';
     </v-app>
   </div>
 </template>
-
 <script>
-//import api from "@/apiAgentAudit";
-
 let currentUrl = window.location.pathname;
 //console.log("currenturl", currentUrl);
-let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`; //igsSerfinanzaCO/basephrases/
-let urlKeywords = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/igsSerfinanzaCO/keywords`;
-console.log(urlKeywords);
-
+let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`;
+let urlPhrases = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/igsSerfinanzaCO/phrases`;
 export default {
-  name: "PxAgentsAudit",
+  name: "PxAgentsAuditPhrases",
   data() {
     return {
       auditAgents: [],
-      keywords: {},
+      phrases: {},
       date: new Date().toISOString().substr(0, 10),
       cantidadLlamadas: 0,
       dateFormatted: new Date().toISOString().substr(0, 10),
@@ -332,7 +326,7 @@ export default {
       recordsByCategory: [],
       agentSelected: "",
       keyfileSelected: "",
-      keywordsResults: [],
+      phrasesResults: [],
       menu1: false,
       search: "",
       search2: "",
@@ -350,7 +344,6 @@ export default {
   },
   created() {
     this.mostrar();
-    this.traerKeywords();
   },
   computed: {
     submitDate() {
@@ -465,7 +458,7 @@ export default {
     },
 
     filterRadio: function() {
-      return this.keywordsResults.filter(keyword => {
+      return this.phrasesResults.filter(keyword => {
         return keyword.category.match(this.picked);
       });
     }
@@ -547,16 +540,16 @@ export default {
         this.agentSelected
       );
       if (this.keyfileSelected.length > 0) {
-        const responseKeyword = await this.axios.get(
-          urlKeywords + `?keyfile=${this.keyfileSelected}`
+        const responsePhrases = await this.axios.get(
+          urlPhrases + `?keyfile=${this.keyfileSelected}`
         );
         console.log(
-          "url keywords",
-          urlKeywords + `?keyfile=${this.keyfileSelected}`
+          "url Phrases",
+          urlPhrases + `?keyfile=${this.keyfileSelected}`
         );
-        console.log("object", responseKeyword.data.body);
-        this.keywords = responseKeyword.data.body;
-        this.mostrarTableKeywords(this.keywords, this.keyfileSelected);
+        console.log("object", responsePhrases.data.body);
+        this.phrases = responsePhrases.data.body;
+        this.mostrarTableKeywords(this.phrases, this.keyfileSelected);
       }
     },
     mostrarCantidadDeLLamadas(data) {
@@ -583,59 +576,60 @@ export default {
         return new Date(seconds * 1000).toISOString().substr(11, 11);
       }
       console.log("keyfile", keyfile);
-      let keywords = data[0].keywords;
-      let keywordsArray = [];
+      console.log("acacaca que viene", data[0].phrases);
+      let phrases = data[0].phrases;
+      let phrasesArray = [];
       let id = 0;
-      for (let key in keywords) {
-        for (let i = 0; i < keywords[key].results.length; i++) {
-          console.log("mostrar", keywords[key].results[i]);
-          let keywordPackage = {
+      for (let key in phrases) {
+        for (let i = 0; i < phrases[key].results.length; i++) {
+          console.log("mostrar", phrases[key].results[i]);
+          let phrasePackage = {
             id: id,
             name: key,
-            module: keywords[key].clasification.module,
-            category: keywords[key].clasification.category
+            module: phrases[key].clasification.module,
+            category: phrases[key].clasification.category
           };
-          keywords[key].results[i]["from"] = secondsToTime(
-            keywords[key].results[i]["from"]
+          phrases[key].results[i]["from"] = secondsToTime(
+            phrases[key].results[i]["from"]
           );
-          keywords[key].results[i]["to"] = secondsToTime(
-            keywords[key].results[i]["to"]
+          phrases[key].results[i]["to"] = secondsToTime(
+            phrases[key].results[i]["to"]
           );
-          keywordPackage["speaker"] = keywords[key].results[i]["speaker"];
-          keywordPackage["from"] = keywords[key].results[i]["from"];
-          keywordPackage["to"] = keywords[key].results[i]["to"];
-          keywordPackage["confidence"] = keywords[key].results[i]["confidence"];
-          console.log("package", keywordPackage);
-          keywordsArray.push(keywordPackage);
+          phrasePackage["speaker"] = phrases[key].results[i]["speaker"];
+          phrasePackage["from"] = phrases[key].results[i]["from"];
+          phrasePackage["to"] = phrases[key].results[i]["to"];
+          phrasePackage["confidence"] = phrases[key].results[i]["confidence"];
+          console.log("package", phrasePackage);
+          phrasesArray.push(phrasePackage);
         }
-        if (keywords[key].results.length == 0) {
-          let keywordPackage = {
+        if (phrases[key].results.length == 0) {
+          let phrasePackage = {
             id: id,
             name: key,
-            module: keywords[key].clasification.module,
-            category: keywords[key].clasification.category
+            module: phrases[key].clasification.module,
+            category: phrases[key].clasification.category
           };
-          keywordPackage["speaker"] = "-";
-          keywordPackage["from"] = "-";
-          keywordPackage["to"] = "-";
-          keywordPackage["confidence"] = "-";
-          keywordsArray.push(keywordPackage);
+          phrasePackage["speaker"] = "-";
+          phrasePackage["from"] = "-";
+          phrasePackage["to"] = "-";
+          phrasePackage["confidence"] = "-";
+          phrasesArray.push(phrasePackage);
         }
         id++;
       }
-      console.log("keywordsArray", keywordsArray);
-      let keywordsFound = [];
-      let keywordsNotFound = [];
-      for (let i = 0; i < keywordsArray.length; i++) {
-        if (keywordsArray[i].speaker != "-") {
-          keywordsFound.push(keywordsArray[i]);
+      console.log("keywordsArray", phrasesArray);
+      let phrasesFound = [];
+      let phrasesNotFound = [];
+      for (let i = 0; i < phrasesArray.length; i++) {
+        if (phrasesArray[i].speaker != "-") {
+          phrasesFound.push(phrasesArray[i]);
         } else {
-          keywordsNotFound.push(keywordsArray[i]);
+          phrasesNotFound.push(phrasesArray[i]);
         }
       }
-      keywordsArray = keywordsFound.concat(keywordsNotFound);
-      console.log("keywordArray", keywordsArray);
-      this.keywordsResults = keywordsArray;
+      phrasesArray = phrasesFound.concat(phrasesNotFound);
+      console.log("keywordArray", phrasesArray);
+      this.phrasesResults = phrasesArray;
     }
   }
 };
