@@ -18,7 +18,7 @@ const asesoresSchema = new Schema({
         // aqui lo inicializas por defecto como un array vacío
         default: {}
     },
-    createAt:Date
+    createdAt:Date
 
     
 });

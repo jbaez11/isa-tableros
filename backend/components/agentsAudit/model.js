@@ -15,11 +15,11 @@ const asesoresSchema = new Schema({
         // aqui lo inicializas por defecto como un array vacío
         default: {}
     },
-    createAt:Date
+    createdAt:Date
 
     
 });
 
-const model = mongoose.model('Auditagentbykeywords', asesoresSchema);
+const model = mongoose.model('Auditbykeywords', asesoresSchema);
 
 module.exports = model;

@@ -19,9 +19,9 @@ app.use(cors());
 
  app.use('/:bd/:accion',(req, res, next) => {
   //db.disconnect();
-  nameBD = req.params.bd;
-  //console.log('name db', nameBD);
-  db.connect(`mongodb://ibm_cloud_e38e679f_01a8_43f8_be2f_b5d7c472e5e2:8ec65d06003ca8f816bb889523f8a3c1adb14f31b4975251f70fc83963210229@eeb30e5d-0f01-45c2-9209-585c7ef7c3f6-0.budepemd0im5pmu4u60g.databases.appdomain.cloud:30923,eeb30e5d-0f01-45c2-9209-585c7ef7c3f6-1.budepemd0im5pmu4u60g.databases.appdomain.cloud:30923,eeb30e5d-0f01-45c2-9209-585c7ef7c3f6-2.budepemd0im5pmu4u60g.databases.appdomain.cloud:30923/${nameBD}?authSource=admin&replicaSet=replset`)
+  nameDB = req.params.bd;
+  console.log('name db', nameDB);
+  db(`mongodb://ibm_cloud_e38e679f_01a8_43f8_be2f_b5d7c472e5e2:8ec65d06003ca8f816bb889523f8a3c1adb14f31b4975251f70fc83963210229@eeb30e5d-0f01-45c2-9209-585c7ef7c3f6-0.budepemd0im5pmu4u60g.databases.appdomain.cloud:30923,eeb30e5d-0f01-45c2-9209-585c7ef7c3f6-1.budepemd0im5pmu4u60g.databases.appdomain.cloud:30923,eeb30e5d-0f01-45c2-9209-585c7ef7c3f6-2.budepemd0im5pmu4u60g.databases.appdomain.cloud:30923/${nameDB}?authSource=admin&replicaSet=replset`)
       // setTimeout(()=>{
     //   db.disconnect();
     // },20000)

@@ -2,13 +2,14 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const asesoresPhrasesSchema = new Schema({
+const scoreSchema = new Schema({
     eventDate:Date,
     detailOfAgent :{
         type:Object,
         default:{}
     },
-    callDetailByAgent:{
+    callDetailByAgent
+    :{
         // aqui indicas que el tipo de dato es Array
         type: Object,
         // aqui lo inicializas por defecto como un array vacío
@@ -19,6 +20,6 @@ const asesoresPhrasesSchema = new Schema({
     
 });
 
-const model = mongoose.model('Auditbyphrases', asesoresPhrasesSchema);
+const model = mongoose.model('Scoresbykeywords', scoreSchema);
 
 module.exports = model;

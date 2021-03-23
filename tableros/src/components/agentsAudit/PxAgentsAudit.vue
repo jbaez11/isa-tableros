@@ -9,7 +9,7 @@ import api from '@/api';
         <!--calendar and numCall-->
         <v-container class="">
           <v-row>
-            <v-col style="">
+            <v-col lg="2" cols="5" sm="5" style="">
               <h3 style="color:#FF9B00">
                 FECHA
                 <!-- Date <span style="color:gray;">of</span> records -->

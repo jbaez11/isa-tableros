@@ -7,6 +7,7 @@ const agentsauditphrases = require('../components/agentsAuditPhrases/network');
 const consumption = require('../components/consumption/network');
 const keywords = require('../components/keywords/network');
 const phrases = require('../components/phrases/network');
+const scores = require('../components/scorebykeywords/network');
 
 
 
@@ -19,6 +20,7 @@ const routes = function(server){
     server.use('/:bd/consumption', consumption);
     server.use('/:bd/keywords', keywords);
     server.use('/:bd/phrases', phrases);
+    server.use('/:bd/scoresbykeywords', scores);
     
 }
 
