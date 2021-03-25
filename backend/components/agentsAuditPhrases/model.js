@@ -19,6 +19,6 @@ const asesoresPhrasesSchema = new Schema({
     
 });
 
-const model = mongoose.model('Auditbyphrases', asesoresPhrasesSchema);
+const model = mongoose.model('Auditphrases', asesoresPhrasesSchema);
 
 module.exports = model;

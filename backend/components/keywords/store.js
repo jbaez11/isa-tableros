@@ -14,8 +14,6 @@ async function getAsesores(filterAgentsAudit){
 
 module.exports = {
     list:getAsesores,
-    // add: addAgents,
-    // updateText: updateAgents,
-    // remove:removeAgents,
+    
 }
 

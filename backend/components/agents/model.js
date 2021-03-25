@@ -24,6 +24,6 @@ const agentsSchema = new Schema({
     },
 });
 
-const model = mongoose.model('Agents', agentsSchema);
+const model = mongoose.model('BaseAgents', agentsSchema);
 
 module.exports = model;

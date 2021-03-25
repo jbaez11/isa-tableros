@@ -132,17 +132,17 @@
                   {{ agentAudit.name }}
                 </td>
                 <td style="text-align: center;">
-                  {{ agentAudit.results.records }}
+                  {{ agentAudit.results.recordings }}
                 </td>
                 <td style="text-align: center;">
-                  {{ agentAudit.results["infaltables positivas"] }}
+                  {{ agentAudit.results.positivesOfRequired }}
                 </td>
                 <td style="text-align: center;">
-                  {{ agentAudit.results["infaltables negativas"] }}
+                  {{ agentAudit.results.negativesOfRequired }}
                 </td>
 
                 <td style="text-align: center;">
-                  {{ agentAudit.results["no permitidas positivas"] }}
+                  {{ agentAudit.results.positivesOfNotAllowed }}
                 </td>
                 <!-- <td style="text-align: center;">
                   {{ agentAudit.results["recomendaciones positivas"] }}
@@ -217,12 +217,12 @@
                   {{ agentAudit.keyfile }}
                 </td>
                 <td>
-                  {{ agentAudit.results.infaltable.positive || 0 }}
+                  {{ agentAudit.results.positivesOfRequired }}
                 </td>
                 <td>
-                  {{ agentAudit.results.infaltable.negative || 0 }}
+                  {{ agentAudit.results.negativesOfRequired }}
                 </td>
-                <td>{{ agentAudit.results["no permitida"].positive || 0 }}</td>
+                <td>{{ agentAudit.results.positivesOfNotAllowed }}</td>
                 <!-- <td>{{ agentAudit.results["recomendación"].positive || 0}}</td> -->
 
                 <!-- <td>{{agentAudit.results["recomendación"].negative}}</td> -->
@@ -529,14 +529,14 @@ export default {
       );
 
       this.auditAgents = response.data.body;
-      console.log("object", this.auditAgents[0].callDetailByAgent);
+      console.log("object", this.auditAgents[0].recordingsSummary);
       console.log("primera impresion agent", this.agentSelected);
       console.log("primera impresion keyfile", this.keyfileSelected);
 
-      this.mostrarCantidadDeLLamadas(this.auditAgents[0].callDetailByAgent);
+      this.mostrarCantidadDeLLamadas(this.auditAgents[0].recordingsSummary);
       this.mostrarTableDetailOfAgents(this.auditAgents);
       this.mostrarTableCallDetailByAgent(
-        this.auditAgents[0].callDetailByAgent,
+        this.auditAgents[0].recordingsSummary,
         this.agentSelected
       );
       if (this.keyfileSelected.length > 0) {
@@ -560,7 +560,7 @@ export default {
       this.cantidadLlamadas = suma;
     },
     mostrarTableDetailOfAgents(data) {
-      this.topByCategory = data[0].detailOfAgent;
+      this.topByCategory = data[0].agentsSummary;
     },
     mostrarTableCallDetailByAgent(data, name) {
       for (let key in data) {
@@ -576,8 +576,8 @@ export default {
         return new Date(seconds * 1000).toISOString().substr(11, 11);
       }
       console.log("keyfile", keyfile);
-      console.log("acacaca que viene", data[0].phrases);
-      let phrases = data[0].phrases;
+      console.log("acacaca que viene", data[0].contents);
+      let phrases = data[0].contents;
       let phrasesArray = [];
       let id = 0;
       for (let key in phrases) {

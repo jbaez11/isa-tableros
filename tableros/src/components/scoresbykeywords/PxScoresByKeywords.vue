@@ -70,25 +70,12 @@
                 <th style="text-align: center;" class="white--text ">
                   NOMBRE
                 </th>
-
-                <!-- <th style="text-align: center;" class="white--text ">
-                  <img
-                    src="../../assets/sort.png"
-                    class="mr-2"
-                    style="color:white"
-                  />
-                  <span
-                    class="underline cursor-pointer"
-                    @click="changeSortOrder(2)"
-                    >No permitida
-                  </span>
-                </th> -->
                 <th style="text-align: center;" class="white--text ">
                   <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrder(3)"
-                    >INFALTABLE
+                    >GRABACIONES
                   </span>
                 </th>
                 <th style="text-align: center;" class="white--text ">
@@ -96,7 +83,7 @@
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrder(1)"
-                    >PUNTAJE FINAL</span
+                    >PUNTAJE PROMEDIO</span
                   >
                 </th>
               </tr>
@@ -109,15 +96,11 @@
                 <td @click="mostrarDetalleCall(scoresbykeywords.name)">
                   {{ scoresbykeywords.name }}
                 </td>
-
-                <!-- <td style="text-align: center;">
-                  {{ scoresbykeywords.results.notAllowedScore }}
-                </td> -->
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.requiredScore }}
+                  {{ scoresbykeywords.results.recordings }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.finalScore }}
+                  {{ scoresbykeywords.results.totalScore.toFixed(2) }}
                 </td>
               </tr>
             </tbody>
@@ -193,7 +176,7 @@
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrderCalls(7)"
-                    >INFALTABLE</span
+                    >PUNTAJE</span
                   >
                 </th>
               </tr>
@@ -206,38 +189,138 @@
                 <td>
                   {{ scoresbykeywords.keyfile }}
                 </td>
-                <td>
-                  {{ scoresbykeywords.results.infaltable.saludo.toFixed(2) }}
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results.saludo.toFixed(2) }}
                 </td>
-                <td>
-                  {{ scoresbykeywords.results.infaltable.producto.toFixed(2) }}
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results.producto.toFixed(2) }}
                 </td>
-                <td>
-                  {{ scoresbykeywords.results.infaltable.venta.toFixed(2) }}
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results.venta.toFixed(2) }}
                 </td>
-                <td>
-                  {{
-                    scoresbykeywords.results.infaltable["validación"].toFixed(2)
-                  }}
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results["validación"].toFixed(2) }}
                 </td>
-                <td>
-                  {{ scoresbykeywords.results.infaltable.cierre.toFixed(2) }}
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results.cierre.toFixed(2) }}
                 </td>
-                <td>
-                  {{ scoresbykeywords.results.infaltable.despedida.toFixed(2) }}
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results.despedida.toFixed(2) }}
                 </td>
-                <td>
-                  {{
-                    scoresbykeywords.results.infaltable.totalScore.toFixed(2)
-                  }}
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results.totalScore.toFixed(2) }}
                 </td>
-
-                <!-- <td>{{agentAudit.results["recomendación"].negative}}</td> -->
               </tr>
             </tbody>
           </template>
         </v-simple-table>
         <!--ENDTABLE LLAMADAS-->
+
+        <!--Tablas cluster-->
+        <v-simple-table class="mt-5" v-show="recordScoreByKeywords != false">
+          <template>
+            <thead>
+              <tr style="background-color:#CACACA">
+                <th style="text-align: center;" class="white--text ">
+                  Cluster
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderCalls(1)"
+                    >IDENTIFICACION
+                  </span>
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderCalls(2)"
+                    >PRODUCTO
+                  </span>
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderCalls(3)"
+                    >VENTA</span
+                  >
+                </th>
+                <!-- <th class="white--text ">NO PERMITIDA NEGATIVE</th> -->
+                <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderCalls(4)"
+                    >VALIDACION</span
+                  >
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderCalls(5)"
+                    >CIERRE</span
+                  >
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderCalls(6)"
+                    >DESPEDIDA</span
+                  >
+                </th>
+                <th style="text-align: center;" class="white--text ">
+                  <img src="../../assets/sort.png" class="mr-2" />
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderCalls(7)"
+                    >PUNTAJE</span
+                  >
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="scoresbykeywords in filteredCalls"
+                :key="scoresbykeywords.keyfile"
+              >
+                <td>
+                  {{ scoresbykeywords.keyfile }}
+                </td>
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results.saludo.toFixed(2) }}
+                </td>
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results.producto.toFixed(2) }}
+                </td>
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results.venta.toFixed(2) }}
+                </td>
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results["validación"].toFixed(2) }}
+                </td>
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results.cierre.toFixed(2) }}
+                </td>
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results.despedida.toFixed(2) }}
+                </td>
+                <td style="text-align: center;">
+                  {{ scoresbykeywords.results.totalScore.toFixed(2) }}
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+        <!--Tablas cluster-->
+
+
+
+
       </v-main>
     </v-app>
   </div>
@@ -443,11 +526,11 @@ export default {
       console.log("object", this.scoresbykeywords);
 
       this.mostrarCantidadDeLLamadas(
-        this.scoresbykeywords[0].callDetailByAgent
+        this.scoresbykeywords[0].recordingsSummary
       );
-      this.mostrarTableDetailOfAgents(this.scoresbykeywords[0].detailOfAgent);
+      this.mostrarTableDetailOfAgents(this.scoresbykeywords[0].agentsSummary);
       this.mostrarTableCallDetailByAgent(
-        this.scoresbykeywords[0].callDetailByAgent,
+        this.scoresbykeywords[0].recordingsSummary,
         this.agentSelected
       );
     },

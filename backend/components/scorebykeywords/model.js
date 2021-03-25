@@ -4,12 +4,11 @@ const Schema = mongoose.Schema;
 
 const scoreSchema = new Schema({
     eventDate:Date,
-    detailOfAgent :{
+    agentsSummary :{
         type:Object,
         default:{}
     },
-    callDetailByAgent
-    :{
+    recordingsSummary:{
         // aqui indicas que el tipo de dato es Array
         type: Object,
         // aqui lo inicializas por defecto como un array vacío
@@ -20,6 +19,6 @@ const scoreSchema = new Schema({
     
 });
 
-const model = mongoose.model('Scoresbykeywords', scoreSchema);
+const model = mongoose.model('Auditscoringkeywords', scoreSchema);
 
 module.exports = model;

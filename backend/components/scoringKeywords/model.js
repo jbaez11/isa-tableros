@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
-//var connection = mongoose.createConnection()
 
 const Schema = mongoose.Schema;
 
-const asesoresSchema = new Schema({
+const scoringkeywordsSchema = new Schema({
     keyfile : String,
     eventDatetime: Date,
     eventDate:Date,
@@ -11,9 +10,8 @@ const asesoresSchema = new Schema({
         name : String,
         identification: String,
         gender:String,
-        createdAt:Date,
     },
-    keywords:{
+    contents:{
         // aqui indicas que el tipo de dato es Array
         type: Object,
         // aqui lo inicializas por defecto como un array vacío
@@ -24,7 +22,6 @@ const asesoresSchema = new Schema({
     
 });
 
-const model = mongoose.model('Keywords', asesoresSchema);
-
+const model = mongoose.model('Scoringkeywords', scoringkeywordsSchema);
 
 module.exports = model;
