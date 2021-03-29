@@ -5,7 +5,7 @@ async function getConversations(filterConversations){
     
     if(filterConversations != null){
         filter = {
-            eventDate:filterConversations
+            keyfile:filterConversations
         };
     }
     const conversations = await Model.find(filter);

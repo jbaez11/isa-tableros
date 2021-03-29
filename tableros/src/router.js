@@ -8,6 +8,7 @@ import AgentsAudit from "@/views/agentsAudit/AgentsAudit";
 import AgentsAuditPhrases from "@/views/agentsAuditPhrases/AgentsAuditPhrases";
 import Consumption from "@/views/consumption/Consumption";
 import ScoresByKeywords from "@/views/scoresbykeywords/ScoresByKeywords";
+import AuditConversations from "@/views/auditConversations/AuditConversations";
 
 Vue.use(Router);
 
@@ -54,6 +55,11 @@ export default new Router({
       path: "/:bd/scoresbykeywords",
       name: "scoresbykeywords",
       component: ScoresByKeywords
+    },
+    {
+      path: "/:bd/auditconversations",
+      name: "auditconversations",
+      component: AuditConversations
     }
   ]
 });

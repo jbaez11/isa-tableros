@@ -4,7 +4,7 @@ import api from '@/api';
     <v-app>
       <v-main>
         <h2 class="ml-3" style="color:#FF9B00">
-          AUDITORIA <span style="color:#CACACA">DE AGENTES</span>
+          AUDITORIA <span style="color:#CACACA">KEYWORDS</span>
         </h2>
         <!--calendar and numCall-->
         <v-container class="">

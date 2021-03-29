@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const asesoresSchema = new Schema({
+const conversationSchema = new Schema({
     eventDate:Date,
-    detailOfAgent :{
+    agentsSummary :{
         type:Object,
         default:{}
     },
-    callDetailByAgent
+    recordingsSummary
     :{
         // aqui indicas que el tipo de dato es Array
         type: Object,
@@ -20,6 +20,6 @@ const asesoresSchema = new Schema({
     
 });
 
-const model = mongoose.model('Auditkeywords', asesoresSchema);
+const model = mongoose.model('Auditconversations', conversationSchema);
 
 module.exports = model;

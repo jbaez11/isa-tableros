@@ -100,7 +100,7 @@
                   {{ scoresbykeywords.results.recordings }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.totalScore.toFixed(2) }}
+                  {{ scoresbykeywords.results.totalScore.toFixed(3) }}
                 </td>
               </tr>
             </tbody>
@@ -186,29 +186,29 @@
                 v-for="scoresbykeywords in filteredCalls"
                 :key="scoresbykeywords.keyfile"
               >
-                <td>
+                <td @click="mostrarDetalleCluster(scoresbykeywords.keyfile)">
                   {{ scoresbykeywords.keyfile }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.saludo.toFixed(2) }}
+                  {{ scoresbykeywords.results.saludo.toFixed(3) }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.producto.toFixed(2) }}
+                  {{ scoresbykeywords.results.producto.toFixed(3) }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.venta.toFixed(2) }}
+                  {{ scoresbykeywords.results.venta.toFixed(3) }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results["validación"].toFixed(2) }}
+                  {{ scoresbykeywords.results["validación"].toFixed(3) }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.cierre.toFixed(2) }}
+                  {{ scoresbykeywords.results.cierre.toFixed(3) }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.despedida.toFixed(2) }}
+                  {{ scoresbykeywords.results.despedida.toFixed(3) }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.totalScore.toFixed(2) }}
+                  {{ scoresbykeywords.results.totalScore.toFixed(3) }}
                 </td>
               </tr>
             </tbody>
@@ -217,110 +217,43 @@
         <!--ENDTABLE LLAMADAS-->
 
         <!--Tablas cluster-->
-        <v-simple-table class="mt-5" v-show="recordScoreByKeywords != false">
+        <v-simple-table class="mt-5" v-show="scoringKeywordsContents != false">
           <template>
             <thead>
               <tr style="background-color:#CACACA">
                 <th style="text-align: center;" class="white--text ">
-                  Cluster
+                  MODULO
                 </th>
                 <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
-                  <span
-                    class="underline cursor-pointer"
-                    @click="changeSortOrderCalls(1)"
-                    >IDENTIFICACION
-                  </span>
+                  <span class="underline cursor-pointer">CLUSTER </span>
                 </th>
                 <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
-                  <span
-                    class="underline cursor-pointer"
-                    @click="changeSortOrderCalls(2)"
-                    >PRODUCTO
-                  </span>
+                  <span class="underline cursor-pointer">PUNTAJE </span>
                 </th>
                 <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
-                  <span
-                    class="underline cursor-pointer"
-                    @click="changeSortOrderCalls(3)"
-                    >VENTA</span
-                  >
-                </th>
-                <!-- <th class="white--text ">NO PERMITIDA NEGATIVE</th> -->
-                <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
-                  <span
-                    class="underline cursor-pointer"
-                    @click="changeSortOrderCalls(4)"
-                    >VALIDACION</span
-                  >
-                </th>
-                <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
-                  <span
-                    class="underline cursor-pointer"
-                    @click="changeSortOrderCalls(5)"
-                    >CIERRE</span
-                  >
-                </th>
-                <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
-                  <span
-                    class="underline cursor-pointer"
-                    @click="changeSortOrderCalls(6)"
-                    >DESPEDIDA</span
-                  >
-                </th>
-                <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
-                  <span
-                    class="underline cursor-pointer"
-                    @click="changeSortOrderCalls(7)"
-                    >PUNTAJE</span
-                  >
+                  <span class="underline cursor-pointer">KEYWORDS</span>
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="scoresbykeywords in filteredCalls"
-                :key="scoresbykeywords.keyfile"
-              >
+              <tr v-for="element in scoringKeywordsContents" :key="element.id">
                 <td>
-                  {{ scoresbykeywords.keyfile }}
+                  {{ element.module }}
+                </td>
+                <td style="">
+                  {{ element.cluster }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.saludo.toFixed(2) }}
+                  {{ element.score.toFixed(3) }}
                 </td>
-                <td style="text-align: center;">
-                  {{ scoresbykeywords.results.producto.toFixed(2) }}
-                </td>
-                <td style="text-align: center;">
-                  {{ scoresbykeywords.results.venta.toFixed(2) }}
-                </td>
-                <td style="text-align: center;">
-                  {{ scoresbykeywords.results["validación"].toFixed(2) }}
-                </td>
-                <td style="text-align: center;">
-                  {{ scoresbykeywords.results.cierre.toFixed(2) }}
-                </td>
-                <td style="text-align: center;">
-                  {{ scoresbykeywords.results.despedida.toFixed(2) }}
-                </td>
-                <td style="text-align: center;">
-                  {{ scoresbykeywords.results.totalScore.toFixed(2) }}
+                <td style="">
+                  {{ element.results }}
                 </td>
               </tr>
             </tbody>
           </template>
         </v-simple-table>
         <!--Tablas cluster-->
-
-
-
-
       </v-main>
     </v-app>
   </div>
@@ -329,6 +262,7 @@
 <script>
 let currentUrl = window.location.pathname;
 let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`;
+let urlClusterScore = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/igsSerfinanzaCO/scoringkeywords`;
 export default {
   name: "PxScoresByKeywords",
   data() {
@@ -337,6 +271,7 @@ export default {
       dateFormatted: new Date().toISOString().substr(0, 10),
       cantidadLlamadas: 0,
       scoresbykeywords: [],
+      clusterScore: {},
       menu1: false,
       search: "",
       sortOrder: 1,
@@ -345,9 +280,12 @@ export default {
       sortOrderCalls: 1,
       ordenamiento1Calls: Number,
       detailOfAgent: [],
+      scoringKeywordsContents: [],
       recordScoreByKeywords: [],
       agentSelected: "",
-      bandera: false
+      keyfileSelected: "",
+      bandera: false,
+      banderaCluster: false
     };
   },
   created() {
@@ -517,6 +455,18 @@ export default {
       }
       this.mostrar();
     },
+    mostrarDetalleCluster(keyfile) {
+      this.keyfileSelected = keyfile;
+      console.log("keyfile selected", keyfile);
+      if (this.banderaCluster == false) {
+        this.search2 = keyfile;
+        this.banderaCluster = true;
+      } else {
+        this.search2 = "";
+        this.banderaCluster = false;
+      }
+      this.mostrar();
+    },
     async mostrar() {
       const response = await this.axios.get(
         url + `?eventDate=${this.date}T00:00:00.000Z`
@@ -533,6 +483,18 @@ export default {
         this.scoresbykeywords[0].recordingsSummary,
         this.agentSelected
       );
+      if (this.keyfileSelected.length > 0) {
+        const responseClusterScore = await this.axios.get(
+          urlClusterScore + `?keyfile=${this.keyfileSelected}`
+        );
+        console.log(
+          "url Phrases",
+          urlClusterScore + `?keyfile=${this.keyfileSelected}`
+        );
+        console.log("object", responseClusterScore.data.body);
+        this.clusterScore = responseClusterScore.data.body;
+        this.mostrarTableCluster(this.clusterScore, this.keyfileSelected);
+      }
     },
     mostrarCantidadDeLLamadas(data) {
       let suma = 0;
@@ -549,6 +511,42 @@ export default {
         if (key == name) {
           this.recordScoreByKeywords = data[key];
         }
+      }
+    },
+    mostrarTableCluster(data, keyfile) {
+      //this.scoringKeywordsContents=data[0].contents;
+      console.log(keyfile);
+      let contents = data[0].contents;
+      let scoringArray = [];
+      let id = 0;
+      for (let moduleKey in contents) {
+        //console.log('modulekey',moduleKey);
+
+        //let clusterArray = [];
+        for (let clusterKey in contents[moduleKey]) {
+          //console.log("cluster[key]",clusterKey);
+
+          let kp = contents[moduleKey][clusterKey].results;
+          let kpStrings = kp.join(", ");
+          let clusterPackage = {
+            id: id,
+            module: moduleKey,
+            cluster: clusterKey,
+            score: contents[moduleKey][clusterKey].score,
+            results: kpStrings
+          };
+          //clusterArray.push(clusterPackage);
+          scoringArray.push(clusterPackage);
+          id++;
+        }
+        //  let modulePackage = {
+
+        //    module:moduleKey,
+        //    clusters:clusterArray
+        //  }
+        //scoringArray.push(modulePackage);
+        console.log(scoringArray);
+        this.scoringKeywordsContents = scoringArray;
       }
     }
   }

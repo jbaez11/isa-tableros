@@ -4,7 +4,7 @@ const controller = require('./controller');
 const router = express.Router();
 
 router.get('/', function(req,res){
-    const filterConversations = req.query.eventDate || null;
+    const filterConversations = req.query.keyfile || null;
     console.log('filter agents ',filterConversations)
     controller.getConversations(filterConversations)
     .then((conversationsList) => {
