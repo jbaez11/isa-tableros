@@ -6,7 +6,10 @@ const router = express.Router();
 router.get('/', function(req,res){
     const filterScoringKeywords = req.query.keyfile || null;
     console.log('filter agents ',filterScoringKeywords)
-    controller.getScoringkeywords(filterScoringKeywords)
+    // variable de peticion
+    console.log('locals : ', res.locals.path_data_link );
+    dbname = res.locals.path_data_link;
+    controller.getScoringkeywords(filterScoringKeywords,dbname)
     .then((scoringkeywordsList) => {
         response.success(req,res, scoringkeywordsList, 200);
     })

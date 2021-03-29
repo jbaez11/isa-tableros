@@ -1,10 +1,40 @@
-const Model = require('./model');
+const {basePhrasesSerFinanzaModel,
+    basePhrasesBancoColombiaModel,
+    basePhrasesEnelChileModel,
+    basePhrasesIgsBanorteMXModel,
+    basePhrasesIgsBanistmoPAModel,
+    basePhrasesBpogsBoldEnglishUSModel,
+    basePhrasesBpogsHitesDespachoRetrioCOModel} = require('./model');
 
 
-async function getBasePhrases(){
-    const basephrases = await Model.find();
-    //console.log('store get',basephrases);
-    return basephrases;
+async function getBasePhrases(nameDB){
+    var basePhrases;
+    switch (nameDB) {
+        
+        case 'igsSerfinanzaCO':
+            basePhrases = await basePhrasesSerFinanzaModel.find();
+            return basePhrases;
+
+        case 'igsBancolombiaCO':
+            basePhrases = await basePhrasesBancoColombiaModel.find();
+            return basePhrases ;
+
+        case 'igsEnelCL':
+            basePhrases = await basePhrasesEnelChileModel.find();
+            return basePhrases;
+        case 'igsBanorteMX' :
+            basePhrases = await basePhrasesIgsBanorteMXModel.find();
+            return basePhrases;
+        case 'igsBanistmoPA' :
+            basePhrases = await basePhrasesIgsBanistmoPAModel.find();
+            return basePhrases;
+        case 'bpogsBoldEnglishUS' :
+            basePhrases = await basePhrasesBpogsBoldEnglishUSModel.find();
+            return basePhrases;
+        case 'bpogsHitesDespachoRetrioCO' :
+            basePhrases = await basePhrasesBpogsHitesDespachoRetrioCOModel.find();
+            return basePhrases;
+        }
 }
 
 function addBasePhrases(basePhrases){

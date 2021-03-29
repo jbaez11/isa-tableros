@@ -6,7 +6,12 @@ const router = express.Router();
 router.get('/', function(req,res){
     const filterAgentsAudit = req.query.eventDate || null;
     console.log('filter agents ',filterAgentsAudit)
-    controller.getAsesores(filterAgentsAudit)
+
+    // variable de peticion
+    console.log('locals : ', res.locals.path_data_link );
+    dbname = res.locals.path_data_link;
+
+    controller.getAsesores(filterAgentsAudit,dbname)
     .then((asesoresList) => {
         response.success(req,res, asesoresList, 200);
     })

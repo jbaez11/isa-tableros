@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-
+const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
+    BpogsHitesDespachoRetrioCOConn } = require('../../db');
 const Schema = mongoose.Schema;
 
-const asesoresSchema = new Schema({
+const phrasesSchema = new Schema({
     keyfile : String,
     eventDatetime: Date,
     eventDate:Date,
@@ -23,6 +24,21 @@ const asesoresSchema = new Schema({
     
 });
 
-const model = mongoose.model('Phrases', asesoresSchema);
+//const model = mongoose.model('Phrases', asesoresSchema);
+const phrasesSerFinanzaModel = SerFinanzaConn.model('Phrases', phrasesSchema);
+const phrasesBancoColombiaModel = BancolombiaConn.model('Phrases', phrasesSchema);
+const phrasesEnelChileModel = EnelChileConn.model('Phrases', phrasesSchema);
+const phrasesIgsBanorteMXModel = IgsBanorteMXConn.model('Phrases', phrasesSchema);
+const phrasesIgsBanistmoPAModel = IgsBanistmoPAConn.model('Phrases', phrasesSchema);
+const phrasesBpogsBoldEnglishUSModel = BpogsBoldEnglishUSConn.model('Phrases', phrasesSchema);
+const phrasesBpogsHitesDespachoRetrioCOModel = BpogsHitesDespachoRetrioCOConn.model('Phrases', phrasesSchema);
 
-module.exports = model;
+module.exports = {
+    phrasesSerFinanzaModel,
+    phrasesBancoColombiaModel,
+    phrasesEnelChileModel,
+    phrasesIgsBanorteMXModel,
+    phrasesIgsBanistmoPAModel,
+    phrasesBpogsBoldEnglishUSModel,
+    phrasesBpogsHitesDespachoRetrioCOModel
+};

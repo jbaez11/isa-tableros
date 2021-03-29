@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
-
+const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
+    BpogsHitesDespachoRetrioCOConn } = require('../../db');
 const Schema = mongoose.Schema;
 
-const conversationSchema = new Schema({
+const auditconversationSchema = new Schema({
     eventDate:Date,
     agentsSummary :{
         type:Object,
@@ -20,6 +21,22 @@ const conversationSchema = new Schema({
     
 });
 
-const model = mongoose.model('Auditconversations', conversationSchema);
 
-module.exports = model;
+const auditconversationSerFinanzaModel = SerFinanzaConn.model('Auditconversations', auditconversationSchema);
+const auditconversationBancoColombiaModel = BancolombiaConn.model('Auditconversations', auditconversationSchema);
+const auditconversationEnelChileModel = EnelChileConn.model('Auditconversations', auditconversationSchema);
+const auditconversationIgsBanorteMXModel = IgsBanorteMXConn.model('Auditconversations', auditconversationSchema);
+const auditconversationIgsBanistmoPAModel = IgsBanistmoPAConn.model('Auditconversations', auditconversationSchema);
+const auditconversationBpogsBoldEnglishUSModel = BpogsBoldEnglishUSConn.model('Auditconversations', auditconversationSchema);
+const auditconversationBpogsHitesDespachoRetrioCOModel = BpogsHitesDespachoRetrioCOConn.model('Auditconversations', auditconversationSchema);
+
+module.exports = {
+    auditconversationSerFinanzaModel,
+    auditconversationBancoColombiaModel,
+    auditconversationEnelChileModel,
+    auditconversationIgsBanorteMXModel,
+    auditconversationIgsBanistmoPAModel,
+    auditconversationBpogsBoldEnglishUSModel,
+    auditconversationBpogsHitesDespachoRetrioCOModel
+};
+

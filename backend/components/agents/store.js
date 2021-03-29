@@ -1,8 +1,42 @@
-const Model = require('./model');
+const { agentsSerFinanzaModel, 
+    agentsBancoColombiaModel, agentsEnelChileModel,agentsIgsBanorteMXModel,
+    agentsIgsBanistmoPAModel,
+    agentsBpogsBoldEnglishUSModel,
+    agentsBpogsHitesDespachoRetrioCOModel} = require('./model');
 
-async function getAgents(){
-    const agents = await Model.find();
-    return agents;
+async function getAgents( nameDB){
+    //const agents = await Model.find();
+    var agents;
+    switch (nameDB) {
+        
+        case 'igsSerfinanzaCO':
+            agents = await agentsSerFinanzaModel.find();
+            return agents;
+
+        case 'igsBancolombiaCO':
+            agents = await agentsBancoColombiaModel.find();
+            return agents ;
+
+        case 'igsEnelCL':
+            agents = await agentsEnelChileModel.find();
+            return agents;
+        case 'igsBanorteMX' :
+            agents = await agentsIgsBanorteMXModel.find();
+            return agents;
+        case 'igsBanistmoPA' :
+            agents = await agentsIgsBanistmoPAModel.find();
+            return agents;
+        case 'bpogsBoldEnglishUS' :
+            agents = await agentsBpogsBoldEnglishUSModel.find();
+            return agents;
+        case 'bpogsHitesDespachoRetrioCO' :
+            agents = await agentsBpogsHitesDespachoRetrioCOModel.find();
+            return agents;            
+
+
+
+    }
+    //return agents;
 }
 
 function addAgents(agents){

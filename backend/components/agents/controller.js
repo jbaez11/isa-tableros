@@ -1,9 +1,9 @@
 const store = require('./store');
 
-function getAgents(){
+function getAgents(dbname){
     return new Promise((resolve,reject) => {
         //console.log(store.list())
-        resolve(store.list());  
+        resolve(store.list(dbname));  
     });
 }
 

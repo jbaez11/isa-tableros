@@ -4,7 +4,11 @@ const controller = require('./controller');
 const router = express.Router();
 
 router.get('/', function(req,res){
-    controller.getAgents()
+    // variable de peticion
+    console.log('locals : ', res.locals.path_data_link );
+    dbname = res.locals.path_data_link;
+
+    controller.getAgents(dbname)
     .then((agentsList) => {
         response.success(req,res, agentsList, 200);
     })

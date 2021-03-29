@@ -4,7 +4,10 @@ const controller = require('./controller');
 const router = express.Router();
 
 router.get('/', function(req,res){
-    controller.getBasePhrases()
+    // variable de peticion
+    console.log('locals : ', res.locals.path_data_link );
+    dbname = res.locals.path_data_link;
+    controller.getBasePhrases(dbname)
     .then((basePhrasesList) => {
         response.success(req,res, basePhrasesList, 200);
     })

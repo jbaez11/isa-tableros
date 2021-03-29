@@ -6,7 +6,10 @@ const router = express.Router();
 router.get('/', function(req,res){
     const filter = req.query.eventDate || null;
     console.log('filter agents ',filter)
-    controller.getScore(filter)
+    // variable de peticion
+    console.log('locals : ', res.locals.path_data_link );
+    dbname = res.locals.path_data_link;
+    controller.getScore(filter,dbname)
     .then((scoresList) => {
         response.success(req,res, scoresList, 200);
     })

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-
+const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
+    BpogsHitesDespachoRetrioCOConn } = require('../../db');
 const Schema = mongoose.Schema;
 
 const scoreSchema = new Schema({
@@ -19,6 +20,21 @@ const scoreSchema = new Schema({
     
 });
 
-const model = mongoose.model('Auditscoringkeywords', scoreSchema);
+//const model = mongoose.model('Auditscoringkeywords', scoreSchema);
+const scoreSerFinanzaModel = SerFinanzaConn.model('Auditscoringkeywords', scoreSchema);
+const scoreBancoColombiaModel = BancolombiaConn.model('Auditscoringkeywords', scoreSchema);
+const scoreEnelChileModel = EnelChileConn.model('Auditscoringkeywords', scoreSchema);
+const scoreIgsBanorteMXModel = IgsBanorteMXConn.model('Auditscoringkeywords', scoreSchema);
+const scoreIgsBanistmoPAModel = IgsBanistmoPAConn.model('Auditscoringkeywords', scoreSchema);
+const scoreBpogsBoldEnglishUSModel = BpogsBoldEnglishUSConn.model('Auditscoringkeywords', scoreSchema);
+const scoreBpogsHitesDespachoRetrioCOModel = BpogsHitesDespachoRetrioCOConn.model('Auditscoringkeywords', scoreSchema);
 
-module.exports = model;
+module.exports = {
+    scoreSerFinanzaModel,
+    scoreBancoColombiaModel,
+    scoreEnelChileModel,
+    scoreIgsBanorteMXModel,
+    scoreIgsBanistmoPAModel,
+    scoreBpogsBoldEnglishUSModel,
+    scoreBpogsHitesDespachoRetrioCOModel
+}; 

@@ -1,10 +1,10 @@
 const store = require('./store');
 const utf8 = require('utf8');
 
-function getBaseKeywords(){
+function getBaseKeywords(dbname){
     return new Promise((resolve,reject) => {
         //console.log(store.list.length)
-        resolve(store.list());  
+        resolve(store.list(dbname));  
     });
 }
 

@@ -6,7 +6,10 @@ const router = express.Router();
 router.get('/', function(req,res){
     const filterConversations = req.query.keyfile || null;
     console.log('filter agents ',filterConversations)
-    controller.getConversations(filterConversations)
+    // variable de peticion
+    console.log('locals : ', res.locals.path_data_link );
+    dbname = res.locals.path_data_link;
+    controller.getConversations(filterConversations,dbname)
     .then((conversationsList) => {
         response.success(req,res, conversationsList, 200);
     })

@@ -1,9 +1,9 @@
 const store = require('./store');
 
-function getAsesoresPhrases(filterAgentsAuditPhrases){
+function getAsesoresPhrases(filterAgentsAuditPhrases,dbname){
     return new Promise((resolve,reject) => {
          console.log(store.list())
-         resolve(store.list(filterAgentsAuditPhrases));  
+         resolve(store.list(filterAgentsAuditPhrases,dbname));  
     });
 }
 

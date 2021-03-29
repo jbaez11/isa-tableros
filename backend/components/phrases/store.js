@@ -1,6 +1,12 @@
-const Model = require('./model');
+const {phrasesSerFinanzaModel,
+    phrasesBancoColombiaModel,
+    phrasesEnelChileModel,
+    phrasesIgsBanorteMXModel,
+    phrasesIgsBanistmoPAModel,
+    phrasesBpogsBoldEnglishUSModel,
+    phrasesBpogsHitesDespachoRetrioCOModel} = require('./model');
 
-async function getAsesores(filterAgentsAudit){
+async function getAsesores(filterAgentsAudit,nameDB){
     let filter = {};
     
     if(filterAgentsAudit != null){
@@ -8,8 +14,33 @@ async function getAsesores(filterAgentsAudit){
             keyfile:filterAgentsAudit
         };
     }
-    const asesores = await Model.find(filter);
-    return asesores;
+    var phrases ;
+    switch (nameDB) {
+        
+        case 'igsSerfinanzaCO':
+            phrases = await phrasesSerFinanzaModel.find();
+            return phrases;
+
+        case 'igsBancolombiaCO':
+            phrases = await phrasesBancoColombiaModel.find();
+            return phrases ;
+
+        case 'igsEnelCL':
+            phrases = await phrasesEnelChileModel.find();
+            return phrases;
+        case 'igsBanorteMX' :
+            phrases = await phrasesIgsBanorteMXModel.find();
+            return phrases;
+        case 'igsBanistmoPA' :
+            phrases = await phrasesIgsBanistmoPAModel.find();
+            return phrases;
+        case 'bpogsBoldEnglishUS' :
+            phrases = await phrasesBpogsBoldEnglishUSModel.find();
+            return phrases;
+        case 'bpogsHitesDespachoRetrioCO' :
+            phrases = await phrasesBpogsHitesDespachoRetrioCOModel.find();
+            return phrases;            
+        }
 }
 
 module.exports = {

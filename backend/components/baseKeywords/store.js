@@ -1,8 +1,39 @@
-const Model = require('./model');
+const {baseKeywordsSerFinanzaModel,
+    baseKeywordsBancoColombiaModel,
+    baseKeywordsEnelChileModel,
+    baseKeywordsIgsBanorteMXModel,
+    baseKeywordsIgsBanistmoPAModel,
+    baseKeywordsBpogsBoldEnglishUSModel,
+    baseKeywordsBpogsHitesDespachoRetrioCOModel} = require('./model');
 
-async function getBaseKeywords(){
-    const basekeywords = await Model.find();
-    return basekeywords;
+async function getBaseKeywords(nameDB){
+    var baseKeywords;
+    switch (nameDB) {
+        
+        case 'igsSerfinanzaCO':
+            baseKeywords = await baseKeywordsSerFinanzaModel.find();
+            return baseKeywords;
+
+        case 'igsBancolombiaCO':
+            baseKeywords = await baseKeywordsBancoColombiaModel.find();
+            return baseKeywords ;
+
+        case 'igsEnelCL':
+            baseKeywords = await baseKeywordsEnelChileModel.find();
+            return baseKeywords;
+        case 'igsBanorteMX' :
+            baseKeywords = await baseKeywordsIgsBanorteMXModel.find();
+            return baseKeywords;
+        case 'igsBanistmoPA' :
+            baseKeywords = await baseKeywordsIgsBanistmoPAModel.find();
+            return baseKeywords;
+        case 'bpogsBoldEnglishUS' :
+            baseKeywords = await baseKeywordsBpogsBoldEnglishUSModel.find();
+            return baseKeywords;
+        case 'bpogsHitesDespachoRetrioCO' :
+            baseKeywords = await baseKeywordsBpogsHitesDespachoRetrioCOModel.find();
+            return baseKeywords;
+        }
 }
 
 function addBaseKeywords(baseKeywords){

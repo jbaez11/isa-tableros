@@ -1,8 +1,8 @@
 const store = require('./store');
 
- function getBasePhrases(){
+ function getBasePhrases(dbname){
     return  new Promise((resolve,reject) => {
-        resolve(store.list());  
+        resolve(store.list(dbname));  
     });
 }
 

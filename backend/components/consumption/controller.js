@@ -1,13 +1,13 @@
 const store = require('./store');
 
-function getConsumption(filterConsumption){
+function getConsumption(filterConsumption,dbname){
     return new Promise((resolve,reject) => {
         // store.list()
         // .then(lista=>{
         //     console.log(lista)
         // });
         //console.log(store.list())
-        resolve(store.list(filterConsumption));  
+        resolve(store.list(filterConsumption,dbname));  
     });
 }
 
