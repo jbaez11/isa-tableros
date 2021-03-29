@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
-BpogsHitesDespachoRetrioCOConn } = require('../../db');
+const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,BpogsHitesDespachoRetrioCOConn } = require('../../db');
 
 const Schema = mongoose.Schema;
 
@@ -36,11 +35,5 @@ const agentsBpogsBoldEnglishUSModel = BpogsBoldEnglishUSConn.model('BaseAgents',
 const agentsBpogsHitesDespachoRetrioCOModel = BpogsHitesDespachoRetrioCOConn.model('BaseAgents', agentsSchema);
 
 module.exports = {
-    agentsSerFinanzaModel,
-    agentsBancoColombiaModel,
-    agentsEnelChileModel,
-    agentsIgsBanorteMXModel,
-    agentsIgsBanistmoPAModel,
-    agentsBpogsBoldEnglishUSModel,
-    agentsBpogsHitesDespachoRetrioCOModel
+    agentsSerFinanzaModel,agentsBancoColombiaModel,agentsEnelChileModel,agentsIgsBanorteMXModel,agentsIgsBanistmoPAModel,agentsBpogsBoldEnglishUSModel,agentsBpogsHitesDespachoRetrioCOModel
 };

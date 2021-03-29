@@ -19,27 +19,27 @@ async function getConversations(filterConversations){
     switch (nameDB) {
         
         case 'igsSerfinanzaCO':
-            auditconversation = await auditconversationSerFinanzaModel.find();
+            auditconversation = await auditconversationSerFinanzaModel.find(filter);
             return auditconversation;
 
         case 'igsBancolombiaCO':
-            auditconversation = await auditconversationBancoColombiaModel.find();
+            auditconversation = await auditconversationBancoColombiaModel.find(filter);
             return auditconversation ;
 
         case 'igsEnelCL':
-            auditconversation = await auditconversationEnelChileModel.find();
+            auditconversation = await auditconversationEnelChileModel.find(filter);
             return auditconversation;
         case 'igsBanorteMX' :
-            auditconversation = await auditconversationIgsBanorteMXModel.find();
+            auditconversation = await auditconversationIgsBanorteMXModel.find(filter);
             return auditconversation;
         case 'igsBanistmoPA' :
-            auditconversation = await auditconversationIgsBanistmoPAModel.find();
+            auditconversation = await auditconversationIgsBanistmoPAModel.find(filter);
             return auditconversation;
         case 'bpogsBoldEnglishUS' :
-            auditconversation = await auditconversationBpogsBoldEnglishUSModel.find();
+            auditconversation = await auditconversationBpogsBoldEnglishUSModel.find(filter);
             return auditconversation;
         case 'bpogsHitesDespachoRetrioCO' :
-            auditconversation = await auditconversationBpogsHitesDespachoRetrioCOModel.find();
+            auditconversation = await auditconversationBpogsHitesDespachoRetrioCOModel.find(filter);
             return auditconversation;            
         }
 }

@@ -18,27 +18,27 @@ async function getConversations(filterConversations,nameDB){
     switch (nameDB) {
         
         case 'igsSerfinanzaCO':
-            conversations = await conversationsSerFinanzaModel.find();
+            conversations = await conversationsSerFinanzaModel.find(filter);
             return conversations;
 
         case 'igsBancolombiaCO':
-            conversations = await conversationsBancoColombiaModel.find();
+            conversations = await conversationsBancoColombiaModel.find(filter);
             return conversations ;
 
         case 'igsEnelCL':
-            conversations = await conversationsEnelChileModel.find();
+            conversations = await conversationsEnelChileModel.find(filter);
             return conversations;
         case 'igsBanorteMX' :
-            conversations = await conversationsIgsBanorteMXModel.find();
+            conversations = await conversationsIgsBanorteMXModel.find(filter);
             return conversations;
         case 'igsBanistmoPA' :
-            conversations = await conversationsIgsBanistmoPAModel.find();
+            conversations = await conversationsIgsBanistmoPAModel.find(filter);
             return conversations;
         case 'bpogsBoldEnglishUS' :
-            conversations = await conversationsBpogsBoldEnglishUSModel.find();
+            conversations = await conversationsBpogsBoldEnglishUSModel.find(filter);
             return conversations;
         case 'bpogsHitesDespachoRetrioCO' :
-            conversations = await conversationsBpogsHitesDespachoRetrioCOModel.find();
+            conversations = await conversationsBpogsHitesDespachoRetrioCOModel.find(filter);
             return conversations;            
         }
 }

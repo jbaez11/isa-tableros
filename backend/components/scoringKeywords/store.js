@@ -18,27 +18,27 @@ async function getScoringkeywords(filterScoringKeywords,nameDB){
     switch (nameDB) {
         
         case 'igsSerfinanzaCO':
-            scoringkeywords = await scoringkeywordsSerFinanzaModel.find();
+            scoringkeywords = await scoringkeywordsSerFinanzaModel.find(filter);
             return scoringkeywords;
 
         case 'igsBancolombiaCO':
-            scoringkeywords = await scoringkeywordsBancoColombiaModel.find();
+            scoringkeywords = await scoringkeywordsBancoColombiaModel.find(filter);
             return scoringkeywords ;
 
         case 'igsEnelCL':
-            scoringkeywords = await scoringkeywordsEnelChileModel.find();
+            scoringkeywords = await scoringkeywordsEnelChileModel.find(filter);
             return scoringkeywords;
         case 'igsBanorteMX' :
-            scoringkeywords = await scoringkeywordsIgsBanorteMXModel.find();
+            scoringkeywords = await scoringkeywordsIgsBanorteMXModel.find(filter);
             return scoringkeywords;
         case 'igsBanistmoPA' :
-            scoringkeywords = await scoringkeywordsIgsBanistmoPAModel.find();
+            scoringkeywords = await scoringkeywordsIgsBanistmoPAModel.find(filter);
             return scoringkeywords;
         case 'bpogsBoldEnglishUS' :
-            scoringkeywords = await scoringkeywordsBpogsBoldEnglishUSModel.find();
+            scoringkeywords = await scoringkeywordsBpogsBoldEnglishUSModel.find(filter);
             return scoringkeywords;
         case 'bpogsHitesDespachoRetrioCO' :
-            scoringkeywords = await scoringkeywordsBpogsHitesDespachoRetrioCOModel.find();
+            scoringkeywords = await scoringkeywordsBpogsHitesDespachoRetrioCOModel.find(filter);
             return scoringkeywords;            
         }
 }

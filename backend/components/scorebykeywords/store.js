@@ -18,27 +18,27 @@ async function getScore(filterScore){
     switch (nameDB) {
         
         case 'igsSerfinanzaCO':
-            score = await scoreSerFinanzaModel.find();
+            score = await scoreSerFinanzaModel.find(filter);
             return score;
 
         case 'igsBancolombiaCO':
-            score = await scoreBancoColombiaModel.find();
+            score = await scoreBancoColombiaModel.find(filter);
             return score ;
 
         case 'igsEnelCL':
-            score = await scoreEnelChileModel.find();
+            score = await scoreEnelChileModel.find(filter);
             return score;
         case 'igsBanorteMX' :
-            score = await scoreIgsBanorteMXModel.find();
+            score = await scoreIgsBanorteMXModel.find(filter);
             return score;
         case 'igsBanistmoPA' :
-            score = await scoreIgsBanistmoPAModel.find();
+            score = await scoreIgsBanistmoPAModel.find(filter);
             return score;
         case 'bpogsBoldEnglishUS' :
-            score = await scoreBpogsBoldEnglishUSModel.find();
+            score = await scoreBpogsBoldEnglishUSModel.find(filter);
             return score;
         case 'bpogsHitesDespachoRetrioCO' :
-            score = await scoreBpogsHitesDespachoRetrioCOModel.find();
+            score = await scoreBpogsHitesDespachoRetrioCOModel.find(filter);
             return score;            
         }
 }

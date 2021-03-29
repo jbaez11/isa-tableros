@@ -18,27 +18,27 @@ async function getAsesoresPhrases(filterAgentsAuditPhrases,nameDB){
     switch (nameDB) {
         
         case 'igsSerfinanzaCO':
-            auditPhrases = await auditPhrasesSerFinanzaModel.find();
+            auditPhrases = await auditPhrasesSerFinanzaModel.find(filter);
             return auditPhrases;
 
         case 'igsBancolombiaCO':
-            auditPhrases = await auditPhrasesBancoColombiaModel.find();
+            auditPhrases = await auditPhrasesBancoColombiaModel.find(filter);
             return auditPhrases ;
 
         case 'igsEnelCL':
-            auditPhrases = await auditPhrasesEnelChileModel.find();
+            auditPhrases = await auditPhrasesEnelChileModel.find(filter);
             return auditPhrases;
         case 'igsBanorteMX' :
-            auditPhrases = await auditPhrasesIgsBanorteMXModel.find();
+            auditPhrases = await auditPhrasesIgsBanorteMXModel.find(filter);
             return auditPhrases;
         case 'igsBanistmoPA' :
-            auditPhrases = await auditPhrasesIgsBanistmoPAModel.find();
+            auditPhrases = await auditPhrasesIgsBanistmoPAModel.find(filter);
             return auditPhrases;
         case 'bpogsBoldEnglishUS' :
-            auditPhrases = await auditPhrasesBpogsBoldEnglishUSModel.find();
+            auditPhrases = await auditPhrasesBpogsBoldEnglishUSModel.find(filter);
             return auditPhrases;
         case 'bpogsHitesDespachoRetrioCO' :
-            auditPhrases = await auditPhrasesBpogsHitesDespachoRetrioCOModel.find();
+            auditPhrases = await auditPhrasesBpogsHitesDespachoRetrioCOModel.find(filter);
             return auditPhrases;            
         }
 }

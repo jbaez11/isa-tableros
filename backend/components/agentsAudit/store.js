@@ -20,27 +20,27 @@ async function getAsesores(filterAgentsAudit,nameDB){
     switch (nameDB) {
         
         case 'igsSerfinanzaCO':
-            agentsAudit = await agentsAuditSerFinanzaModel.find();
+            agentsAudit = await agentsAuditSerFinanzaModel.find(filter);
             return agentsAudit;
 
         case 'igsBancolombiaCO':
-            agentsAudit = await agentsAuditBancoColombiaModel.find();
+            agentsAudit = await agentsAuditBancoColombiaModel.find(filter);
             return agentsAudit ;
 
         case 'igsEnelCL':
-            agentsAudit = await agentsAuditEnelChileModel.find();
+            agentsAudit = await agentsAuditEnelChileModel.find(filter);
             return agentsAudit;
         case 'igsBanorteMX' :
-            agentsAudit = await agentsAuditIgsBanorteMXModel.find();
+            agentsAudit = await agentsAuditIgsBanorteMXModel.find(filter);
             return agentsAudit;
         case 'igsBanistmoPA' :
-            agentsAudit = await agentsAuditIgsBanistmoPAModel.find();
+            agentsAudit = await agentsAuditIgsBanistmoPAModel.find(filter);
             return agentsAudit;
         case 'bpogsBoldEnglishUS' :
-            agentsAudit = await agentsAuditBpogsBoldEnglishUSModel.find();
+            agentsAudit = await agentsAuditBpogsBoldEnglishUSModel.find(filter);
             return agentsAudit;
         case 'bpogsHitesDespachoRetrioCO' :
-            agentsAudit = await agentsAuditBpogsHitesDespachoRetrioCOModel.find();
+            agentsAudit = await agentsAuditBpogsHitesDespachoRetrioCOModel.find(filter);
             return agentsAudit;            
         }
     //return asesores;

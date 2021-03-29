@@ -37,12 +37,6 @@ const BpogsBoldEnglishUSConn = makeNewConnection('bpogsBoldEnglishUS');
 const BpogsHitesDespachoRetrioCOConn = makeNewConnection('bpogsHitesDespachoRetrioCO');
 
 module.exports = {
-    SerFinanzaConn,
-    BancolombiaConn,
-    EnelChileConn,
-    IgsBanorteMXConn,
-    IgsBanistmoPAConn,
-    BpogsBoldEnglishUSConn,
-    BpogsHitesDespachoRetrioCOConn
+    SerFinanzaConn,BancolombiaConn,EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,BpogsHitesDespachoRetrioCOConn
 };
 

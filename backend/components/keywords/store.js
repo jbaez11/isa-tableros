@@ -18,27 +18,27 @@ async function getAsesores(filterAgentsAudit,nameDB){
     switch (nameDB) {
         
         case 'igsSerfinanzaCO':
-            keywords = await keywordsSerFinanzaModel.find();
+            keywords = await keywordsSerFinanzaModel.find(filter);
             return keywords;
 
         case 'igsBancolombiaCO':
-            keywords = await keywordsBancoColombiaModel.find();
+            keywords = await keywordsBancoColombiaModel.find(filter);
             return keywords ;
 
         case 'igsEnelCL':
-            keywords = await keywordsEnelChileModel.find();
+            keywords = await keywordsEnelChileModel.find(filter);
             return keywords;
         case 'igsBanorteMX' :
-            keywords = await keywordsIgsBanorteMXModel.find();
+            keywords = await keywordsIgsBanorteMXModel.find(filter);
             return keywords;
         case 'igsBanistmoPA' :
-            keywords = await keywordsIgsBanistmoPAModel.find();
+            keywords = await keywordsIgsBanistmoPAModel.find(filter);
             return keywords;
         case 'bpogsBoldEnglishUS' :
-            keywords = await keywordsBpogsBoldEnglishUSModel.find();
+            keywords = await keywordsBpogsBoldEnglishUSModel.find(filter);
             return keywords;
         case 'bpogsHitesDespachoRetrioCO' :
-            keywords = await keywordsBpogsHitesDespachoRetrioCOModel.find();
+            keywords = await keywordsBpogsHitesDespachoRetrioCOModel.find(filter);
             return keywords;            
         }
 }

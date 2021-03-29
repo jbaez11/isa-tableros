@@ -1,8 +1,4 @@
-const { agentsSerFinanzaModel, 
-    agentsBancoColombiaModel, agentsEnelChileModel,agentsIgsBanorteMXModel,
-    agentsIgsBanistmoPAModel,
-    agentsBpogsBoldEnglishUSModel,
-    agentsBpogsHitesDespachoRetrioCOModel} = require('./model');
+const { agentsSerFinanzaModel,agentsBancoColombiaModel, agentsEnelChileModel,agentsIgsBanorteMXModel,agentsIgsBanistmoPAModel,agentsBpogsBoldEnglishUSModel,agentsBpogsHitesDespachoRetrioCOModel} = require('./model');
 
 async function getAgents( nameDB){
     //const agents = await Model.find();

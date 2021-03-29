@@ -18,27 +18,27 @@ async function getConsumption(filterConsumption,nameDB){
     switch (nameDB) {
         
         case 'igsSerfinanzaCO':
-            consumption = await consumptionSerFinanzaModel.find();
+            consumption = await consumptionSerFinanzaModel.find(filter);
             return consumption;
 
         case 'igsBancolombiaCO':
-            consumption = await consumptionBancoColombiaModel.find();
+            consumption = await consumptionBancoColombiaModel.find(filter);
             return consumption ;
 
         case 'igsEnelCL':
-            consumption = await consumptionEnelChileModel.find();
+            consumption = await consumptionEnelChileModel.find(filter);
             return consumption;
         case 'igsBanorteMX' :
-            consumption = await consumptionIgsBanorteMXModel.find();
+            consumption = await consumptionIgsBanorteMXModel.find(filter);
             return consumption;
         case 'igsBanistmoPA' :
-            consumption = await consumptionIgsBanistmoPAModel.find();
+            consumption = await consumptionIgsBanistmoPAModel.find(filter);
             return consumption;
         case 'bpogsBoldEnglishUS' :
-            consumption = await consumptionBpogsBoldEnglishUSModel.find();
+            consumption = await consumptionBpogsBoldEnglishUSModel.find(filter);
             return consumption;
         case 'bpogsHitesDespachoRetrioCO' :
-            consumption = await consumptionBpogsHitesDespachoRetrioCOModel.find();
+            consumption = await consumptionBpogsHitesDespachoRetrioCOModel.find(filter);
             return consumption;            
         }
 }
