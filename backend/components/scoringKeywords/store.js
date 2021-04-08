@@ -37,7 +37,7 @@ async function getScoringkeywords(filterScoringKeywords,nameDB){
         case 'bpogsBoldEnglishUS' :
             scoringkeywords = await scoringkeywordsBpogsBoldEnglishUSModel.find(filter);
             return scoringkeywords;
-        case 'bpogsHitesDespachoRetrioCO' :
+        case 'bpogsHitesDespachoRetiroCO' :
             scoringkeywords = await scoringkeywordsBpogsHitesDespachoRetrioCOModel.find(filter);
             return scoringkeywords;            
         }

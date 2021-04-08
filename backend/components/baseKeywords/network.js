@@ -18,7 +18,11 @@ router.get('/', function(req,res){
 });
 
 router.post('/', function(req,res){
-    controller.addBaseKeywords(req.body.keyword, req.body.module, req.body.category)
+    // variable de peticion
+    console.log('locals : ', res.locals.path_data_link );
+    dbname = res.locals.path_data_link;
+
+    controller.addBaseKeywords(req.body.keyword, req.body.module, req.body.category,dbname)
         .then((fullBaseKeywords) => {
             response.success(req,res, fullBaseKeywords, 201 );
         })
@@ -28,9 +32,11 @@ router.post('/', function(req,res){
 });
 
 router.patch('/:id', function(req,res){
-   
+   // variable de peticion
+   console.log('locals : ', res.locals.path_data_link );
+   dbname = res.locals.path_data_link;
 
-    controller.updateBaseKeywords(req.params.id, req.body.keyword, req.body.module, req.body.category)
+    controller.updateBaseKeywords(req.params.id, req.body.keyword, req.body.module, req.body.category,dbname)
         .then((data) => {
             response.success(req,res,data,200);
 
@@ -41,7 +47,10 @@ router.patch('/:id', function(req,res){
 });
 
 router.delete('/:id', function(req,res){
-    controller.deleteBaseKeywords(req.params.id)
+    // variable de peticion
+   console.log('locals : ', res.locals.path_data_link );
+   dbname = res.locals.path_data_link;
+    controller.deleteBaseKeywords(req.params.id,dbname)
         .then(() => {
             response.success(req,res, `BaseKeywords ${req.params.id} eliminado `,200);
         })

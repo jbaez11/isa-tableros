@@ -16,14 +16,14 @@ const conversations = require('../components/conversations/network');
 
 const routes = function(server){
     server.use(`/:bd/basekeywords`, basekeywords);
-    server.use('/:bd/agents', agents);
+    server.use('/:bd/baseagents', agents);
     server.use('/:bd/basephrases', basephrases);
-    server.use('/:bd/agentsaudit', agentsaudit);
-    server.use('/:bd/agentsauditphrases', agentsauditphrases);
-    server.use('/:bd/consumption', consumption);
+    server.use('/:bd/auditkeywords', agentsaudit);
+    server.use('/:bd/auditphrases', agentsauditphrases);
+    server.use('/:bd/consumptions', consumption);
     server.use('/:bd/keywords', keywords);
     server.use('/:bd/phrases', phrases);
-    server.use('/:bd/scoresbykeywords', scores);
+    server.use('/:bd/auditscoringkeywords', scores);
     server.use('/:bd/scoringkeywords', scoringkeywords);
     server.use('/:bd/auditconversations', auditconversations);
     server.use('/:bd/conversations', conversations);

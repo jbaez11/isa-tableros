@@ -37,7 +37,7 @@ async function getConversations(filterConversations,nameDB){
         case 'bpogsBoldEnglishUS' :
             conversations = await conversationsBpogsBoldEnglishUSModel.find(filter);
             return conversations;
-        case 'bpogsHitesDespachoRetrioCO' :
+        case 'bpogsHitesDespachoRetiroCO' :
             conversations = await conversationsBpogsHitesDespachoRetrioCOModel.find(filter);
             return conversations;            
         }

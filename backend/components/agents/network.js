@@ -19,8 +19,12 @@ router.get('/', function(req,res){
 });
 
 router.post('/', function(req,res){
-    controller.addAgents(req.body.name, req.body.identification, req.body.gender)
-        .then((fullAgents) => {
+    // variable de peticion
+    console.log('locals : ', res.locals.path_data_link );
+    dbname = res.locals.path_data_link;
+
+    controller.addAgents(req.body.name, req.body.identification, req.body.gender,dbname)
+        .then((fullAgents) => {0
             response.success(req,res, fullAgents, 201 );
         })
         .catch(e => {
@@ -30,8 +34,11 @@ router.post('/', function(req,res){
 
 router.patch('/:id', function(req,res){
    
+    // variable de peticion
+    console.log('locals : ', res.locals.path_data_link );
+    dbname = res.locals.path_data_link;
 
-    controller.updateAgents(req.params.id, req.body.name, req.body.identification, req.body.gender)
+    controller.updateAgents(req.params.id, req.body.name, req.body.identification, req.body.gender,dbname)
         .then((data) => {
             response.success(req,res,data,200);
 
@@ -42,7 +49,11 @@ router.patch('/:id', function(req,res){
 });
 
 router.delete('/:id', function(req,res){
-    controller.deleteAgents(req.params.id)
+    // variable de peticion
+    console.log('locals : ', res.locals.path_data_link );
+    dbname = res.locals.path_data_link;
+
+    controller.deleteAgents(req.params.id,dbname)
         .then(() => {
             response.success(req,res, `Agent ${req.params.id} eliminado `,200);
         })

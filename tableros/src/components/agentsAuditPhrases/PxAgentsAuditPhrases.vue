@@ -27,7 +27,7 @@
                   <v-text-field
                     v-model="dateFormatted"
                     color="orange accent-3 lighten-1"
-                    hint="DD/MM/YYYY"
+                    hint="MM/DD/YYYY"
                     persistent-hint
                     prepend-icon="mdi-calendar"
                     v-bind="attrs"
@@ -161,7 +161,7 @@
           type="text"
           v-model="search2"
         />
-        <v-simple-table class="mt-5" v-show="recordsByCategory != false">
+        <v-simple-table class="mt-5" v-if="recordsByCategoryMostrar != false">
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -232,7 +232,7 @@
         </v-simple-table>
         <!--ENDTABLE LLAMADAS-->
         <!-- TABLE DATOS-->
-        <v-container v-show="phrasesResults != false" class="pt-10">
+        <v-container v-if="phrasesResultsMostrar != false" class="pt-10">
           <h3 style="color:#FF9B00">Clasificación</h3>
           <v-row>
             <v-col>
@@ -267,7 +267,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-simple-table class="mt-5" v-show="phrasesResults != false">
+        <v-simple-table class="mt-5" v-if="phrasesResultsMostrar != false">
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -310,23 +310,26 @@
 </template>
 <script>
 let currentUrl = window.location.pathname;
+let nameBDconn = currentUrl.split("/");
 //console.log("currenturl", currentUrl);
 let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`;
-let urlPhrases = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/igsSerfinanzaCO/phrases`;
+let urlPhrases = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/${nameBDconn[1]}/phrases`;
 export default {
   name: "PxAgentsAuditPhrases",
   data() {
-    return {
+    return { 
       auditAgents: [],
       phrases: {},
       date: new Date().toISOString().substr(0, 10),
       cantidadLlamadas: 0,
-      dateFormatted: new Date().toISOString().substr(0, 10),
+      dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
       topByCategory: [],
       recordsByCategory: [],
+      recordsByCategoryMostrar:false,
       agentSelected: "",
       keyfileSelected: "",
       phrasesResults: [],
+      phrasesResultsMostrar:false,
       menu1: false,
       search: "",
       search2: "",
@@ -347,7 +350,7 @@ export default {
   },
   computed: {
     submitDate() {
-      const date = new Date(this.date);
+      const date = new Date(this.date).toISOString().substr(0, 10);
 
       console.log(date);
       this.mostrar();
@@ -367,38 +370,40 @@ export default {
         })
         .sort((a, b) => {
           if (filtrarPor1 == "a.results.records") {
-            if (parseInt(a.results.records) > parseInt(b.results.records)) {
+            if (
+              parseInt(a.results.recordings) > parseInt(b.results.recordings)
+            ) {
               return this.sortOrder;
             }
           }
           if (filtrarPor1 == "a.results.infaltable.positive") {
             if (
-              parseInt(a.results["infaltables positivas"]) >
-              parseInt(b.results["infaltables positivas"])
+              parseInt(a.results.positivesOfRequired) >
+              parseInt(b.results.positivesOfRequired)
             ) {
               return this.sortOrder;
             }
           }
           if (filtrarPor1 == "a.results.infaltable.negative") {
             if (
-              parseInt(a.results["infaltables negativas"]) >
-              parseInt(b.results["infaltables negativas"])
+              parseInt(a.results.negativesOfRequired) >
+              parseInt(b.results.negativesOfRequired)
             ) {
               return this.sortOrder;
             }
           }
           if (filtrarPor1 == "a.results.nopermitidas.positive") {
             if (
-              parseInt(a.results["no permitidas positivas"]) >
-              parseInt(b.results["no permitidas positivas"])
+              parseInt(a.results.positivesOfNotAllowed) >
+              parseInt(b.results.positivesOfNotAllowed)
             ) {
               return this.sortOrder;
             }
           }
           if (filtrarPor1 == "a.results.recomendacion.positive") {
             if (
-              parseInt(a.results["recomendaciones positivas"]) >
-              parseInt(b.results["recomendaciones positivas"])
+              parseInt(a.results.positivesOfRecommendation) >
+              parseInt(b.results.positivesOfRecommendation)
             ) {
               return this.sortOrder;
             }
@@ -420,32 +425,32 @@ export default {
         .sort((a, b) => {
           if (filtrarPor1 == "a.results.infaltable.positive") {
             if (
-              parseInt(a.results.infaltable.positive) >
-              parseInt(b.results.infaltable.positive)
+              parseInt(a.results.positivesOfRequired) >
+              parseInt(b.results.positivesOfRequired)
             ) {
               return this.sortOrderCalls;
             }
           }
           if (filtrarPor1 == "a.results.infaltable.negative") {
             if (
-              parseInt(a.results.infaltable.negative) >
-              parseInt(b.results.infaltable.negative)
+              parseInt(a.results.negativesOfRequired) >
+              parseInt(b.results.negativesOfRequired)
             ) {
               return this.sortOrderCalls;
             }
           }
           if (filtrarPor1 == "a.results.nopermitidas.positive") {
             if (
-              parseInt(a.results["no permitida"].positive) >
-              parseInt(b.results["no permitida"].positive)
+              parseInt(a.results.positivesOfNotAllowed) >
+              parseInt(b.results.positivesOfNotAllowed)
             ) {
               return this.sortOrderCalls;
             }
           }
           if (filtrarPor1 == "a.results.recomendacion.positive") {
             if (
-              parseInt(a.results["recomendación"].positive) >
-              parseInt(b.results["recomendación"].positive)
+              parseInt(a.results.positivesOfRecommendation) >
+              parseInt(b.results.positivesOfRecommendation)
             ) {
               return this.sortOrderCalls;
             }
@@ -505,9 +510,16 @@ export default {
       if (this.bandera == false) {
         this.search = name;
         this.bandera = true;
+        this.recordsByCategoryMostrar=true;
       } else {
         this.search = "";
         this.bandera = false;
+        this.search2 = "";
+        this.banderaConver = false;
+        this.recordsByCategoryMostrar=false;
+        this.phrasesResultsMostrar=false;
+        this.agentSelected="";
+        this.keyfileSelected="";
       }
       this.mostrar();
     },
@@ -517,9 +529,12 @@ export default {
       if (this.banderaConver == false) {
         this.search2 = name;
         this.banderaConver = true;
+        this.phrasesResultsMostrar=true;
       } else {
         this.search2 = "";
         this.banderaConver = false;
+        this.phrasesResultsMostrar=false;
+        this.keyfileSelected="";
       }
       this.mostrar();
     },
@@ -583,8 +598,9 @@ export default {
       for (let key in phrases) {
         for (let i = 0; i < phrases[key].results.length; i++) {
           console.log("mostrar", phrases[key].results[i]);
+          id++;
           let phrasePackage = {
-            id: id,
+            id: id + key,
             name: key,
             module: phrases[key].clasification.module,
             category: phrases[key].clasification.category
@@ -598,13 +614,13 @@ export default {
           phrasePackage["speaker"] = phrases[key].results[i]["speaker"];
           phrasePackage["from"] = phrases[key].results[i]["from"];
           phrasePackage["to"] = phrases[key].results[i]["to"];
-          phrasePackage["confidence"] = phrases[key].results[i]["confidence"];
+          phrasePackage["ratio"] = phrases[key].results[i]["ratio"];
           console.log("package", phrasePackage);
           phrasesArray.push(phrasePackage);
         }
         if (phrases[key].results.length == 0) {
           let phrasePackage = {
-            id: id,
+            id: id + key,
             name: key,
             module: phrases[key].clasification.module,
             category: phrases[key].clasification.category
@@ -612,10 +628,10 @@ export default {
           phrasePackage["speaker"] = "-";
           phrasePackage["from"] = "-";
           phrasePackage["to"] = "-";
-          phrasePackage["confidence"] = "-";
+          phrasePackage["ratio"] = "-";
           phrasesArray.push(phrasePackage);
         }
-        id++;
+        //id++;
       }
       console.log("keywordsArray", phrasesArray);
       let phrasesFound = [];

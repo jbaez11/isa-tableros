@@ -71,7 +71,7 @@
                   NOMBRE
                 </th>
                 <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
+                  <img src="../../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrder(3)"
@@ -79,7 +79,7 @@
                   </span>
                 </th>
                 <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
+                  <img src="../../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrder(1)"
@@ -123,56 +123,32 @@
                   NOMBRE GRABACIÓN
                 </th>
                 <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
+                  <img src="../../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrderCalls(1)"
-                    >SALUDO
+                    >INTERACCION
                   </span>
                 </th>
                 <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
+                  <img src="../../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrderCalls(2)"
-                    >PRODUCTO
+                    >GESTION DEL CLIENTE
                   </span>
                 </th>
                 <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
+                  <img src="../../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrderCalls(3)"
-                    >VENTA</span
+                    >PROCESOS Y DIRECCIONAMIENTO</span
                   >
                 </th>
-                <!-- <th class="white--text ">NO PERMITIDA NEGATIVE</th> -->
+
                 <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
-                  <span
-                    class="underline cursor-pointer"
-                    @click="changeSortOrderCalls(4)"
-                    >VALIDACION</span
-                  >
-                </th>
-                <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
-                  <span
-                    class="underline cursor-pointer"
-                    @click="changeSortOrderCalls(5)"
-                    >CIERRE</span
-                  >
-                </th>
-                <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
-                  <span
-                    class="underline cursor-pointer"
-                    @click="changeSortOrderCalls(6)"
-                    >DESPEDIDA</span
-                  >
-                </th>
-                <th style="text-align: center;" class="white--text ">
-                  <img src="../../assets/sort.png" class="mr-2" />
+                  <img src="../../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
                     @click="changeSortOrderCalls(7)"
@@ -190,24 +166,24 @@
                   {{ scoresbykeywords.keyfile }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.saludo.toFixed(1)  }} %
-                </td>
-                <td style="text-align: center;">
-                  {{ scoresbykeywords.results.producto.toFixed(1)  }} %
-                </td>
-                <td style="text-align: center;">
-                  {{ scoresbykeywords.results.venta.toFixed(1)  }} %
-                </td>
-                <td style="text-align: center;">
-                  {{ scoresbykeywords.results["validación"].toFixed(1)  }}
+                  {{ scoresbykeywords.results["interacción"].toFixed(1)  }}
                   %
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.cierre.toFixed(1)  }} %
+                  {{
+                    scoresbykeywords.results["gestión del cliente"].toFixed(1) 
+                  }}
+                  %
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.despedida.toFixed(1)  }} %
+                  {{
+                    scoresbykeywords.results[
+                      "procesos y direccionamiento"
+                    ].toFixed(1) 
+                  }}
+                  %
                 </td>
+
                 <td style="text-align: center;">
                   {{ scoresbykeywords.results.totalScore.toFixed(1)  }} %
                 </td>
@@ -222,16 +198,16 @@
           <template>
             <thead>
               <tr style="background-color:#CACACA">
-                <th class="white--text ">
+                <th style="text-align: center;" class="white--text ">
                   MODULO
                 </th>
-                <th class="white--text ">
+                <th style="text-align: center;" class="white--text ">
                   <span class="underline cursor-pointer">CLUSTER </span>
                 </th>
-                <th class="white--text ">
+                <th style="text-align: center;" class="white--text ">
                   <span class="underline cursor-pointer">PUNTAJE </span>
                 </th>
-                <th class="white--text ">
+                <th style="text-align: center;" class="white--text ">
                   <span class="underline cursor-pointer">KEYWORDS</span>
                 </th>
               </tr>
@@ -263,10 +239,10 @@
 <script>
 let currentUrl = window.location.pathname;
 let nameBDconn = currentUrl.split("/");
-let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`;
+let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/${nameBDconn[1]}/auditscoringkeywords`;
 let urlClusterScore = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/${nameBDconn[1]}/scoringkeywords`;
 export default {
-  name: "PxScoresByKeywords",
+  name: "PxAuditScoringKeywords",
   data() {
     return {
       date: new Date().toISOString().substr(0, 10),
@@ -304,7 +280,7 @@ export default {
       return date;
     },
     computedDateFormatted() {
-      return this.formatDate(this.date).toISOString().substr(0, 10);
+      return this.formatDate(this.date);
     },
     filteredAgents: function() {
       const altOrder = this.sortOrder == 1 ? -1 : 1;
@@ -355,42 +331,30 @@ export default {
         })
         .sort((a, b) => {
           if (filtrarPor1 == 1) {
-            if (parseFloat(a.results.saludo) > parseFloat(b.results.saludo)) {
+            if (
+              parseFloat(a.results.interacción) >
+              parseFloat(b.results.interacción)
+            ) {
               return this.sortOrderCalls;
             }
           }
           if (filtrarPor1 == 2) {
             if (
-              parseFloat(a.results.producto) > parseFloat(b.results.producto)
+              parseFloat(a.results["gestión del cliente"]) >
+              parseFloat(b.results["gestión del cliente"])
             ) {
               return this.sortOrderCalls;
             }
           }
           if (filtrarPor1 == 3) {
-            if (parseFloat(a.results.venta) > parseFloat(b.results.venta)) {
-              return this.sortOrderCalls;
-            }
-          }
-          if (filtrarPor1 == 4) {
             if (
-              parseFloat(a.results["validación"]) >
-              parseFloat(b.results["validación"])
+              parseFloat(a.results["procesos y direccionamiento"]) >
+              parseFloat(b.results["procesos y direccionamiento"])
             ) {
               return this.sortOrderCalls;
             }
           }
-          if (filtrarPor1 == 5) {
-            if (parseFloat(a.results.cierre) > parseFloat(b.results.cierre)) {
-              return this.sortOrderCalls;
-            }
-          }
-          if (filtrarPor1 == 6) {
-            if (
-              parseFloat(a.results.despedida) > parseFloat(b.results.despedida)
-            ) {
-              return this.sortOrderCalls;
-            }
-          }
+
           if (filtrarPor1 == 7) {
             if (
               parseFloat(a.results.totalScore) >
@@ -462,6 +426,7 @@ export default {
         this.search2 = keyfile;
         this.banderaCluster = true;
         this.scoringKeywordsContentsMostrar=true;
+        
       } else {
         this.search2 = "";
         this.banderaCluster = false;
@@ -510,28 +475,24 @@ export default {
       for(let key in data){
          data[key].results.totalScore = data[key].results.totalScore*100
         }
-      //data.results.totalScore = data.results.totalScore *100;
       this.detailOfAgent = data;
     },
     mostrarTableCallDetailByAgent(data, name) {
       for(let key in data){
             if (key == name) {
               for(let i=0;i<data[key].length;i++){
-                data[key][i].results.cierre=data[key][i].results.cierre*100;
-                data[key][i].results.despedida=data[key][i].results.despedida*100;
-                data[key][i].results.producto=data[key][i].results.producto*100;
-                data[key][i].results.saludo=data[key][i].results.saludo*100;
+                data[key][i].results['interacción']=data[key][i].results['interacción']*100;
+                data[key][i].results['gestión del cliente']=data[key][i].results['gestión del cliente']*100;
+                data[key][i].results['procesos y direccionamiento']=data[key][i].results['procesos y direccionamiento']*100;
+                
                 data[key][i].results.totalScore=data[key][i].results.totalScore*100;
-                data[key][i].results.venta=data[key][i].results.venta*100;
-                data[key][i].results['validación']=data[key][i].results['validación']*100;
+                
               }
           }
         }
       for (let key in data) {
         if (key == name) {
-          
           this.recordScoreByKeywords = data[key];
-
         }
       }
     },

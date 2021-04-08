@@ -34,7 +34,7 @@ const EnelChileConn = makeNewConnection('igsEnelCL');
 const IgsBanorteMXConn = makeNewConnection('igsBanorteMX');
 const IgsBanistmoPAConn = makeNewConnection('igsBanistmoPA');
 const BpogsBoldEnglishUSConn = makeNewConnection('bpogsBoldEnglishUS');
-const BpogsHitesDespachoRetrioCOConn = makeNewConnection('bpogsHitesDespachoRetrioCO');
+const BpogsHitesDespachoRetrioCOConn = makeNewConnection('bpogsHitesDespachoRetiroCO');
 
 module.exports = {
     SerFinanzaConn,BancolombiaConn,EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,BpogsHitesDespachoRetrioCOConn

@@ -39,7 +39,7 @@ async function getAsesores(filterAgentsAudit,nameDB){
         case 'bpogsBoldEnglishUS' :
             agentsAudit = await agentsAuditBpogsBoldEnglishUSModel.find(filter);
             return agentsAudit;
-        case 'bpogsHitesDespachoRetrioCO' :
+        case 'bpogsHitesDespachoRetiroCO' :
             agentsAudit = await agentsAuditBpogsHitesDespachoRetrioCOModel.find(filter);
             return agentsAudit;            
         }

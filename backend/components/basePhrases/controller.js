@@ -6,7 +6,7 @@ const store = require('./store');
     });
 }
 
-function addBasePhrases(phrase,module,category){
+function addBasePhrases(phrase,module,category,dbname){
     
     return new Promise((resolve,reject) => {
         if(!phrase || !module || !category){
@@ -20,14 +20,14 @@ function addBasePhrases(phrase,module,category){
                 category:category,
                 
             }
-            store.add(fullBasePhrases);
-            resolve(fullBasePhrases);
+            store.add(fullBasePhrases,dbname);
+            resolve(fullBasePhrases,dbname);
       
     })
     
 }
 
-function updateBasePhrases(id, phrase,module,category,createdAt){//
+function updateBasePhrases(id, phrase,module,category,createdAt,dbname){//
     return new Promise(async(resolve,reject) => {
         console.log('id', id);
         console.log('phrase', phrase);
@@ -40,18 +40,18 @@ function updateBasePhrases(id, phrase,module,category,createdAt){//
             return false;
         }
 
-        const result = await store.updateText(id,phrase,module,category,createdAt,createdAt);
+        const result = await store.updateText(id,phrase,module,category,createdAt,dbname);
 
         resolve(result);
     })
 }
-function deleteBasePhrases(id){
+function deleteBasePhrases(id,dbname){
     return new Promise((resolve,reject) => {
         if(!id){
             reject('ID Invalido');
             return false;
         }
-        store.remove(id)
+        store.remove(id,dbname)
             .then(()=> {
                 resolve();
             })

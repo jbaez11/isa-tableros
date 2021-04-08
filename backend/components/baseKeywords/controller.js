@@ -8,7 +8,7 @@ function getBaseKeywords(dbname){
     });
 }
 
-function addBaseKeywords(keyword,module,category){
+function addBaseKeywords(keyword,module,category,dbname){
 
     return new Promise((resolve,reject) => {
         if(!keyword || !module || !category){
@@ -16,36 +16,36 @@ function addBaseKeywords(keyword,module,category){
             reject('Los datos son incorrectos');
             return false;
         }
-        store.list()
-        .then(lista=>{
-            let keywordList = [];
-            let numKeywords=lista.length;
-            let bufferMix=0;
-            for(let i =0;i<numKeywords;i++){
-                keywordList.push(lista[i].keyword);
-                let keywordUTF8 = utf8.encode(lista[i].keyword);
-                console.log(keywordUTF8)
-                bufferMix +=  keywordUTF8.length;
+        // store.list()
+        // .then(lista=>{
+        //     let keywordList = [];
+        //     let numKeywords=lista.length;
+        //     let bufferMix=0;
+        //     for(let i =0;i<numKeywords;i++){
+        //         keywordList.push(lista[i].keyword);
+        //         let keywordUTF8 = utf8.encode(lista[i].keyword);
+        //         console.log(keywordUTF8)
+        //         bufferMix +=  keywordUTF8.length;
                 
-            }
+        //     }
 
-            let buffer_bytes = bufferMix + 4 *numKeywords+110;
+        //     let buffer_bytes = bufferMix + 4 *numKeywords+110;
 
-            //console.log(buffer_bytes);
-        })
+        //     //console.log(buffer_bytes);
+        // })
         const  fullBaseKeywords = {
             keyword:keyword,
             module:module,
             category: category,
         }
-        store.add(fullBaseKeywords);
-        resolve(fullBaseKeywords);
+        store.add(fullBaseKeywords,dbname);
+        resolve(fullBaseKeywords,dbname);
 
     })
     
 }
 
-function updateBaseKeywords(id, keyword,module,category,createdAt){//
+function updateBaseKeywords(id, keyword,module,category,createdAt,dbname){//
     return new Promise(async(resolve,reject) => {
         console.log('id', id);
         console.log('keyword', keyword);
@@ -57,19 +57,19 @@ function updateBaseKeywords(id, keyword,module,category,createdAt){//
             return false;
         }
 
-        const result = await store.updateText(id,keyword,module,category,createdAt);
+        const result = await store.updateText(id,keyword,module,category,createdAt,dbname);
 
         resolve(result);
     })
 }
 
-function deleteBaseKeywords(id){
+function deleteBaseKeywords(id,dbname){
     return new Promise((resolve,reject) => {
         if(!id){
             reject('ID Invalido');
             return false;
         }
-        store.remove(id)
+        store.remove(id,dbname)
             .then(()=> {
                 resolve();
             })

@@ -197,10 +197,10 @@
 <script>
 let currentUrl = window.location.pathname;
 console.log("currenturl", currentUrl);
-let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}/`; //igsSerfinanzaCO/basephrases/
+let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}/`; //igsSerfinanzaCO/basephrases/https://backend-tableros-exhausted-raven-fv.mybluemix.net
 console.log("url", url);
 
-//let url = "http://localhost:3000/agents/";
+//let url = "http://localhost:3000/baseagents/";
 
 export default {
   name: "PxTableAgents",

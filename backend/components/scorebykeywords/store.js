@@ -37,7 +37,7 @@ async function getScore(filterScore){
         case 'bpogsBoldEnglishUS' :
             score = await scoreBpogsBoldEnglishUSModel.find(filter);
             return score;
-        case 'bpogsHitesDespachoRetrioCO' :
+        case 'bpogsHitesDespachoRetiroCO' :
             score = await scoreBpogsHitesDespachoRetrioCOModel.find(filter);
             return score;            
         }

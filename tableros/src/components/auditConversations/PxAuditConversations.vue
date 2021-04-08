@@ -29,7 +29,7 @@ import PxAuditConversations from
                   <v-text-field
                     v-model="dateFormatted"
                     color="orange accent-3 lighten-1"
-                    hint="DD/MM/YYYY"
+                    hint="MM/DD/YYYY"
                     persistent-hint
                     prepend-icon="mdi-calendar"
                     v-bind="attrs"
@@ -107,7 +107,7 @@ import PxAuditConversations from
           type="text"
           v-model="search2"
         />
-        <v-simple-table class="mt-5" v-show="recordsConversations != false">
+        <v-simple-table class="mt-5" v-if="recordsConversationsMostrar != false">
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -134,7 +134,7 @@ import PxAuditConversations from
         </v-simple-table>
         <!--ENDTABLE LLAMADAS-->
         <!--Tablas cluster-->
-        <v-simple-table class="mt-5" v-show="conversationsComplete != false">
+        <v-simple-table class="mt-5" v-if="conversationsCompleteMostrar != false">
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -154,14 +154,16 @@ import PxAuditConversations from
             </thead>
             <tbody>
               <tr v-for="element in conversationsComplete" :key="element">
-                <td style="text-transform: capitalize"
+                <td
+                  style="text-transform: capitalize"
                   :class="
                     element.speaker == 'agent' ? 'orange--text' : 'black--text'
                   "
                 >
-                  {{ element.speaker+ "e" }}
+                  {{ element.speaker + "e" }}
                 </td>
-                <td style="text-transform: capitalize"
+                <td
+                  style="text-transform: capitalize"
                   :class="
                     element.speaker == 'agent' ? 'orange--text' : 'black--text'
                   "
@@ -193,14 +195,15 @@ import PxAuditConversations from
 </template>
 <script>
 let currentUrl = window.location.pathname;
+let nameBDconn = currentUrl.split("/");
 let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`;
-let urlConversations = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/igsSerfinanzaCO/conversations`;
+let urlConversations = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/${nameBDconn[1]}/conversations`;
 export default {
   name: "PxAuditConversations",
   data() {
     return {
       date: new Date().toISOString().substr(0, 10),
-      dateFormatted: new Date().toISOString().substr(0, 10),
+      dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
       cantidadLlamadas: 0,
       menu1: false,
       search: "",
@@ -215,10 +218,12 @@ export default {
       agentSelected: "",
       keyfileSelected: "",
       recordsConversations: [],
+      recordsConversationsMostrar:false,
       bandera: false,
       banderaConversations: false,
       conversationAgent: [],
-      conversationsComplete: []
+      conversationsComplete: [],
+      conversationsCompleteMostrar:false,
     };
   },
   created() {
@@ -226,7 +231,7 @@ export default {
   },
   computed: {
     submitDate() {
-      const date = new Date(this.date);
+      const date = new Date(this.date).toISOString().substr(0, 10);;
 
       console.log(date);
       this.mostrar();
@@ -337,9 +342,16 @@ export default {
       if (this.bandera == false) {
         this.search = name;
         this.bandera = true;
+        this.recordsConversationsMostrar=true;
       } else {
         this.search = "";
         this.bandera = false;
+        this.recordsConversationsMostrar=false;
+        this.search2 = "";
+        this.banderaConversations = false;
+        this.conversationsCompleteMostrar=false;
+        this.agentSelected="";
+        this.keyfileSelected="";
       }
       this.mostrar();
     },
@@ -349,9 +361,12 @@ export default {
       if (this.banderaConversations == false) {
         this.search2 = keyfile;
         this.banderaConversations = true;
+        this.conversationsCompleteMostrar=true;
       } else {
         this.search2 = "";
         this.banderaConversations = false;
+        this.conversationsCompleteMostrar=false;
+        this.keyfileSelected="";
       }
       this.mostrar();
     },

@@ -38,7 +38,7 @@ async function getConversations(filterConversations){
         case 'bpogsBoldEnglishUS' :
             auditconversation = await auditconversationBpogsBoldEnglishUSModel.find(filter);
             return auditconversation;
-        case 'bpogsHitesDespachoRetrioCO' :
+        case 'bpogsHitesDespachoRetiroCO' :
             auditconversation = await auditconversationBpogsHitesDespachoRetrioCOModel.find(filter);
             return auditconversation;            
         }

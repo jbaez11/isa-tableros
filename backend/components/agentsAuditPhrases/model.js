@@ -5,11 +5,11 @@ const Schema = mongoose.Schema;
 
 const auditPhrasesSchema = new Schema({
     eventDate:Date,
-    detailOfAgent :{
+    agentsSummary :{
         type:Object,
         default:{}
     },
-    callDetailByAgent:{
+    recordingsSummary:{
         // aqui indicas que el tipo de dato es Array
         type: Object,
         // aqui lo inicializas por defecto como un array vacío

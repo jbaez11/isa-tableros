@@ -9,6 +9,7 @@ import AgentsAuditPhrases from "@/views/agentsAuditPhrases/AgentsAuditPhrases";
 import Consumption from "@/views/consumption/Consumption";
 import ScoresByKeywords from "@/views/scoresbykeywords/ScoresByKeywords";
 import AuditConversations from "@/views/auditConversations/AuditConversations";
+import AuditScoringKeywordsNoVentas from "@/views/noVentas/auditscoringkeywords/AuditScoringKeywords";
 
 Vue.use(Router);
 
@@ -27,8 +28,8 @@ export default new Router({
       component: Basekeywords
     },
     {
-      path: "/:bd/agents",
-      name: "agents",
+      path: "/:bd/baseagents",
+      name: "baseagents",
       component: Agents
     },
     {
@@ -37,29 +38,34 @@ export default new Router({
       component: Basephrases
     },
     {
-      path: "/:bd/agentsaudit",
-      name: "agentsaudit",
+      path: "/:bd/auditkeywords",
+      name: "auditkeywords",
       component: AgentsAudit
     },
     {
-      path: "/:bd/agentsauditphrases",
-      name: "agentsauditphrases",
+      path: "/:bd/auditphrases",
+      name: "auditphrases",
       component: AgentsAuditPhrases
     },
     {
-      path: "/:bd/consumption",
-      name: "consumption",
+      path: "/:bd/consumptions",
+      name: "consumptions",
       component: Consumption
     },
     {
-      path: "/:bd/scoresbykeywords",
-      name: "scoresbykeywords",
+      path: "/:bd/auditscoringkeywords",
+      name: "auditscoringkeywords",
       component: ScoresByKeywords
     },
     {
       path: "/:bd/auditconversations",
       name: "auditconversations",
       component: AuditConversations
+    },
+    {
+      path: "/:bd/auditscoringkeywordsnoventas",
+      name: "auditscoringkeywordsnoventas",
+      component: AuditScoringKeywordsNoVentas
     }
   ]
 });

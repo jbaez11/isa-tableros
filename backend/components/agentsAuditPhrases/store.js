@@ -37,7 +37,7 @@ async function getAsesoresPhrases(filterAgentsAuditPhrases,nameDB){
         case 'bpogsBoldEnglishUS' :
             auditPhrases = await auditPhrasesBpogsBoldEnglishUSModel.find(filter);
             return auditPhrases;
-        case 'bpogsHitesDespachoRetrioCO' :
+        case 'bpogsHitesDespachoRetiroCO' :
             auditPhrases = await auditPhrasesBpogsHitesDespachoRetrioCOModel.find(filter);
             return auditPhrases;            
         }

@@ -37,7 +37,7 @@ async function getConsumption(filterConsumption,nameDB){
         case 'bpogsBoldEnglishUS' :
             consumption = await consumptionBpogsBoldEnglishUSModel.find(filter);
             return consumption;
-        case 'bpogsHitesDespachoRetrioCO' :
+        case 'bpogsHitesDespachoRetiroCO' :
             consumption = await consumptionBpogsHitesDespachoRetrioCOModel.find(filter);
             return consumption;            
         }

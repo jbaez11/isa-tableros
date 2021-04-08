@@ -7,7 +7,7 @@ function getAgents(dbname){
     });
 }
 
-function addAgents(name,identification,gender){
+function addAgents(name,identification,gender,dbname){
     
      
     return new Promise((resolve,reject) => {
@@ -17,53 +17,53 @@ function addAgents(name,identification,gender){
             return false;
         }
 
-        /*const  fullAgents = {
+        const  fullAgents = {
             name:name,
             identification:identification,
             gender: gender,
         }
-        store.add(fullAgents);
-        resolve(fullAgents);*/
+        store.add(fullAgents,dbname);
+        resolve(fullAgents,dbname);
         
            
-            //console.log('funcion agents',store.list());
-            store.list()
-            .then(lista=>{
-                //console.log('funcion agents',typeof(lista.length));
-                let validador = false;
-                let tam = lista.length;
-                for(let i=0;i<tam;i++){
+            // //console.log('funcion agents',store.list());
+            // store.list()
+            // .then(lista=>{
+            //     //console.log('funcion agents',typeof(lista.length));
+            //     let validador = false;
+            //     let tam = lista.length;
+            //     for(let i=0;i<tam;i++){
                     
-                     if(lista[i].identification==identification){
-                         reject('dato repetido')
-                         validador = true;
-                         resolve('');
-                         return false;
-                     }
-                }
-                if(!validador){
-                    const  fullAgents = {
-                        name:name,
-                        identification:identification,
-                        gender: gender,
-                    }
-                    store.add(fullAgents);
-                    resolve(fullAgents);
+            //          if(lista[i].identification==identification){
+            //              reject('dato repetido')
+            //              validador = true;
+            //              resolve('');
+            //              return false;
+            //          }
+            //     }
+            //     if(!validador){
+            //         const  fullAgents = {
+            //             name:name,
+            //             identification:identification,
+            //             gender: gender,
+            //         }
+            //         store.add(fullAgents,dbname);
+            //         resolve(fullAgents,dbname);
                     
-                }
+            //     }
 
 
                 
                 
-                //console.log('funcion agents',lista);
-            })
+            //     //console.log('funcion agents',lista);
+            // })
         
 
     })
     
 }
 
-function updateAgents(id, name,identification,gender,createdAt){//
+function updateAgents(id, name,identification,gender,createdAt,dbname){//
     return new Promise(async(resolve,reject) => {
         console.log('id', id);
         console.log('name', name);
@@ -75,19 +75,19 @@ function updateAgents(id, name,identification,gender,createdAt){//
             return false;
         }
 
-        const result = await store.updateText(id,name,identification,gender,createdAt);
+        const result = await store.updateText(id,name,identification,gender,createdAt,dbname);
 
-        resolve(result);
+        resolve(result,dbname);
     })
 }
 
-function deleteAgents(id){
+function deleteAgents(id,dbname){
     return new Promise((resolve,reject) => {
         if(!id){
             reject('ID Invalido');
             return false;
         }
-        store.remove(id)
+        store.remove(id,dbname)
             .then(()=> {
                 resolve();
             })

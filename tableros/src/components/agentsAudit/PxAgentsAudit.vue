@@ -28,7 +28,7 @@ import api from '@/api';
                   <v-text-field
                     v-model="dateFormatted"
                     color="orange accent-3 lighten-1"
-                    hint="DD/MM/YYYY"
+                    hint="MM/DD/YYYY"
                     persistent-hint
                     prepend-icon="mdi-calendar"
                     v-bind="attrs"
@@ -83,7 +83,7 @@ import api from '@/api';
                   <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
-                    @click="changeSortOrder('a.results.records')"
+                    @click="changeSortOrder(1)"
                     >GRABACIONES</span
                   >
                 </th>
@@ -95,7 +95,7 @@ import api from '@/api';
                   />
                   <span
                     class="underline cursor-pointer"
-                    @click="changeSortOrder('a.results.infaltable.positive')"
+                    @click="changeSortOrder(2)"
                     >INFALTABLE
                   </span>
                 </th>
@@ -103,7 +103,7 @@ import api from '@/api';
                   <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
-                    @click="changeSortOrder('a.results.infaltable.negative')"
+                    @click="changeSortOrder(3)"
                     >INFALTABLE NO HALLADA
                   </span>
                 </th>
@@ -111,7 +111,7 @@ import api from '@/api';
                   <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
-                    @click="changeSortOrder('a.results.nopermitidas.positive')"
+                    @click="changeSortOrder(4)"
                     >NO PERMITIDA</span
                   >
                 </th>
@@ -120,7 +120,7 @@ import api from '@/api';
                   <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
-                    @click="changeSortOrder('a.results.recomendacion.positive')"
+                    @click="changeSortOrder(5)"
                     >RECOMENDACIÓN</span
                   >
                 </th>
@@ -162,7 +162,7 @@ import api from '@/api';
           type="text"
           v-model="search2"
         />
-        <v-simple-table class="mt-5" v-show="recordsByCategory != false">
+        <v-simple-table class="mt-5" v-if="recordsByCategoryMostrar != false">
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -173,9 +173,7 @@ import api from '@/api';
                   <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
-                    @click="
-                      changeSortOrderCalls('a.results.infaltable.positive')
-                    "
+                    @click="changeSortOrderCalls(1)"
                     >INFALTABLE
                   </span>
                 </th>
@@ -183,9 +181,7 @@ import api from '@/api';
                   <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
-                    @click="
-                      changeSortOrderCalls('a.results.infaltable.negative')
-                    "
+                    @click="changeSortOrderCalls(2)"
                     >INFALTABLE NO HALLADA
                   </span>
                 </th>
@@ -193,9 +189,7 @@ import api from '@/api';
                   <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
-                    @click="
-                      changeSortOrderCalls('a.results.nopermitidas.positive')
-                    "
+                    @click="changeSortOrderCalls(4)"
                     >NO PERMITIDA</span
                   >
                 </th>
@@ -204,9 +198,7 @@ import api from '@/api';
                   <img src="../../assets/sort.png" class="mr-2" />
                   <span
                     class="underline cursor-pointer"
-                    @click="
-                      changeSortOrderCalls('a.results.recomendacion.positive')
-                    "
+                    @click="changeSortOrderCalls(3)"
                     >RECOMENDACIÓN</span
                   >
                 </th>
@@ -233,7 +225,7 @@ import api from '@/api';
         </v-simple-table>
         <!--ENDTABLE LLAMADAS-->
         <!-- TABLE DATOS-->
-        <v-container v-show="keywordsResults != false" class="pt-10">
+        <v-container v-if="keywordsResultsMostrar != false" class="pt-10">
           <h3 style="color:#FF9B00">Clasificación</h3>
           <v-row>
             <v-col>
@@ -268,7 +260,7 @@ import api from '@/api';
             </v-col>
           </v-row>
         </v-container>
-        <v-simple-table class="mt-5" v-show="keywordsResults != false">
+        <v-simple-table class="mt-5" v-if="keywordsResultsMostrar != false">
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -314,9 +306,10 @@ import api from '@/api';
 //import api from "@/apiAgentAudit";
 
 let currentUrl = window.location.pathname;
+let nameBDconn = currentUrl.split("/");
 //console.log("currenturl", currentUrl);
 let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`; //igsSerfinanzaCO/basephrases/
-let urlKeywords = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/igsSerfinanzaCO/keywords`;
+let urlKeywords = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/${nameBDconn[1]}/keywords`;
 console.log(urlKeywords);
 
 export default {
@@ -327,12 +320,14 @@ export default {
       keywords: {},
       date: new Date().toISOString().substr(0, 10),
       cantidadLlamadas: 0,
-      dateFormatted: new Date().toISOString().substr(0, 10),
+      dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
       topByCategory: [],
       recordsByCategory: [],
+      recordsByCategoryMostrar:false,
       agentSelected: "",
       keyfileSelected: "",
       keywordsResults: [],
+      keywordsResultsMostrar:false,
       menu1: false,
       search: "",
       search2: "",
@@ -342,7 +337,7 @@ export default {
       sortOrderCalls: 1,
       sortOrderKeywords: 1,
       ordenamiento1Keywords: Number,
-      ordenamiento1: Number,
+      ordenamiento1: 0,
       ordenamiento1Calls: Number,
       bandera: false,
       banderaConver: false
@@ -354,7 +349,7 @@ export default {
   },
   computed: {
     submitDate() {
-      const date = new Date(this.date);
+      const date = new Date(this.date).toISOString().substr(0, 10);
 
       console.log(date);
       this.mostrar();
@@ -373,45 +368,47 @@ export default {
           return agent.name.match(this.search);
         })
         .sort((a, b) => {
-          if (filtrarPor1 == "a.results.records") {
-            if (parseInt(a.results.records) > parseInt(b.results.records)) {
-              return this.sortOrder;
-            }
-          }
-          if (filtrarPor1 == "a.results.infaltable.positive") {
+          if (filtrarPor1 == 1) {
             if (
-              parseInt(a.results["infaltables positivas"]) >
-              parseInt(b.results["infaltables positivas"])
+              parseInt(a.results.recordings) > parseInt(b.results.recordings)
             ) {
               return this.sortOrder;
             }
           }
-          if (filtrarPor1 == "a.results.infaltable.negative") {
+          if (filtrarPor1 == 2) {
             if (
-              parseInt(a.results["infaltables negativas"]) >
-              parseInt(b.results["infaltables negativas"])
+              parseInt(a.results.positivesOfRequired) >
+              parseInt(b.results.positivesOfRequired)
             ) {
               return this.sortOrder;
             }
           }
-          if (filtrarPor1 == "a.results.nopermitidas.positive") {
+          if (filtrarPor1 == 3) {
             if (
-              parseInt(a.results["no permitidas positivas"]) >
-              parseInt(b.results["no permitidas positivas"])
+              parseInt(a.results.negativesOfRequired) >
+              parseInt(b.results.negativesOfRequired)
             ) {
               return this.sortOrder;
             }
           }
-          if (filtrarPor1 == "a.results.recomendacion.positive") {
+          if (filtrarPor1 == 4) {
             if (
-              parseInt(a.results["recomendaciones positivas"]) >
-              parseInt(b.results["recomendaciones positivas"])
+              parseInt(a.results.positivesOfNotAllowed) >
+              parseInt(b.results.positivesOfNotAllowed)
+            ) {
+              return this.sortOrder;
+            }
+          }
+          if (filtrarPor1 == 5) {
+            if (
+              parseInt(a.results.positivesOfRecommendation) >
+              parseInt(b.results.positivesOfRecommendation)
             ) {
               return this.sortOrder;
             }
           }
 
-          this.ordenamiento1 = "";
+          this.ordenamiento1 = 0;
 
           return altOrder;
         });
@@ -425,34 +422,34 @@ export default {
           return agent.keyfile.match(this.search2);
         })
         .sort((a, b) => {
-          if (filtrarPor1 == "a.results.infaltable.positive") {
+          if (filtrarPor1 == 1) {
             if (
-              parseInt(a.results.infaltable.positive) >
-              parseInt(b.results.infaltable.positive)
+              parseInt(a.results.positivesOfRequired) >
+              parseInt(b.results.positivesOfRequired)
             ) {
               return this.sortOrderCalls;
             }
           }
-          if (filtrarPor1 == "a.results.infaltable.negative") {
+          if (filtrarPor1 == 2) {
             if (
-              parseInt(a.results.infaltable.negative) >
-              parseInt(b.results.infaltable.negative)
+              parseInt(a.results.negativesOfRequired) >
+              parseInt(b.results.negativesOfRequired)
             ) {
               return this.sortOrderCalls;
             }
           }
-          if (filtrarPor1 == "a.results.nopermitidas.positive") {
+          if (filtrarPor1 == 4) {
             if (
-              parseInt(a.results["no permitida"].positive) >
-              parseInt(b.results["no permitida"].positive)
+              parseInt(a.results.positivesOfNotAllowed) >
+              parseInt(b.results.positivesOfNotAllowed)
             ) {
               return this.sortOrderCalls;
             }
           }
-          if (filtrarPor1 == "a.results.recomendacion.positive") {
+          if (filtrarPor1 == 3) {
             if (
-              parseInt(a.results["recomendación"].positive) >
-              parseInt(b.results["recomendación"].positive)
+              parseInt(a.results.positivesOfRecommendation) >
+              parseInt(b.results.positivesOfRecommendation)
             ) {
               return this.sortOrderCalls;
             }
@@ -481,7 +478,7 @@ export default {
       this.sortOrder = this.sortOrder == 1 ? -1 : 1;
       this.ordenamiento1 = order1;
 
-      console.log("como se va a organizar", this.ordenamiento);
+      console.log("como se va a organizar", this.ordenamiento1);
     },
     changeSortOrderCalls(order1) {
       this.sortOrderCalls = this.sortOrderCalls == 1 ? -1 : 1;
@@ -512,9 +509,16 @@ export default {
       if (this.bandera == false) {
         this.search = name;
         this.bandera = true;
+        this.recordsByCategoryMostrar=true;
       } else {
         this.search = "";
         this.bandera = false;
+        this.search2 = "";
+        this.banderaConver = false;
+        this.recordsByCategoryMostrar=false;
+        this.keywordsResultsMostrar=false;
+        this.agentSelected="";
+        this.keyfileSelected="";
       }
       this.mostrar();
     },
@@ -524,9 +528,13 @@ export default {
       if (this.banderaConver == false) {
         this.search2 = name;
         this.banderaConver = true;
+        this.keywordsResultsMostrar=true;
       } else {
         this.search2 = "";
         this.banderaConver = false;
+        this.keywordsResultsMostrar=false;
+        this.keyfileSelected="";
+
       }
       this.mostrar();
     },
@@ -589,8 +597,9 @@ export default {
       for (let key in keywords) {
         for (let i = 0; i < keywords[key].results.length; i++) {
           console.log("mostrar", keywords[key].results[i]);
+          id++;
           let keywordPackage = {
-            id: id,
+            id: id + key,
             name: key,
             module: keywords[key].clasification.module,
             category: keywords[key].clasification.category
@@ -610,7 +619,7 @@ export default {
         }
         if (keywords[key].results.length == 0) {
           let keywordPackage = {
-            id: id,
+            id: id + key,
             name: key,
             module: keywords[key].clasification.module,
             category: keywords[key].clasification.category
@@ -619,9 +628,10 @@ export default {
           keywordPackage["from"] = "-";
           keywordPackage["to"] = "-";
           keywordPackage["confidence"] = "-";
+          console.log("keywordsPackage", keywordPackage);
           keywordsArray.push(keywordPackage);
         }
-        id++;
+        //id++;
       }
       console.log("keywordsArray", keywordsArray);
       let keywordsFound = [];
