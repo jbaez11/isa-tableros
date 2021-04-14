@@ -9,11 +9,23 @@ const {agentsAuditSerFinanzaModel,
 
 async function getAsesores(filterAgentsAudit,nameDB){
     let filter = {};
-    
+    console.log('filtro fc',filterAgentsAudit)
+    //console.log('filtro 0 ',filterAgentsAudit[0],' y filtro 1 ',filterAgentsAudit[1])
     if(filterAgentsAudit != null){
-        filter = {
-            eventDate:filterAgentsAudit
-        };
+        if(filterAgentsAudit[0] == 2 && filterAgentsAudit[1]==0){
+            filter = {
+                eventDate:filterAgentsAudit
+              //eventDate:{$gte:[filterAgentsAudit[0]],$lte:[filterAgentsAudit[1]]}
+                //eventDate:{in:[filterAgentsAudit,filterAgentsAudit2]}
+            };
+        }else{
+            filter = {
+                //eventDate:filterAgentsAudit
+              eventDate:{$gte:[filterAgentsAudit[0]],$lte:[filterAgentsAudit[1]]}
+                //eventDate:{in:[filterAgentsAudit,filterAgentsAudit2]}
+            };
+        }
+        
     }
 
     var agentsAudit ;

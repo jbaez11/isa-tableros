@@ -4,7 +4,8 @@ const {conversationsSerFinanzaModel,
     conversationsIgsBanorteMXModel,
     conversationsIgsBanistmoPAModel,
     conversationsBpogsBoldEnglishUSModel,
-    conversationsBpogsHitesDespachoRetrioCOModel} = require('./model');
+    conversationsBpogsHitesDespachoRetrioCOModel,
+    conversationsAlkTestCOModel} = require('./model');
 
 async function getConversations(filterConversations,nameDB){
     let filter = {};
@@ -39,7 +40,10 @@ async function getConversations(filterConversations,nameDB){
             return conversations;
         case 'bpogsHitesDespachoRetiroCO' :
             conversations = await conversationsBpogsHitesDespachoRetrioCOModel.find(filter);
-            return conversations;            
+            return conversations;
+        case 'alkTestCO' :
+            conversations = await conversationsAlkTestCOModel.find(filter);
+            return conversations;                
         }
 }
 

@@ -5,7 +5,9 @@ const router = express.Router();
 
 router.get('/', function(req,res){
     const filterAgentsAudit = req.query.eventDate || null;
+    //const filterAgentsAudit2 = req.query.eventDate || null;
     console.log('filter agents ',filterAgentsAudit)
+    //console.log('filter agents2 ',filterAgentsAudit2)
 
     // variable de peticion
     console.log('locals : ', res.locals.path_data_link );

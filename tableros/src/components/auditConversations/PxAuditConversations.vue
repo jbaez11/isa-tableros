@@ -163,7 +163,7 @@ import PxAuditConversations from
                   {{ element.speaker + "e" }}
                 </td>
                 <td
-                  style="text-transform: capitalize"
+                  style=""
                   :class="
                     element.speaker == 'agent' ? 'orange--text' : 'black--text'
                   "
