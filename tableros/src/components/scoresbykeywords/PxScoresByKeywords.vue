@@ -8,26 +8,21 @@
         <!--calendar and numCall-->
         <v-container class="">
           <v-row>
-            <v-col lg="2" cols="5" sm="5" style="">
-              <h3 style="color:#FF9B00">
-                FECHA
-                <!-- Date <span style="color:gray;">of</span> records -->
-              </h3>
+            <v-col cols="12" sm="6">
               <v-menu
                 ref="menu1"
                 v-model="menu1"
                 :close-on-content-click="false"
                 transition="scale-transition"
-                color="orange accent-3 lighten-1"
                 offset-y
                 max-width="290px"
                 min-width="auto"
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="dateFormatted"
-                    color="orange accent-3 lighten-1"
-                    hint="MM/DD/YYYY"
+                    v-model="dates"
+                    label="Date"
+                    hint="YYYY/MM/DD"
                     persistent-hint
                     prepend-icon="mdi-calendar"
                     v-bind="attrs"
@@ -36,18 +31,12 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
+                  v-model="dates"
+                  range
                   color="orange accent-3 lighten-1"
-                  v-model="date"
-                  no-title
-                  @input="menu1 = false"
                 ></v-date-picker>
               </v-menu>
-              <!-- <v-date-picker
-                color="orange accent-3 lighten-1"
-                v-model="date"
-              ></v-date-picker> -->
-              <!-- <p>{{date}}</p>-->
-              <p v-show="false">{{ submitDate }}</p>
+              <p v-show="false">{{ dateRangeText }}</p>
             </v-col>
             <v-col
               style="justify-content: center; align-items: center;text-align: center;"
@@ -62,8 +51,14 @@
           </v-row>
         </v-container>
         <!--Table score general-->
-        <input class="" placeholder="Buscar..." type="text" v-model="search" />
-        <v-simple-table class="mt-5">
+        <input
+          class=""
+          placeholder="Buscar..."
+          type="text"
+          v-model="search"
+          v-if="pxinfo == false"
+        />
+        <v-simple-table class="mt-5" v-if="pxinfo == false">
           <template v-slot:default>
             <thead>
               <tr style="background-color:#CACACA">
@@ -100,7 +95,7 @@
                   {{ scoresbykeywords.results.recordings }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.totalScore.toFixed(1)  }} %
+                  {{ scoresbykeywords.results.totalScore.toFixed(1) }} %
                 </td>
               </tr>
             </tbody>
@@ -115,7 +110,10 @@
           type="text"
           v-model="search2"
         />
-        <v-simple-table class="mt-5" v-if="recordScoreByKeywordsMostrar != false">
+        <v-simple-table
+          class="mt-5"
+          v-if="recordScoreByKeywordsMostrar != false && pxinfo == false"
+        >
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -190,26 +188,26 @@
                   {{ scoresbykeywords.keyfile }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.saludo.toFixed(1)  }} %
+                  {{ scoresbykeywords.results.saludo.toFixed(1) }} %
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.producto.toFixed(1)  }} %
+                  {{ scoresbykeywords.results.producto.toFixed(1) }} %
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.venta.toFixed(1)  }} %
+                  {{ scoresbykeywords.results.venta.toFixed(1) }} %
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results["validación"].toFixed(1)  }}
+                  {{ scoresbykeywords.results["validación"].toFixed(1) }}
                   %
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.cierre.toFixed(1)  }} %
+                  {{ scoresbykeywords.results.cierre.toFixed(1) }} %
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.despedida.toFixed(1)  }} %
+                  {{ scoresbykeywords.results.despedida.toFixed(1) }} %
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.totalScore.toFixed(1)  }} %
+                  {{ scoresbykeywords.results.totalScore.toFixed(1) }} %
                 </td>
               </tr>
             </tbody>
@@ -218,7 +216,10 @@
         <!--ENDTABLE LLAMADAS-->
 
         <!--Tablas cluster-->
-        <v-simple-table class="mt-5" v-if="scoringKeywordsContentsMostrar != false">
+        <v-simple-table
+          class="mt-5"
+          v-if="scoringKeywordsContentsMostrar != false && pxinfo == false"
+        >
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -245,7 +246,7 @@
                   {{ element.cluster }}
                 </td>
                 <td style="text-align: center;">
-                  {{ element.score.toFixed(1)  }} %
+                  {{ element.score.toFixed(1) }} %
                 </td>
                 <td style="">
                   {{ element.results }}
@@ -255,22 +256,31 @@
           </template>
         </v-simple-table>
         <!--Tablas cluster-->
+        <div v-if="pxinfo == true">
+          <px-info></px-info>
+        </div>
       </v-main>
     </v-app>
   </div>
 </template>
 
 <script>
+import PxInfo from "@/components/agentsAudit/PxInfo.vue";
 let currentUrl = window.location.pathname;
 let nameBDconn = currentUrl.split("/");
-let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`;
-let urlClusterScore = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/${nameBDconn[1]}/scoringkeywords`;
+let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}`;
+let urlClusterScore = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/scoringkeywords`;
 export default {
   name: "PxScoresByKeywords",
+  components: {
+    PxInfo
+  },
   data() {
     return {
-      date: new Date().toISOString().substr(0, 10),
-      dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
+      dates: [new Date().toISOString().substr(0, 10)],
+      pxinfo: true,
+      //date: new Date().toISOString().substr(0, 10),
+      //dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
       cantidadLlamadas: 0,
       scoresbykeywords: [],
       clusterScore: {},
@@ -283,9 +293,9 @@ export default {
       ordenamiento1Calls: Number,
       detailOfAgent: [],
       scoringKeywordsContents: [],
-      scoringKeywordsContentsMostrar:false,
+      scoringKeywordsContentsMostrar: false,
       recordScoreByKeywords: [],
-      recordScoreByKeywordsMostrar:false,
+      recordScoreByKeywordsMostrar: false,
       agentSelected: "",
       keyfileSelected: "",
       bandera: false,
@@ -296,15 +306,8 @@ export default {
     this.mostrar();
   },
   computed: {
-    submitDate() {
-      const date = new Date(this.date).toISOString().substr(0, 10);;
-
-      console.log(date);
-      this.mostrar();
-      return date;
-    },
-    computedDateFormatted() {
-      return this.formatDate(this.date).toISOString().substr(0, 10);
+    dateRangeText() {
+      return this.dates.join(" ~ ") && this.mostrar();
     },
     filteredAgents: function() {
       const altOrder = this.sortOrder == 1 ? -1 : 1;
@@ -406,12 +409,7 @@ export default {
         });
     }
   },
-  watch: {
-    date(val) {
-      console.log(val);
-      this.dateFormatted = this.formatDate(this.date);
-    }
-  },
+  watch: {},
   methods: {
     changeSortOrder(order1) {
       this.sortOrder = this.sortOrder == 1 ? -1 : 1;
@@ -423,18 +421,7 @@ export default {
       this.sortOrderCalls = this.sortOrderCalls == 1 ? -1 : 1;
       this.ordenamiento1Calls = order1;
     },
-    formatDate(date) {
-      if (!date) return null;
 
-      const [year, month, day] = date.split("-");
-      return `${month}/${day}/${year}`;
-    },
-    parseDate(date) {
-      if (!date) return null;
-
-      const [month, day, year] = date.split("/");
-      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-    },
     mostrarDetalleCall(name) {
       this.agentSelected = name;
       console.log("el agent seleccionado", this.agentSelected);
@@ -442,16 +429,16 @@ export default {
       if (this.bandera == false) {
         this.search = name;
         this.bandera = true;
-        this.recordScoreByKeywordsMostrar=true;
+        this.recordScoreByKeywordsMostrar = true;
       } else {
         this.search = "";
         this.bandera = false;
-        this.recordScoreByKeywordsMostrar=false;
+        this.recordScoreByKeywordsMostrar = false;
         this.search2 = "";
         this.banderaCluster = false;
-        this.scoringKeywordsContentsMostrar=false;
-        this.agentSelected="";
-        this.keyfileSelected="";
+        this.scoringKeywordsContentsMostrar = false;
+        this.agentSelected = "";
+        this.keyfileSelected = "";
       }
       this.mostrar();
     },
@@ -461,29 +448,47 @@ export default {
       if (this.banderaCluster == false) {
         this.search2 = keyfile;
         this.banderaCluster = true;
-        this.scoringKeywordsContentsMostrar=true;
+        this.scoringKeywordsContentsMostrar = true;
       } else {
         this.search2 = "";
         this.banderaCluster = false;
-        this.scoringKeywordsContentsMostrar=false;
-        this.keyfileSelected="";
+        this.scoringKeywordsContentsMostrar = false;
+        this.keyfileSelected = "";
       }
       this.mostrar();
     },
     async mostrar() {
-      const response = await this.axios.get(
-        url + `?eventDate=${this.date}T00:00:00.000Z`
-      );
+      // const response = await this.axios.get(
+      //   url + `?eventDate=${this.date}T00:00:00.000Z`
+      // );
+
+      let response;
+
+      if (this.dates.length == 1) {
+        response = await this.axios.get(
+          url + `?eventDate=${this.dates}T00:00:00.000Z`
+        );
+        if (this.scoresbykeywords[0].recordingsSummary == undefined) {
+          this.pxinfo = true;
+        } else {
+          this.pxinfo = false;
+        }
+        //console.log("url + `?eventDate=${this.dates}T00:00:00.000Z`",url + `?eventDate=${this.dates}T00:00:00.000Z`)
+      } else {
+        response = await this.axios.get(
+          url +
+            `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`
+        );
+        //console.log("url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}`",url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`)
+      }
 
       this.scoresbykeywords = response.data.body;
       console.log("object", this.scoresbykeywords);
 
-      this.mostrarCantidadDeLLamadas(
-        this.scoresbykeywords[0].recordingsSummary
-      );
-      this.mostrarTableDetailOfAgents(this.scoresbykeywords[0].agentsSummary);
+      this.mostrarCantidadDeLLamadas(this.scoresbykeywords);
+      this.mostrarTableDetailOfAgents(this.scoresbykeywords);
       this.mostrarTableCallDetailByAgent(
-        this.scoresbykeywords[0].recordingsSummary,
+        this.scoresbykeywords,
         this.agentSelected
       );
       if (this.keyfileSelected.length > 0) {
@@ -501,39 +506,108 @@ export default {
     },
     mostrarCantidadDeLLamadas(data) {
       let suma = 0;
-      for (let key in data) {
-        suma += data[key].length;
+      for (let i = 0; i < data.length; i++) {
+        for (let key in data[i].recordingsSummary) {
+          suma += data[i].recordingsSummary[key].length;
+        }
       }
+
       this.cantidadLlamadas = suma;
+      if (this.cantidadLlamadas == 0) {
+        this.pxinfo = true;
+      } else {
+        this.pxinfo = false;
+      }
     },
     mostrarTableDetailOfAgents(data) {
-      for(let key in data){
-         data[key].results.totalScore = data[key].results.totalScore*100
-        }
-      //data.results.totalScore = data.results.totalScore *100;
-      this.detailOfAgent = data;
-    },
-    mostrarTableCallDetailByAgent(data, name) {
-      for(let key in data){
-            if (key == name) {
-              for(let i=0;i<data[key].length;i++){
-                data[key][i].results.cierre=data[key][i].results.cierre*100;
-                data[key][i].results.despedida=data[key][i].results.despedida*100;
-                data[key][i].results.producto=data[key][i].results.producto*100;
-                data[key][i].results.saludo=data[key][i].results.saludo*100;
-                data[key][i].results.totalScore=data[key][i].results.totalScore*100;
-                data[key][i].results.venta=data[key][i].results.venta*100;
-                data[key][i].results['validación']=data[key][i].results['validación']*100;
-              }
+      let superAgentsSummary = {};
+      console.log("data para dividir", data.length);
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[i].agentsSummary.length; j++) {
+          let agentPackage = data[i].agentsSummary[j];
+          let agentName = agentPackage.name;
+
+          if (
+            !Object.prototype.hasOwnProperty.call(superAgentsSummary, agentName)
+          ) {
+            superAgentsSummary[agentName] = {
+              results: agentPackage.results
+            };
+          } else {
+            superAgentsSummary[agentName].results.recordings +=
+              agentPackage.results.recordings;
+            superAgentsSummary[agentName].results.totalScore +=
+              agentPackage.results.totalScore;
+            console.log("i", i);
+            if (i == data.length - 1) {
+              superAgentsSummary[agentName].results.totalScore =
+                (superAgentsSummary[agentName].results.totalScore * 100) /
+                data.length;
+            }
           }
         }
-      for (let key in data) {
-        if (key == name) {
-          
-          this.recordScoreByKeywords = data[key];
 
+        let superAgentsSummaryArray = [];
+
+        for (let key in superAgentsSummary) {
+          //superAgentsSummary[key].results.totalScore
+          let agentPackage = {
+            name: key,
+            results: superAgentsSummary[key].results
+          };
+
+          superAgentsSummaryArray.push(agentPackage);
+
+          //superAgentsSummary[key].results.totalScore=superAgentsSummary[key].results.totalScore/data.length*100;
+        }
+
+        this.detailOfAgent = superAgentsSummaryArray;
+      }
+
+      //data.results.totalScore = data.results.totalScore *100;
+    },
+    mostrarTableCallDetailByAgent(data, name) {
+      this.recordScoreByKeywords = [];
+      console.log(name);
+
+      console.log("length", data.length);
+      for (let i = 0; i < data.length; i++) {
+        for (let key in data[i].recordingsSummary) {
+          console.log("keyyy", key);
+          if (key == name) {
+            console.log("key ento", data[i].recordingsSummary[key]);
+
+            for (let j = 0; j < data[i].recordingsSummary[key].length; j++) {
+              data[i].recordingsSummary[key][j].results.cierre =
+                data[i].recordingsSummary[key][j].results.cierre * 100;
+              data[i].recordingsSummary[key][j].results.despedida =
+                data[i].recordingsSummary[key][j].results.despedida * 100;
+              data[i].recordingsSummary[key][j].results.producto =
+                data[i].recordingsSummary[key][j].results.producto * 100;
+              data[i].recordingsSummary[key][j].results.saludo =
+                data[i].recordingsSummary[key][j].results.saludo * 100;
+              data[i].recordingsSummary[key][j].results.totalScore =
+                data[i].recordingsSummary[key][j].results.totalScore * 100;
+              data[i].recordingsSummary[key][j].results.venta =
+                data[i].recordingsSummary[key][j].results.venta * 100;
+              data[i].recordingsSummary[key][j].results["validación"] =
+                data[i].recordingsSummary[key][j].results["validación"] * 100;
+            }
+
+            this.recordScoreByKeywords = this.recordScoreByKeywords.concat(
+              data[i].recordingsSummary[key]
+            );
+          }
         }
       }
+
+      // for (let key in data) {
+      //   if (key == name) {
+
+      //     this.recordScoreByKeywords = data[key];
+
+      //   }
+      // }
     },
     mostrarTableCluster(data, keyfile) {
       //this.scoringKeywordsContents=data[0].contents;
@@ -554,7 +628,7 @@ export default {
             id: id,
             module: moduleKey,
             cluster: clusterKey,
-            score: contents[moduleKey][clusterKey].score*100,
+            score: contents[moduleKey][clusterKey].score * 100,
             results: kpStrings
           };
           //clusterArray.push(clusterPackage);

@@ -10,9 +10,23 @@ async function getScoringkeywords(filterScoringKeywords,nameDB){
     let filter = {};
     
     if(filterScoringKeywords != null){
-        filter = {
-            keyfile:filterScoringKeywords
-        };
+        if(filterScoringKeywords[0] == 2 && filterScoringKeywords[1]==0){
+            filter = {
+                eventDate:filterScoringKeywords
+              //eventDate:{$gte:[filterAgentsAudit[0]],$lte:[filterAgentsAudit[1]]}
+                //eventDate:{in:[filterAgentsAudit,filterAgentsAudit2]}
+            };
+        }else{
+            if(filterScoringKeywords[0]>filterScoringKeywords[1]){
+               filterScoringKeywords.sort();
+            }
+            filter = {
+                //eventDate:filterAgentsAudit
+              eventDate:{$gte:[filterScoringKeywords[0]],$lte:[filterScoringKeywords[1]]}
+                //eventDate:{in:[filterAgentsAudit,filterAgentsAudit2]}
+            };
+        }
+        
     }
     var scoringkeywords ;
     switch (nameDB) {
@@ -21,7 +35,7 @@ async function getScoringkeywords(filterScoringKeywords,nameDB){
             scoringkeywords = await scoringkeywordsSerFinanzaModel.find(filter);
             return scoringkeywords;
 
-        case 'igsBancolombiaCO':
+        case 'aigsBancolombiaCO':
             scoringkeywords = await scoringkeywordsBancoColombiaModel.find(filter);
             return scoringkeywords ;
 

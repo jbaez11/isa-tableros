@@ -19,6 +19,9 @@ async function getAsesores(filterAgentsAudit,nameDB){
                 //eventDate:{in:[filterAgentsAudit,filterAgentsAudit2]}
             };
         }else{
+            if(filterAgentsAudit[0]>filterAgentsAudit[1]){
+               filterAgentsAudit.sort();
+            }
             filter = {
                 //eventDate:filterAgentsAudit
               eventDate:{$gte:[filterAgentsAudit[0]],$lte:[filterAgentsAudit[1]]}
@@ -35,7 +38,7 @@ async function getAsesores(filterAgentsAudit,nameDB){
             agentsAudit = await agentsAuditSerFinanzaModel.find(filter);
             return agentsAudit;
 
-        case 'igsBancolombiaCO':
+        case 'aigsBancolombiaCO':
             agentsAudit = await agentsAuditBancoColombiaModel.find(filter);
             return agentsAudit ;
 

@@ -195,9 +195,10 @@
 </template>
 
 <script>
+require("dotenv").config();
 let currentUrl = window.location.pathname;
 console.log("currenturl", currentUrl);
-let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}/`; //igsSerfinanzaCO/basephrases/https://backend-tableros-exhausted-raven-fv.mybluemix.net
+let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}/`; //igsSerfinanzaCO/basephrases/https://backend-tableros-exhausted-raven-fv.mybluemix.net
 console.log("url", url);
 
 //let url = "http://localhost:3000/baseagents/";
@@ -224,7 +225,9 @@ export default {
       pages: []
     };
   },
-
+  mounted() {
+    console.log("esta es ", process.env.VUE_APP_URLBACKEND);
+  },
   created() {
     this.mostrar();
   },

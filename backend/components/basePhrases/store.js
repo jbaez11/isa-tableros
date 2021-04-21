@@ -15,7 +15,7 @@ async function getBasePhrases(nameDB){
             basePhrases = await basePhrasesSerFinanzaModel.find();
             return basePhrases;
 
-        case 'igsBancolombiaCO':
+        case 'aigsBancolombiaCO':
             basePhrases = await basePhrasesBancoColombiaModel.find();
             return basePhrases ;
 

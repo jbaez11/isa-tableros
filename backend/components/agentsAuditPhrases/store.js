@@ -10,9 +10,23 @@ async function getAsesoresPhrases(filterAgentsAuditPhrases,nameDB){
     let filter = {};
     
     if(filterAgentsAuditPhrases != null){
-        filter = {
-            eventDate:filterAgentsAuditPhrases
-        };
+        if(filterAgentsAuditPhrases[0] == 2 && filterAgentsAuditPhrases[1]==0){
+            filter = {
+                eventDate:filterAgentsAuditPhrases
+              //eventDate:{$gte:[filterAgentsAudit[0]],$lte:[filterAgentsAudit[1]]}
+                //eventDate:{in:[filterAgentsAudit,filterAgentsAudit2]}
+            };
+        }else{
+            if(filterAgentsAuditPhrases[0]>filterAgentsAuditPhrases[1]){
+               filterAgentsAuditPhrases.sort();
+            }
+            filter = {
+                //eventDate:filterAgentsAudit
+              eventDate:{$gte:[filterAgentsAuditPhrases[0]],$lte:[filterAgentsAuditPhrases[1]]}
+                //eventDate:{in:[filterAgentsAudit,filterAgentsAudit2]}
+            };
+        }
+        
     }
     var auditPhrases ;
     switch (nameDB) {
@@ -21,7 +35,7 @@ async function getAsesoresPhrases(filterAgentsAuditPhrases,nameDB){
             auditPhrases = await auditPhrasesSerFinanzaModel.find(filter);
             return auditPhrases;
 
-        case 'igsBancolombiaCO':
+        case 'aigsBancolombiaCO':
             auditPhrases = await auditPhrasesBancoColombiaModel.find(filter);
             return auditPhrases ;
 

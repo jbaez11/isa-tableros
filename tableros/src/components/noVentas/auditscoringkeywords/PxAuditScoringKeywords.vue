@@ -100,7 +100,7 @@
                   {{ scoresbykeywords.results.recordings }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.totalScore.toFixed(1)  }} %
+                  {{ scoresbykeywords.results.totalScore.toFixed(1) }} %
                 </td>
               </tr>
             </tbody>
@@ -115,7 +115,10 @@
           type="text"
           v-model="search2"
         />
-        <v-simple-table class="mt-5" v-if="recordScoreByKeywordsMostrar != false">
+        <v-simple-table
+          class="mt-5"
+          v-if="recordScoreByKeywordsMostrar != false"
+        >
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -166,12 +169,12 @@
                   {{ scoresbykeywords.keyfile }}
                 </td>
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results["interacción"].toFixed(1)  }}
+                  {{ scoresbykeywords.results["interacción"].toFixed(1) }}
                   %
                 </td>
                 <td style="text-align: center;">
                   {{
-                    scoresbykeywords.results["gestión del cliente"].toFixed(1) 
+                    scoresbykeywords.results["gestión del cliente"].toFixed(1)
                   }}
                   %
                 </td>
@@ -179,13 +182,13 @@
                   {{
                     scoresbykeywords.results[
                       "procesos y direccionamiento"
-                    ].toFixed(1) 
+                    ].toFixed(1)
                   }}
                   %
                 </td>
 
                 <td style="text-align: center;">
-                  {{ scoresbykeywords.results.totalScore.toFixed(1)  }} %
+                  {{ scoresbykeywords.results.totalScore.toFixed(1) }} %
                 </td>
               </tr>
             </tbody>
@@ -194,7 +197,10 @@
         <!--ENDTABLE LLAMADAS-->
 
         <!--Tablas cluster-->
-        <v-simple-table class="mt-5" v-if="scoringKeywordsContentsMostrar != false">
+        <v-simple-table
+          class="mt-5"
+          v-if="scoringKeywordsContentsMostrar != false"
+        >
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -221,7 +227,7 @@
                   {{ element.cluster }}
                 </td>
                 <td style="text-align: center;">
-                  {{ element.score.toFixed(1)  }} %
+                  {{ element.score.toFixed(1) }} %
                 </td>
                 <td style="">
                   {{ element.results }}
@@ -239,8 +245,8 @@
 <script>
 let currentUrl = window.location.pathname;
 let nameBDconn = currentUrl.split("/");
-let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/${nameBDconn[1]}/auditscoringkeywords`;
-let urlClusterScore = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/${nameBDconn[1]}/scoringkeywords`;
+let url = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/auditscoringkeywords`;
+let urlClusterScore = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/scoringkeywords`;
 export default {
   name: "PxAuditScoringKeywords",
   data() {
@@ -259,9 +265,9 @@ export default {
       ordenamiento1Calls: Number,
       detailOfAgent: [],
       scoringKeywordsContents: [],
-      scoringKeywordsContentsMostrar:false,
+      scoringKeywordsContentsMostrar: false,
       recordScoreByKeywords: [],
-      recordScoreByKeywordsMostrar:false,
+      recordScoreByKeywordsMostrar: false,
       agentSelected: "",
       keyfileSelected: "",
       bandera: false,
@@ -273,7 +279,7 @@ export default {
   },
   computed: {
     submitDate() {
-      const date = new Date(this.date).toISOString().substr(0, 10);;
+      const date = new Date(this.date).toISOString().substr(0, 10);
 
       console.log(date);
       this.mostrar();
@@ -406,16 +412,16 @@ export default {
       if (this.bandera == false) {
         this.search = name;
         this.bandera = true;
-        this.recordScoreByKeywordsMostrar=true;
+        this.recordScoreByKeywordsMostrar = true;
       } else {
         this.search = "";
         this.bandera = false;
-        this.recordScoreByKeywordsMostrar=false;
+        this.recordScoreByKeywordsMostrar = false;
         this.search2 = "";
         this.banderaCluster = false;
-        this.scoringKeywordsContentsMostrar=false;
-        this.agentSelected="";
-        this.keyfileSelected="";
+        this.scoringKeywordsContentsMostrar = false;
+        this.agentSelected = "";
+        this.keyfileSelected = "";
       }
       this.mostrar();
     },
@@ -425,13 +431,12 @@ export default {
       if (this.banderaCluster == false) {
         this.search2 = keyfile;
         this.banderaCluster = true;
-        this.scoringKeywordsContentsMostrar=true;
-        
+        this.scoringKeywordsContentsMostrar = true;
       } else {
         this.search2 = "";
         this.banderaCluster = false;
-        this.scoringKeywordsContentsMostrar=false;
-        this.keyfileSelected="";
+        this.scoringKeywordsContentsMostrar = false;
+        this.keyfileSelected = "";
       }
       this.mostrar();
     },
@@ -469,27 +474,31 @@ export default {
       for (let key in data) {
         suma += data[key].length;
       }
+
       this.cantidadLlamadas = suma;
     },
     mostrarTableDetailOfAgents(data) {
-      for(let key in data){
-         data[key].results.totalScore = data[key].results.totalScore*100
-        }
+      for (let key in data) {
+        data[key].results.totalScore = data[key].results.totalScore * 100;
+      }
       this.detailOfAgent = data;
     },
     mostrarTableCallDetailByAgent(data, name) {
-      for(let key in data){
-            if (key == name) {
-              for(let i=0;i<data[key].length;i++){
-                data[key][i].results['interacción']=data[key][i].results['interacción']*100;
-                data[key][i].results['gestión del cliente']=data[key][i].results['gestión del cliente']*100;
-                data[key][i].results['procesos y direccionamiento']=data[key][i].results['procesos y direccionamiento']*100;
-                
-                data[key][i].results.totalScore=data[key][i].results.totalScore*100;
-                
-              }
+      for (let key in data) {
+        if (key == name) {
+          for (let i = 0; i < data[key].length; i++) {
+            data[key][i].results["interacción"] =
+              data[key][i].results["interacción"] * 100;
+            data[key][i].results["gestión del cliente"] =
+              data[key][i].results["gestión del cliente"] * 100;
+            data[key][i].results["procesos y direccionamiento"] =
+              data[key][i].results["procesos y direccionamiento"] * 100;
+
+            data[key][i].results.totalScore =
+              data[key][i].results.totalScore * 100;
           }
         }
+      }
       for (let key in data) {
         if (key == name) {
           this.recordScoreByKeywords = data[key];
@@ -515,7 +524,7 @@ export default {
             id: id,
             module: moduleKey,
             cluster: clusterKey,
-            score: contents[moduleKey][clusterKey].score*100,
+            score: contents[moduleKey][clusterKey].score * 100,
             results: kpStrings
           };
           //clusterArray.push(clusterPackage);

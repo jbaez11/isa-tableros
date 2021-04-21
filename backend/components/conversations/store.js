@@ -22,7 +22,7 @@ async function getConversations(filterConversations,nameDB){
             conversations = await conversationsSerFinanzaModel.find(filter);
             return conversations;
 
-        case 'igsBancolombiaCO':
+        case 'aigsBancolombiaCO':
             conversations = await conversationsBancoColombiaModel.find(filter);
             return conversations ;
 

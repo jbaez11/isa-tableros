@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 var compression = require('compression')
 const bodyParser = require('body-parser');
 const cors = require('cors');

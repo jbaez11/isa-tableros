@@ -21,7 +21,7 @@ async function getConsumption(filterConsumption,nameDB){
             consumption = await consumptionSerFinanzaModel.find(filter);
             return consumption;
 
-        case 'igsBancolombiaCO':
+        case 'aigsBancolombiaCO':
             consumption = await consumptionBancoColombiaModel.find(filter);
             return consumption ;
 

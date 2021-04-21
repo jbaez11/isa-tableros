@@ -9,26 +9,21 @@ import api from '@/api';
         <!--calendar and numCall-->
         <v-container class="">
           <v-row>
-            <v-col lg="2" cols="5" sm="5" style="">
-              <h3 style="color:#FF9B00">
-                FECHA
-                <!-- Date <span style="color:gray;">of</span> records -->
-              </h3>
+            <v-col cols="6" sm="4">
               <v-menu
                 ref="menu1"
                 v-model="menu1"
                 :close-on-content-click="false"
                 transition="scale-transition"
-                color="orange accent-3 lighten-1"
                 offset-y
                 max-width="290px"
                 min-width="auto"
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="dateFormatted"
-                    color="orange accent-3 lighten-1"
-                    hint="MM/DD/YYYY"
+                    v-model="dates"
+                    label="Date"
+                    hint="YYYY/MM/DD"
                     persistent-hint
                     prepend-icon="mdi-calendar"
                     v-bind="attrs"
@@ -37,19 +32,14 @@ import api from '@/api';
                   ></v-text-field>
                 </template>
                 <v-date-picker
+                  v-model="dates"
+                  range
                   color="orange accent-3 lighten-1"
-                  v-model="date"
-                  no-title
-                  @input="menu1 = false"
                 ></v-date-picker>
               </v-menu>
-              <!-- <v-date-picker
-                color="orange accent-3 lighten-1"
-                v-model="date"
-              ></v-date-picker> -->
-              <!-- <p>{{date}}</p>-->
-              <p v-show="false">{{ submitDate }}</p>
+              <p v-show="false">{{ dateRangeText }}</p>
             </v-col>
+
             <v-col
               style="justify-content: center; align-items: center;text-align: center;"
             >
@@ -58,6 +48,16 @@ import api from '@/api';
               </h3>
               <span class="text-h2 orange--text">{{
                 this.cantidadLlamadas
+              }}</span>
+            </v-col>
+            <v-col
+              style="justify-content: center; align-items: center;text-align: center;"
+            >
+              <h3 class="orange--text">
+                TOTAL <span style="color:#CACACA">GRABACIONES</span> AFECTADAS
+              </h3>
+              <span class="text-h2 orange--text">{{
+                this.cantidadLlamadasAfectadas
               }}</span>
             </v-col>
           </v-row>
@@ -71,8 +71,14 @@ import api from '@/api';
 
         <!--TABLE Mostrar nombre y cantidad-->
 
-        <input class="" placeholder="Buscar..." type="text" v-model="search" />
-        <v-simple-table class="mt-5">
+        <input
+          class=""
+          placeholder="Buscar..."
+          type="text"
+          v-model="search"
+          v-if="pxinfo == false"
+        />
+        <v-simple-table class="mt-5" v-if="pxinfo == false">
           <template v-slot:default>
             <thead>
               <tr style="background-color:#CACACA">
@@ -162,7 +168,10 @@ import api from '@/api';
           type="text"
           v-model="search2"
         />
-        <v-simple-table class="mt-5" v-if="recordsByCategoryMostrar != false">
+        <v-simple-table
+          class="mt-5"
+          v-if="recordsByCategoryMostrar != false && pxinfo == false"
+        >
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -225,7 +234,10 @@ import api from '@/api';
         </v-simple-table>
         <!--ENDTABLE LLAMADAS-->
         <!-- TABLE DATOS-->
-        <v-container v-if="keywordsResultsMostrar != false" class="pt-10">
+        <v-container
+          v-if="keywordsResultsMostrar != false && pxinfo == false"
+          class="pt-10"
+        >
           <h3 style="color:#FF9B00">Clasificación</h3>
           <v-row>
             <v-col>
@@ -260,7 +272,10 @@ import api from '@/api';
             </v-col>
           </v-row>
         </v-container>
-        <v-simple-table class="mt-5" v-if="keywordsResultsMostrar != false">
+        <v-simple-table
+          class="mt-5"
+          v-if="keywordsResultsMostrar != false && pxinfo == false"
+        >
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -297,37 +312,46 @@ import api from '@/api';
           </template>
         </v-simple-table>
         <!-- ENDTABLE DATOS-->
+        <div v-if="pxinfo == true">
+          <px-info></px-info>
+        </div>
       </v-main>
     </v-app>
   </div>
 </template>
 
 <script>
-//import api from "@/apiAgentAudit";
+import PxInfo from "./PxInfo.vue";
 
 let currentUrl = window.location.pathname;
 let nameBDconn = currentUrl.split("/");
 //console.log("currenturl", currentUrl);
-let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`; //igsSerfinanzaCO/basephrases/
-let urlKeywords = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/${nameBDconn[1]}/keywords`;
-console.log(urlKeywords);
+let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}`; //igsSerfinanzaCO/basephrases/
+let urlKeywords = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/keywords`;
+//console.log(urlKeywords);
 
 export default {
   name: "PxAgentsAudit",
+  components: {
+    PxInfo
+  },
   data() {
     return {
       auditAgents: [],
+      dates: [new Date().toISOString().substr(0, 10)],
       keywords: {},
-      date: new Date().toISOString().substr(0, 10),
+      pxinfo: true,
+      //date: new Date().toISOString().substr(0, 10),
       cantidadLlamadas: 0,
-      dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
+      cantidadLlamadasAfectadas: 0,
+      //dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
       topByCategory: [],
       recordsByCategory: [],
-      recordsByCategoryMostrar:false,
+      recordsByCategoryMostrar: false,
       agentSelected: "",
       keyfileSelected: "",
       keywordsResults: [],
-      keywordsResultsMostrar:false,
+      keywordsResultsMostrar: false,
       menu1: false,
       search: "",
       search2: "",
@@ -345,18 +369,11 @@ export default {
   },
   created() {
     this.mostrar();
-    this.traerKeywords();
+    //this.traerKeywords();
   },
   computed: {
-    submitDate() {
-      const date = new Date(this.date).toISOString().substr(0, 10);
-
-      console.log(date);
-      this.mostrar();
-      return date;
-    },
-    computedDateFormatted() {
-      return this.formatDate(this.date);
+    dateRangeText() {
+      return this.dates.join(" ~ ") && this.mostrar();
     },
 
     filteredAgents: function() {
@@ -467,12 +484,7 @@ export default {
       });
     }
   },
-  watch: {
-    date(val) {
-      console.log(val);
-      this.dateFormatted = this.formatDate(this.date);
-    }
-  },
+  watch: {},
   methods: {
     changeSortOrder(order1) {
       this.sortOrder = this.sortOrder == 1 ? -1 : 1;
@@ -489,19 +501,6 @@ export default {
       this.ordenamiento1Keywords = order1;
     },
 
-    formatDate(date) {
-      if (!date) return null;
-
-      const [year, month, day] = date.split("-");
-      return `${month}/${day}/${year}`;
-    },
-    parseDate(date) {
-      if (!date) return null;
-
-      const [month, day, year] = date.split("/");
-      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-    },
-
     mostrarDetalleCall(name) {
       this.agentSelected = name;
       console.log("el agent seleccionado", this.agentSelected);
@@ -509,16 +508,16 @@ export default {
       if (this.bandera == false) {
         this.search = name;
         this.bandera = true;
-        this.recordsByCategoryMostrar=true;
+        this.recordsByCategoryMostrar = true;
       } else {
         this.search = "";
         this.bandera = false;
         this.search2 = "";
         this.banderaConver = false;
-        this.recordsByCategoryMostrar=false;
-        this.keywordsResultsMostrar=false;
-        this.agentSelected="";
-        this.keyfileSelected="";
+        this.recordsByCategoryMostrar = false;
+        this.keywordsResultsMostrar = false;
+        this.agentSelected = "";
+        this.keyfileSelected = "";
       }
       this.mostrar();
     },
@@ -528,32 +527,46 @@ export default {
       if (this.banderaConver == false) {
         this.search2 = name;
         this.banderaConver = true;
-        this.keywordsResultsMostrar=true;
+        this.keywordsResultsMostrar = true;
       } else {
         this.search2 = "";
         this.banderaConver = false;
-        this.keywordsResultsMostrar=false;
-        this.keyfileSelected="";
-
+        this.keywordsResultsMostrar = false;
+        this.keyfileSelected = "";
       }
       this.mostrar();
     },
     async mostrar() {
-      const response = await this.axios.get(
-        url + `?eventDate=${this.date}T00:00:00.000Z`
-      );
+      let response;
 
+      if (this.dates.length == 1) {
+        response = await this.axios.get(
+          url + `?eventDate=${this.dates}T00:00:00.000Z`
+        );
+        if (this.auditAgents[0].recordingsSummary == undefined) {
+          this.pxinfo = true;
+        } else {
+          this.pxinfo = false;
+        }
+        //console.log("url + `?eventDate=${this.dates}T00:00:00.000Z`",url + `?eventDate=${this.dates}T00:00:00.000Z`)
+      } else {
+        this.pxinfo = false;
+        response = await this.axios.get(
+          url +
+            `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`
+        );
+        //console.log("url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}`",url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`)
+      }
+      //console.log('url + `?eventDate=${this.dates}T00:00:00.000Z`',url + `?eventDate=${this.dates}T00:00:00.000Z`)
       this.auditAgents = response.data.body;
-      console.log("object", this.auditAgents[0].recordingsSummary);
+      console.log("object2", this.auditAgents);
+      //console.log("object", this.auditAgents[0].recordingsSummary);
       console.log("primera impresion agent", this.agentSelected);
       console.log("primera impresion keyfile", this.keyfileSelected);
 
-      this.mostrarCantidadDeLLamadas(this.auditAgents[0].recordingsSummary);
+      this.mostrarCantidadDeLLamadas(this.auditAgents);
       this.mostrarTableDetailOfAgents(this.auditAgents);
-      this.mostrarTableCallDetailByAgent(
-        this.auditAgents[0].recordingsSummary,
-        this.agentSelected
-      );
+      this.mostrarTableCallDetailByAgent(this.auditAgents, this.agentSelected);
       if (this.keyfileSelected.length > 0) {
         const responseKeyword = await this.axios.get(
           urlKeywords + `?keyfile=${this.keyfileSelected}`
@@ -562,25 +575,88 @@ export default {
           "url keywords",
           urlKeywords + `?keyfile=${this.keyfileSelected}`
         );
-        console.log("object", responseKeyword.data.body);
+        console.log("object buscar en keywords", responseKeyword.data.body);
         this.keywords = responseKeyword.data.body;
         this.mostrarTableKeywords(this.keywords, this.keyfileSelected);
       }
     },
     mostrarCantidadDeLLamadas(data) {
       let suma = 0;
-      for (let key in data) {
-        suma += data[key].length;
+
+      for (let i = 0; i < data.length; i++) {
+        for (let key in data[i].recordingsSummary) {
+          suma += data[i].recordingsSummary[key].length;
+        }
       }
       this.cantidadLlamadas = suma;
+      if (this.cantidadLlamadas == 0) {
+        this.pxinfo = true;
+      } else {
+        this.pxinfo = false;
+      }
+
+      let suma2 = 0;
+
+      for (let i = 0; i < data.length; i++) {
+        suma2 += data[i].affectedRecordings;
+      }
+      this.cantidadLlamadasAfectadas = suma2;
     },
     mostrarTableDetailOfAgents(data) {
-      this.topByCategory = data[0].agentsSummary;
+      //this.topByCategory=[];
+
+      let superAgentsSummary = {};
+
+      for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[i].agentsSummary.length; j++) {
+          let agentPackage = data[i].agentsSummary[j];
+          let agentName = agentPackage.name;
+
+          if (
+            !Object.prototype.hasOwnProperty.call(superAgentsSummary, agentName)
+          ) {
+            superAgentsSummary[agentName] = {
+              results: agentPackage.results
+            };
+          } else {
+            superAgentsSummary[agentName].results.recordings +=
+              agentPackage.results.recordings;
+            superAgentsSummary[agentName].results.positivesOfRequired +=
+              agentPackage.results.positivesOfRequired;
+            superAgentsSummary[agentName].results.negativesOfRequired +=
+              agentPackage.results.negativesOfRequired;
+            superAgentsSummary[agentName].results.positivesOfNotAllowed +=
+              agentPackage.results.positivesOfNotAllowed;
+            superAgentsSummary[agentName].results.negativesOfNotAllowed +=
+              agentPackage.results.negativesOfNotAllowed;
+            superAgentsSummary[agentName].results.positivesOfRecommendation +=
+              agentPackage.results.positivesOfRecommendation;
+            superAgentsSummary[agentName].results.negativesOfRecommendation +=
+              agentPackage.results.negativesOfRecommendation;
+          }
+        }
+
+        let superAgentsSummaryArray = [];
+
+        for (let key in superAgentsSummary) {
+          let agentPackage = {
+            name: key,
+            results: superAgentsSummary[key].results
+          };
+          superAgentsSummaryArray.push(agentPackage);
+        }
+        this.topByCategory = superAgentsSummaryArray;
+      }
     },
     mostrarTableCallDetailByAgent(data, name) {
-      for (let key in data) {
-        if (key == name) {
-          this.recordsByCategory = data[key];
+      this.recordsByCategory = [];
+      for (let i = 0; i < data.length; i++) {
+        for (let key in data[i].recordingsSummary) {
+          if (key == name) {
+            this.recordsByCategory = this.recordsByCategory.concat(
+              data[i].recordingsSummary[key]
+            );
+          }
         }
       }
     },

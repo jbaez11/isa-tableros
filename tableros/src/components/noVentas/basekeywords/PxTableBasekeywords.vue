@@ -28,7 +28,7 @@
               <thead>
                 <tr class=" ">
                   <!--<th class="white--text">ID</th>-->
-                  <th class=""><h2>FRASE</h2></th>
+                  <th class=""><h2>KEYWORD</h2></th>
                   <th class=""><h2>MODULO</h2></th>
                   <th class=""><h2>CATEGORIA</h2></th>
                   <th class=""><h2>ACCIONES</h2></th>
@@ -36,13 +36,13 @@
               </thead>
               <tbody v-show="!filter">
                 <tr
-                  v-for="basephrase in displayedBasephrases"
-                  :key="basephrase._id"
+                  v-for="basekeyword in displayedBasekeywords"
+                  :key="basekeyword._id"
                 >
-                  <!--<td>{{ basephrase._id }}</td>-->
-                  <td>{{ basephrase.phrase }}</td>
-                  <td>{{ basephrase.module }}</td>
-                  <td>{{ basephrase.category }}</td>
+                  <!--<td>{{ basekeyword._id }}</td>-->
+                  <td>{{ basekeyword.keyword }}</td>
+                  <td>{{ basekeyword.module }}</td>
+                  <td>{{ basekeyword.category }}</td>
                   <td>
                     <v-btn
                       class="orange"
@@ -51,10 +51,10 @@
                       fab
                       @click="
                         formEditar(
-                          basephrase._id,
-                          basephrase.phrase,
-                          basephrase.module,
-                          basephrase.category
+                          basekeyword._id,
+                          basekeyword.keyword,
+                          basekeyword.module,
+                          basekeyword.category
                         )
                       "
                       ><v-icon>mdi-pencil</v-icon></v-btn
@@ -64,7 +64,7 @@
                       fab
                       dark
                       small
-                      @click="borrar(basephrase._id)"
+                      @click="borrar(basekeyword._id)"
                       ><v-icon>mdi-delete</v-icon></v-btn
                     >
                   </td>
@@ -73,13 +73,13 @@
               <!--filterd-->
               <tbody v-if="filter">
                 <tr
-                  v-for="basephrase in filteredBasephrases"
-                  :key="basephrase._id"
+                  v-for="basekeyword in filteredBasekeywords"
+                  :key="basekeyword._id"
                 >
-                  <!--<td>{{ basephrase._id }}</td>-->
-                  <td>{{ basephrase.phrase }}</td>
-                  <td>{{ basephrase.module }}</td>
-                  <td>{{ basephrase.category }}</td>
+                  <!--<td>{{ basekeyword._id }}</td>-->
+                  <td>{{ basekeyword.keyword }}</td>
+                  <td>{{ basekeyword.module }}</td>
+                  <td>{{ basekeyword.category }}</td>
                   <td>
                     <v-btn
                       class="orange"
@@ -88,10 +88,10 @@
                       fab
                       @click="
                         formEditar(
-                          basephrase._id,
-                          basephrase.phrase,
-                          basephrase.module,
-                          basephrase.category
+                          basekeyword._id,
+                          basekeyword.keyword,
+                          basekeyword.module,
+                          basekeyword.category
                         )
                       "
                       ><v-icon>mdi-pencil</v-icon></v-btn
@@ -101,7 +101,7 @@
                       fab
                       dark
                       small
-                      @click="borrar(basephrase._id)"
+                      @click="borrar(basekeyword._id)"
                       ><v-icon>mdi-delete</v-icon></v-btn
                     >
                   </td>
@@ -137,47 +137,44 @@
           <v-form>
             <v-card>
               <v-card-title class="orange accent-3 white--text"
-                >Base frase</v-card-title
+                >BaseKeyword</v-card-title
               >
               <v-card-text>
                 <!---->
                 <v-container>
                   <v-row>
-                    <!-- <input v-model="basephrase._id" hidden></input>-->
+                    <!--<input v-model="basekeyword._id" hidden></input>-->
                     <v-col cols="12" md="4">
                       <v-text-field
-                        v-model="basephrase.phrase"
-                        label="Phrase"
+                        v-model="basekeyword.keyword"
+                        label="Keyword"
                         solo
                         required
-                        >{{ basephrase.phrase }}</v-text-field
+                        >{{ basekeyword.keyword }}</v-text-field
                       >
                     </v-col>
                     <v-col cols="12" md="4">
                       <select
                         style="width:100px; height:50px"
-                        v-model="basephrase.module"
+                        v-model="basekeyword.module"
                       >
                         <option disabled value="">Modulo</option>
-                        <option>Saludo</option>
-                        <option>Producto</option>
-                        <option>Validacion</option>
-                        <option>Venta</option>
-                        <option>Despedida</option>
-                        <option>Cierre</option>
+                        <option>Interacción</option>
+                        <option>Gestión del cliente</option>
+                        <option>Procesos y direccionamiento</option>
                       </select>
                       <!-- <v-text-field
-                        v-model="basephrase.module"
+                        v-model="basekeyword.module"
                         label="Module"
                         solo
                         required
-                        >{{ basephrase.module }}</v-text-field
+                        >{{ basekeyword.module }}</v-text-field
                       > -->
                     </v-col>
                     <v-col cols="12" md="4">
                       <select
                         style="width:110px; height:50px"
-                        v-model="basephrase.category"
+                        v-model="basekeyword.category"
                       >
                         <option disabled value="">Categoria</option>
                         <option>Infaltable</option>
@@ -185,11 +182,11 @@
                         <option>No permitida</option>
                       </select>
                       <!-- <v-text-field
-                        v-model="basephrase.category"
+                        v-model="basekeyword.category"
                         label="Category"
                         solo
                         required
-                        >{{ basephrase.category }}</v-text-field
+                        >{{ basekeyword.category }}</v-text-field
                       > -->
                     </v-col>
                   </v-row>
@@ -220,23 +217,25 @@
 
 <script>
 let currentUrl = window.location.pathname;
-console.log("currenturl", currentUrl);
-let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}/`; //igsSerfinanzaCO/basephrases/
+let nameBDconn = currentUrl.split("/");
+//console.log("currenturl", currentUrl);
+let url = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/basekeywords/`; //igsSerfinanzaCO/basephrases/
 console.log("url", url);
+//let url = "http://localhost:3000/basekeywords/";
 
 export default {
-  name: "PxTableBasephrases",
+  name: "PxTableBasekeywords",
   data() {
     return {
       filter: null,
       module: "",
       category: "",
-      basephrases: [],
+      basekeywords: [],
       dialog: false,
       operacion: "",
-      basephrase: {
+      basekeyword: {
         _id: null,
-        phrase: "",
+        keyword: "",
         module: this.module,
         category: this.category
       },
@@ -247,23 +246,21 @@ export default {
   },
   created() {
     this.mostrar();
-    // let currentUrl = window.location.pathname;
-    // console.log(currentUrl);
   },
   methods: {
     async mostrar() {
       const response = await this.axios.get(url);
-      this.basephrases = response.data.body;
+      this.basekeywords = response.data.body;
     },
-    paginate(basephrases) {
+    paginate(basekeywords) {
       let page = this.page;
       let perPage = this.perPage;
       let from = page * perPage - perPage;
       let to = page * perPage;
-      return basephrases.slice(from, to);
+      return basekeywords.slice(from, to);
     },
-    setBasephrases() {
-      let numberOfPages = Math.ceil(this.basephrases.length / this.perPage);
+    setBasekeywords() {
+      let numberOfPages = Math.ceil(this.basekeywords.length / this.perPage);
       for (let i = 1; i <= numberOfPages; i++) {
         this.pages.push(i);
       }
@@ -271,31 +268,33 @@ export default {
 
     crear() {
       let parametros = {
-        phrase: this.basephrase.phrase,
-        module: this.basephrase.module,
-        category: this.basephrase.category
+        keyword: this.basekeyword.keyword,
+        module: this.basekeyword.module,
+        category: this.basekeyword.category
       };
       this.axios.post(url, parametros).then(response => {
-        console.log("respuesta response.data", response.data);
+        console.log(response.data);
 
         this.$swal.fire("¡Creado!", "", "success");
       });
-      this.basephrase.phrase = "";
-      this.basephrase.module = "";
-      this.basephrase.category = "";
+      this.basekeyword.keyword = "";
+      this.basekeyword.module = "";
+      this.basekeyword.category = "";
     },
     editar() {
       let parametros = {
-        id: this.basephrase._id,
-        phrase: this.basephrase.phrase,
-        module: this.basephrase.module,
-        category: this.basephrase.category
+        id: this.basekeyword._id,
+        keyword: this.basekeyword.keyword,
+        module: this.basekeyword.module,
+        category: this.basekeyword.category
       };
-      this.axios.patch(url + this.basephrase._id, parametros).then(response => {
-        console.log(response);
-        this.$swal.fire("¡Modificado!", "", "success");
-        this.mostrar();
-      });
+      this.axios
+        .patch(url + this.basekeyword._id, parametros)
+        .then(response => {
+          console.log(response);
+          this.$swal.fire("¡Modificado!", "", "success");
+          this.mostrar();
+        });
     },
     borrar(id) {
       this.$swal
@@ -330,32 +329,32 @@ export default {
     formNuevo: function() {
       this.dialog = true;
       this.operacion = "crear";
-      this.basephrase.phrase = "";
-      this.basephrase.module = "";
-      this.basephrase.category = "";
+      this.basekeyword.keyword = "";
+      this.basekeyword.module = "";
+      this.basekeyword.category = "";
     },
-    formEditar: function(id, phrase, module, category) {
-      this.basephrase._id = id;
-      this.basephrase.phrase = phrase;
-      this.basephrase.module = module;
-      this.basephrase.category = category;
+    formEditar: function(id, keyword, module, category) {
+      this.basekeyword._id = id;
+      this.basekeyword.keyword = keyword;
+      this.basekeyword.module = module;
+      this.basekeyword.category = category;
       this.dialog = true;
       this.operacion = "editar";
     }
   },
   computed: {
-    displayedBasephrases() {
-      return this.paginate(this.basephrases);
+    displayedBasekeywords() {
+      return this.paginate(this.basekeywords);
     },
-    filteredBasephrases() {
-      return this.basephrases.filter(basephrase =>
-        basephrase.phrase.toLowerCase().includes(this.filter.toLowerCase())
+    filteredBasekeywords() {
+      return this.basekeywords.filter(basekeyword =>
+        basekeyword.keyword.toLowerCase().includes(this.filter.toLowerCase())
       );
     }
   },
   watch: {
-    basephrases() {
-      this.setBasephrases();
+    basekeywords() {
+      this.setBasekeywords();
     },
     checkFilterActivate: function(e) {
       if (this.filter == null) {

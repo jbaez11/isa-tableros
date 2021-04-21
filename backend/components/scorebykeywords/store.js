@@ -10,10 +10,24 @@ async function getScore(filterScore){
     let filter = {};
     
     if(filterScore != null){
-        filter = {
-            eventDate:filterScore
-        };
-    }
+        if(filterScore[0] == 2 && filterScore[1]==0){
+            filter = {
+                eventDate:filterScore
+              //eventDate:{$gte:[filterAgentsAudit[0]],$lte:[filterAgentsAudit[1]]}
+                //eventDate:{in:[filterAgentsAudit,filterAgentsAudit2]}
+            };
+        }else{
+            if(filterScore[0]>filterScore[1]){
+               filterScore.sort();
+            }
+            filter = {
+                //eventDate:filterAgentsAudit
+              eventDate:{$gte:[filterScore[0]],$lte:[filterScore[1]]}
+                //eventDate:{in:[filterAgentsAudit,filterAgentsAudit2]}
+            };
+        }
+        
+    } 
     var score ;
     switch (nameDB) {
         
@@ -21,7 +35,7 @@ async function getScore(filterScore){
             score = await scoreSerFinanzaModel.find(filter);
             return score;
 
-        case 'igsBancolombiaCO':
+        case 'aigsBancolombiaCO':
             score = await scoreBancoColombiaModel.find(filter);
             return score ;
 

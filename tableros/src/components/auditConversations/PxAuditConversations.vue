@@ -107,7 +107,10 @@ import PxAuditConversations from
           type="text"
           v-model="search2"
         />
-        <v-simple-table class="mt-5" v-if="recordsConversationsMostrar != false">
+        <v-simple-table
+          class="mt-5"
+          v-if="recordsConversationsMostrar != false"
+        >
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -134,7 +137,10 @@ import PxAuditConversations from
         </v-simple-table>
         <!--ENDTABLE LLAMADAS-->
         <!--Tablas cluster-->
-        <v-simple-table class="mt-5" v-if="conversationsCompleteMostrar != false">
+        <v-simple-table
+          class="mt-5"
+          v-if="conversationsCompleteMostrar != false"
+        >
           <template>
             <thead>
               <tr style="background-color:#CACACA">
@@ -196,8 +202,8 @@ import PxAuditConversations from
 <script>
 let currentUrl = window.location.pathname;
 let nameBDconn = currentUrl.split("/");
-let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`;
-let urlConversations = `https://backend-tableros-exhausted-raven-fv.mybluemix.net/${nameBDconn[1]}/conversations`;
+let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}`;
+let urlConversations = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/conversations`;
 export default {
   name: "PxAuditConversations",
   data() {
@@ -218,12 +224,12 @@ export default {
       agentSelected: "",
       keyfileSelected: "",
       recordsConversations: [],
-      recordsConversationsMostrar:false,
+      recordsConversationsMostrar: false,
       bandera: false,
       banderaConversations: false,
       conversationAgent: [],
       conversationsComplete: [],
-      conversationsCompleteMostrar:false,
+      conversationsCompleteMostrar: false
     };
   },
   created() {
@@ -231,7 +237,7 @@ export default {
   },
   computed: {
     submitDate() {
-      const date = new Date(this.date).toISOString().substr(0, 10);;
+      const date = new Date(this.date).toISOString().substr(0, 10);
 
       console.log(date);
       this.mostrar();
@@ -342,16 +348,16 @@ export default {
       if (this.bandera == false) {
         this.search = name;
         this.bandera = true;
-        this.recordsConversationsMostrar=true;
+        this.recordsConversationsMostrar = true;
       } else {
         this.search = "";
         this.bandera = false;
-        this.recordsConversationsMostrar=false;
+        this.recordsConversationsMostrar = false;
         this.search2 = "";
         this.banderaConversations = false;
-        this.conversationsCompleteMostrar=false;
-        this.agentSelected="";
-        this.keyfileSelected="";
+        this.conversationsCompleteMostrar = false;
+        this.agentSelected = "";
+        this.keyfileSelected = "";
       }
       this.mostrar();
     },
@@ -361,12 +367,12 @@ export default {
       if (this.banderaConversations == false) {
         this.search2 = keyfile;
         this.banderaConversations = true;
-        this.conversationsCompleteMostrar=true;
+        this.conversationsCompleteMostrar = true;
       } else {
         this.search2 = "";
         this.banderaConversations = false;
-        this.conversationsCompleteMostrar=false;
-        this.keyfileSelected="";
+        this.conversationsCompleteMostrar = false;
+        this.keyfileSelected = "";
       }
       this.mostrar();
     },

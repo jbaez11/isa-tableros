@@ -14,7 +14,7 @@ async function getBaseKeywords(nameDB){
             baseKeywords = await baseKeywordsSerFinanzaModel.find();
             return baseKeywords;
 
-        case 'igsBancolombiaCO':
+        case 'aigsBancolombiaCO':
             baseKeywords = await baseKeywordsBancoColombiaModel.find();
             return baseKeywords ;
 

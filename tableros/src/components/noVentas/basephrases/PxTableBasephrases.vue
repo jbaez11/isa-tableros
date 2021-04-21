@@ -159,12 +159,9 @@
                         v-model="basephrase.module"
                       >
                         <option disabled value="">Modulo</option>
-                        <option>Saludo</option>
-                        <option>Producto</option>
-                        <option>Validacion</option>
-                        <option>Venta</option>
-                        <option>Despedida</option>
-                        <option>Cierre</option>
+                        <option>Interacción</option>
+                        <option>Gestión del cliente</option>
+                        <option>Procesos y direccionamiento</option>
                       </select>
                       <!-- <v-text-field
                         v-model="basephrase.module"
@@ -220,8 +217,9 @@
 
 <script>
 let currentUrl = window.location.pathname;
-console.log("currenturl", currentUrl);
-let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}/`; //igsSerfinanzaCO/basephrases/
+let nameBDconn = currentUrl.split("/");
+//console.log("currenturl", currentUrl);
+let url = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/basephrases/`; //igsSerfinanzaCO/basephrases/
 console.log("url", url);
 
 export default {

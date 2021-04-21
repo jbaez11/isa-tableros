@@ -10,7 +10,8 @@ import Consumption from "@/views/consumption/Consumption";
 import ScoresByKeywords from "@/views/scoresbykeywords/ScoresByKeywords";
 import AuditConversations from "@/views/auditConversations/AuditConversations";
 import AuditScoringKeywordsNoVentas from "@/views/noVentas/auditscoringkeywords/AuditScoringKeywords";
-
+import BasekeywordsNoVentas from "@/views/noVentas/basekeywords/Basekeywords";
+import BasePhrasesNoVentas from "@/views/noVentas/basephrases/Basephrases";
 Vue.use(Router);
 
 export default new Router({
@@ -66,6 +67,16 @@ export default new Router({
       path: "/:bd/auditscoringkeywordsnoventas",
       name: "auditscoringkeywordsnoventas",
       component: AuditScoringKeywordsNoVentas
+    },
+    {
+      path: "/:bd/basekeywordsnoventas",
+      name: "basekeywordsnoventas",
+      component: BasekeywordsNoVentas
+    },
+    {
+      path: "/:bd/basephrasesnoventas",
+      name: "basephrasesnoventas",
+      component: BasePhrasesNoVentas
     }
   ]
 });

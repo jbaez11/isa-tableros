@@ -9,7 +9,7 @@ async function getAgents( nameDB){
             agents = await agentsSerFinanzaModel.find();
             return agents;
 
-        case 'igsBancolombiaCO':
+        case 'aigsBancolombiaCO':
             agents = await agentsBancoColombiaModel.find();
             return agents ;
 

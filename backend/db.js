@@ -1,12 +1,14 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 
+
 function makeNewConnection(dbname) {
-    const db = mongoose.createConnection('mongodb://ibm_cloud_e38e679f_01a8_43f8_be2f_b5d7c472e5e2:8ec65d06003ca8f816bb889523f8a3c1adb14f31b4975251f70fc83963210229@eeb30e5d-0f01-45c2-9209-585c7ef7c3f6-0.budepemd0im5pmu4u60g.databases.appdomain.cloud:30923,eeb30e5d-0f01-45c2-9209-585c7ef7c3f6-1.budepemd0im5pmu4u60g.databases.appdomain.cloud:30923,eeb30e5d-0f01-45c2-9209-585c7ef7c3f6-2.budepemd0im5pmu4u60g.databases.appdomain.cloud:30923/ibmcloud?authSource=admin&replicaSet=replset', 
+    const db = mongoose.createConnection(`${process.env.MONGO_STRING}`, 
     {
         dbName:dbname,
         useNewUrlParser: true, useUnifiedTopology: true,
         tls: true, auto_reconnect:true,
-        tlsCAFile: `${__dirname}/7cf7953e-9946-4392-9e1b-b577d67d9005`
+        
     });
 
     db.on('error', function (error) {

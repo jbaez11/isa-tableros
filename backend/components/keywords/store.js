@@ -21,7 +21,7 @@ async function getAsesores(filterAgentsAudit,nameDB){
             keywords = await keywordsSerFinanzaModel.find(filter);
             return keywords;
 
-        case 'igsBancolombiaCO':
+        case 'aigsBancolombiaCO':
             keywords = await keywordsBancoColombiaModel.find(filter);
             return keywords ;
 

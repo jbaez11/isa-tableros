@@ -102,7 +102,7 @@
 <script>
 let currentUrl = window.location.pathname;
 console.log("currenturl", currentUrl);
-let url = `https://backend-tableros-exhausted-raven-fv.mybluemix.net${currentUrl}`; //igsSerfinanzaCO/basephrases/
+let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}`; //igsSerfinanzaCO/basephrases/
 console.log("url", url);
 
 export default {
