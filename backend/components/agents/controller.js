@@ -25,57 +25,22 @@ function addAgents(name,identification,gender,dbname){
         store.add(fullAgents,dbname);
         resolve(fullAgents,dbname);
         
-           
-            // //console.log('funcion agents',store.list());
-            // store.list()
-            // .then(lista=>{
-            //     //console.log('funcion agents',typeof(lista.length));
-            //     let validador = false;
-            //     let tam = lista.length;
-            //     for(let i=0;i<tam;i++){
-                    
-            //          if(lista[i].identification==identification){
-            //              reject('dato repetido')
-            //              validador = true;
-            //              resolve('');
-            //              return false;
-            //          }
-            //     }
-            //     if(!validador){
-            //         const  fullAgents = {
-            //             name:name,
-            //             identification:identification,
-            //             gender: gender,
-            //         }
-            //         store.add(fullAgents,dbname);
-            //         resolve(fullAgents,dbname);
-                    
-            //     }
-
-
-                
-                
-            //     //console.log('funcion agents',lista);
-            // })
-        
-
     })
     
 }
 
-function updateAgents(id, name,identification,gender,createdAt,dbname){//
+function updateAgents(id, name,identification,gender,dbname){//
     return new Promise(async(resolve,reject) => {
         console.log('id', id);
         console.log('name', name);
         console.log('identification' , identification);
         console.log('gender', gender);
-        createdAt=new Date();
-        if(!id || !name || !identification || !gender || !createdAt){
+        if(!id || !name || !identification || !gender ){
             reject('Invalid Data');
             return false;
         }
 
-        const result = await store.updateText(id,name,identification,gender,createdAt,dbname);
+        const result = await store.updateText(id,name,identification,gender,dbname);
 
         resolve(result,dbname);
     })

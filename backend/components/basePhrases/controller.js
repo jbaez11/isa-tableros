@@ -27,20 +27,20 @@ function addBasePhrases(phrase,module,category,dbname){
     
 }
 
-function updateBasePhrases(id, phrase,module,category,createdAt,dbname){//
+function updateBasePhrases(id, phrase,module,category,dbname){//
     return new Promise(async(resolve,reject) => {
         console.log('id', id);
         console.log('phrase', phrase);
         console.log('module' , module);
         console.log('category', category);
-        createdAt= new Date();
-        console.log('createdAt', createdAt);
-        if(!id || !phrase || !module || !category || !createdAt){
+        
+        
+        if(!id || !phrase || !module || !category ){
             reject('Invalid Data');
             return false;
         }
 
-        const result = await store.updateText(id,phrase,module,category,createdAt,dbname);
+        const result = await store.updateText(id,phrase,module,category,dbname);
 
         resolve(result);
     })

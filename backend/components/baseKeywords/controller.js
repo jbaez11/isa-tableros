@@ -1,5 +1,5 @@
 const store = require('./store');
-const utf8 = require('utf8');
+
 
 function getBaseKeywords(dbname){
     return new Promise((resolve,reject) => {
@@ -8,35 +8,20 @@ function getBaseKeywords(dbname){
     });
 }
 
-function addBaseKeywords(keyword,module,category,dbname){
+function addBaseKeywords(keyword,category,module,cluster,dbname){
 
     return new Promise((resolve,reject) => {
-        if(!keyword || !module || !category){
+        if(!keyword || !category || !module || !cluster){
             console.log('[Message Controller] no hay keyword o module o category');
             reject('Los datos son incorrectos');
             return false;
         }
-        // store.list()
-        // .then(lista=>{
-        //     let keywordList = [];
-        //     let numKeywords=lista.length;
-        //     let bufferMix=0;
-        //     for(let i =0;i<numKeywords;i++){
-        //         keywordList.push(lista[i].keyword);
-        //         let keywordUTF8 = utf8.encode(lista[i].keyword);
-        //         console.log(keywordUTF8)
-        //         bufferMix +=  keywordUTF8.length;
-                
-        //     }
-
-        //     let buffer_bytes = bufferMix + 4 *numKeywords+110;
-
-        //     //console.log(buffer_bytes);
-        // })
+        
         const  fullBaseKeywords = {
             keyword:keyword,
-            module:module,
             category: category,
+            module:module,
+            cluster:cluster
         }
         store.add(fullBaseKeywords,dbname);
         resolve(fullBaseKeywords,dbname);
@@ -45,21 +30,22 @@ function addBaseKeywords(keyword,module,category,dbname){
     
 }
 
-function updateBaseKeywords(id, keyword,module,category,createdAt,dbname){//
+function updateBaseKeywords(id, keyword,category,module,cluster,dbname){//
     return new Promise(async(resolve,reject) => {
         console.log('id', id);
         console.log('keyword', keyword);
         console.log('module' , module);
         console.log('category', category);
-        createdAt=new Date();
-        if(!id || !keyword || !module || !category){
+        console.log('cluster', cluster);
+        
+        if(!id || !keyword || !category || !module || !cluster){
             reject('Invalid Data');
             return false;
         }
 
-        const result = await store.updateText(id,keyword,module,category,createdAt,dbname);
+        const result = await store.updateText(id,keyword,category,module,cluster,dbname);
 
-        resolve(result);
+        resolve(result,dbname);
     })
 }
 

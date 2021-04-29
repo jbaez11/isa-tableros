@@ -266,6 +266,7 @@
 
 <script>
 import PxInfo from "@/components/agentsAudit/PxInfo.vue";
+
 let currentUrl = window.location.pathname;
 let nameBDconn = currentUrl.split("/");
 let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}`;
@@ -520,51 +521,66 @@ export default {
       }
     },
     mostrarTableDetailOfAgents(data) {
-      let superAgentsSummary = {};
-      console.log("data para dividir", data.length);
-      for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < data[i].agentsSummary.length; j++) {
-          let agentPackage = data[i].agentsSummary[j];
-          let agentName = agentPackage.name;
+      let sizeOfData = data.length;
+      let superRecordingsSummary = {};
+      for (let i = 0; i < sizeOfData; i++) {
+        for (let key in data[i].recordingsSummary) {
+          let agent = key;
+          let recordinsPackage = data[i].recordingsSummary[agent];
+          let realTotalScore = 0;
+          let recordings = 0;
+          for (let j = 0; j < recordinsPackage.length; j++) {
+            realTotalScore += recordinsPackage[j].results.totalScore;
+            recordings += 1;
+          }
 
-          if (
-            !Object.prototype.hasOwnProperty.call(superAgentsSummary, agentName)
-          ) {
-            superAgentsSummary[agentName] = {
-              results: agentPackage.results
+          console.log(
+            "name ",
+            agent,
+            "score ",
+            realTotalScore,
+            " recordings ",
+            recordings
+          );
+          if (!(agent in superRecordingsSummary)) {
+            superRecordingsSummary[agent] = {
+              results: {}
             };
+
+            superRecordingsSummary[agent]["results"][
+              "totalScore"
+            ] = realTotalScore;
+            superRecordingsSummary[agent]["results"]["recordings"] = recordings;
           } else {
-            superAgentsSummary[agentName].results.recordings +=
-              agentPackage.results.recordings;
-            superAgentsSummary[agentName].results.totalScore +=
-              agentPackage.results.totalScore;
-            console.log("i", i);
-            if (i == data.length - 1) {
-              superAgentsSummary[agentName].results.totalScore =
-                (superAgentsSummary[agentName].results.totalScore * 100) /
-                data.length;
-            }
+            superRecordingsSummary[agent]["results"][
+              "totalScore"
+            ] += realTotalScore;
+            superRecordingsSummary[agent]["results"][
+              "recordings"
+            ] += recordings;
           }
         }
-
-        let superAgentsSummaryArray = [];
-
-        for (let key in superAgentsSummary) {
-          //superAgentsSummary[key].results.totalScore
-          let agentPackage = {
-            name: key,
-            results: superAgentsSummary[key].results
-          };
-
-          superAgentsSummaryArray.push(agentPackage);
-
-          //superAgentsSummary[key].results.totalScore=superAgentsSummary[key].results.totalScore/data.length*100;
-        }
-
-        this.detailOfAgent = superAgentsSummaryArray;
       }
+      for (let agent in superRecordingsSummary) {
+        superRecordingsSummary[agent]["results"]["totalScore"] =
+          (100 * superRecordingsSummary[agent]["results"]["totalScore"]) /
+          superRecordingsSummary[agent]["results"]["recordings"];
+      }
+      console.log("ver super", superRecordingsSummary);
 
-      //data.results.totalScore = data.results.totalScore *100;
+      let superRecordingsSummaryArray = [];
+
+      for (let agent in superRecordingsSummary) {
+        let agentPackage = {
+          name: agent,
+          results: superRecordingsSummary[agent].results
+        };
+
+        superRecordingsSummaryArray.push(agentPackage);
+      }
+      console.log("superAgentsSummaryArray", superRecordingsSummaryArray);
+
+      this.detailOfAgent = superRecordingsSummaryArray;
     },
     mostrarTableCallDetailByAgent(data, name) {
       this.recordScoreByKeywords = [];
@@ -600,14 +616,6 @@ export default {
           }
         }
       }
-
-      // for (let key in data) {
-      //   if (key == name) {
-
-      //     this.recordScoreByKeywords = data[key];
-
-      //   }
-      // }
     },
     mostrarTableCluster(data, keyfile) {
       //this.scoringKeywordsContents=data[0].contents;

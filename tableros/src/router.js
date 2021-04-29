@@ -12,6 +12,7 @@ import AuditConversations from "@/views/auditConversations/AuditConversations";
 import AuditScoringKeywordsNoVentas from "@/views/noVentas/auditscoringkeywords/AuditScoringKeywords";
 import BasekeywordsNoVentas from "@/views/noVentas/basekeywords/Basekeywords";
 import BasePhrasesNoVentas from "@/views/noVentas/basephrases/Basephrases";
+import Stadisticsofkeywords from "@/views/stadisticsofkeywords/Stadisticsofkeywords";
 Vue.use(Router);
 
 export default new Router({
@@ -77,6 +78,11 @@ export default new Router({
       path: "/:bd/basephrasesnoventas",
       name: "basephrasesnoventas",
       component: BasePhrasesNoVentas
+    },
+    {
+      path: "/:bd/stadisticsofkeywords",
+      name: "stadisticsofkeywords",
+      component: Stadisticsofkeywords
     }
   ]
 });

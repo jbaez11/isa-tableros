@@ -8,26 +8,21 @@
         <!--calendar and numCall-->
         <v-container class="">
           <v-row>
-            <v-col lg="2" cols="5" sm="5" style="">
-              <h3 style="color:#FF9B00">
-                FECHA
-                <!-- Date <span style="color:gray;">of</span> records -->
-              </h3>
+            <v-col cols="12" sm="6">
               <v-menu
                 ref="menu1"
                 v-model="menu1"
                 :close-on-content-click="false"
                 transition="scale-transition"
-                color="orange accent-3 lighten-1"
                 offset-y
                 max-width="290px"
                 min-width="auto"
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="dateFormatted"
-                    color="orange accent-3 lighten-1"
-                    hint="MM/DD/YYYY"
+                    v-model="dates"
+                    label="Date"
+                    hint="YYYY/MM/DD"
                     persistent-hint
                     prepend-icon="mdi-calendar"
                     v-bind="attrs"
@@ -36,18 +31,12 @@
                   ></v-text-field>
                 </template>
                 <v-date-picker
+                  v-model="dates"
+                  range
                   color="orange accent-3 lighten-1"
-                  v-model="date"
-                  no-title
-                  @input="menu1 = false"
                 ></v-date-picker>
               </v-menu>
-              <!-- <v-date-picker
-                color="orange accent-3 lighten-1"
-                v-model="date"
-              ></v-date-picker> -->
-              <!-- <p>{{date}}</p>-->
-              <p v-show="false">{{ submitDate }}</p>
+              <p v-show="false">{{ dateRangeText }}</p>
             </v-col>
             <v-col
               style="justify-content: center; align-items: center;text-align: center;"
@@ -237,22 +226,31 @@
           </template>
         </v-simple-table>
         <!--Tablas cluster-->
+        <div v-if="pxinfo == true">
+          <px-info></px-info>
+        </div>
       </v-main>
     </v-app>
   </div>
 </template>
 
 <script>
+import PxInfo from "@/components/agentsAudit/PxInfo.vue";
 let currentUrl = window.location.pathname;
 let nameBDconn = currentUrl.split("/");
 let url = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/auditscoringkeywords`;
 let urlClusterScore = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/scoringkeywords`;
 export default {
   name: "PxAuditScoringKeywords",
+  components: {
+    PxInfo
+  },
   data() {
     return {
-      date: new Date().toISOString().substr(0, 10),
-      dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
+      dates: [new Date().toISOString().substr(0, 10)],
+      pxinfo: true,
+      // date: new Date().toISOString().substr(0, 10),
+      // dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
       cantidadLlamadas: 0,
       scoresbykeywords: [],
       clusterScore: {},
@@ -278,15 +276,8 @@ export default {
     this.mostrar();
   },
   computed: {
-    submitDate() {
-      const date = new Date(this.date).toISOString().substr(0, 10);
-
-      console.log(date);
-      this.mostrar();
-      return date;
-    },
-    computedDateFormatted() {
-      return this.formatDate(this.date);
+    dateRangeText() {
+      return this.dates.join(" ~ ") && this.mostrar();
     },
     filteredAgents: function() {
       const altOrder = this.sortOrder == 1 ? -1 : 1;
@@ -376,12 +367,7 @@ export default {
         });
     }
   },
-  watch: {
-    date(val) {
-      console.log(val);
-      this.dateFormatted = this.formatDate(this.date);
-    }
-  },
+  watch: {},
   methods: {
     changeSortOrder(order1) {
       this.sortOrder = this.sortOrder == 1 ? -1 : 1;
@@ -393,18 +379,7 @@ export default {
       this.sortOrderCalls = this.sortOrderCalls == 1 ? -1 : 1;
       this.ordenamiento1Calls = order1;
     },
-    formatDate(date) {
-      if (!date) return null;
 
-      const [year, month, day] = date.split("-");
-      return `${month}/${day}/${year}`;
-    },
-    parseDate(date) {
-      if (!date) return null;
-
-      const [month, day, year] = date.split("/");
-      return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-    },
     mostrarDetalleCall(name) {
       this.agentSelected = name;
       console.log("el agent seleccionado", this.agentSelected);
@@ -441,19 +416,33 @@ export default {
       this.mostrar();
     },
     async mostrar() {
-      const response = await this.axios.get(
-        url + `?eventDate=${this.date}T00:00:00.000Z`
-      );
+      let response;
+
+      if (this.dates.length == 1) {
+        response = await this.axios.get(
+          url + `?eventDate=${this.dates}T00:00:00.000Z`
+        );
+        if (this.scoresbykeywords[0].recordingsSummary == undefined) {
+          this.pxinfo = true;
+        } else {
+          this.pxinfo = false;
+        }
+        //console.log("url + `?eventDate=${this.dates}T00:00:00.000Z`",url + `?eventDate=${this.dates}T00:00:00.000Z`)
+      } else {
+        response = await this.axios.get(
+          url +
+            `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`
+        );
+        //console.log("url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}`",url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`)
+      }
 
       this.scoresbykeywords = response.data.body;
       console.log("object", this.scoresbykeywords);
 
-      this.mostrarCantidadDeLLamadas(
-        this.scoresbykeywords[0].recordingsSummary
-      );
-      this.mostrarTableDetailOfAgents(this.scoresbykeywords[0].agentsSummary);
+      this.mostrarCantidadDeLLamadas(this.scoresbykeywords);
+      this.mostrarTableDetailOfAgents(this.scoresbykeywords);
       this.mostrarTableCallDetailByAgent(
-        this.scoresbykeywords[0].recordingsSummary,
+        this.scoresbykeywords,
         this.agentSelected
       );
       if (this.keyfileSelected.length > 0) {
@@ -471,37 +460,113 @@ export default {
     },
     mostrarCantidadDeLLamadas(data) {
       let suma = 0;
-      for (let key in data) {
-        suma += data[key].length;
+      for (let i = 0; i < data.length; i++) {
+        for (let key in data[i].recordingsSummary) {
+          suma += data[i].recordingsSummary[key].length;
+        }
       }
 
       this.cantidadLlamadas = suma;
+      if (this.cantidadLlamadas == 0) {
+        this.pxinfo = true;
+      } else {
+        this.pxinfo = false;
+      }
     },
     mostrarTableDetailOfAgents(data) {
-      for (let key in data) {
-        data[key].results.totalScore = data[key].results.totalScore * 100;
-      }
-      this.detailOfAgent = data;
-    },
-    mostrarTableCallDetailByAgent(data, name) {
-      for (let key in data) {
-        if (key == name) {
-          for (let i = 0; i < data[key].length; i++) {
-            data[key][i].results["interacción"] =
-              data[key][i].results["interacción"] * 100;
-            data[key][i].results["gestión del cliente"] =
-              data[key][i].results["gestión del cliente"] * 100;
-            data[key][i].results["procesos y direccionamiento"] =
-              data[key][i].results["procesos y direccionamiento"] * 100;
+      let sizeOfData = data.length;
+      let superRecordingsSummary = {};
+      for (let i = 0; i < sizeOfData; i++) {
+        for (let key in data[i].recordingsSummary) {
+          let agent = key;
+          let recordinsPackage = data[i].recordingsSummary[agent];
+          let realTotalScore = 0;
+          let recordings = 0;
+          for (let j = 0; j < recordinsPackage.length; j++) {
+            realTotalScore += recordinsPackage[j].results.totalScore;
+            recordings += 1;
+          }
 
-            data[key][i].results.totalScore =
-              data[key][i].results.totalScore * 100;
+          console.log(
+            "name ",
+            agent,
+            "score ",
+            realTotalScore,
+            " recordings ",
+            recordings
+          );
+          if (!(agent in superRecordingsSummary)) {
+            superRecordingsSummary[agent] = {
+              results: {}
+            };
+
+            superRecordingsSummary[agent]["results"][
+              "totalScore"
+            ] = realTotalScore;
+            superRecordingsSummary[agent]["results"]["recordings"] = recordings;
+          } else {
+            superRecordingsSummary[agent]["results"][
+              "totalScore"
+            ] += realTotalScore;
+            superRecordingsSummary[agent]["results"][
+              "recordings"
+            ] += recordings;
           }
         }
       }
-      for (let key in data) {
-        if (key == name) {
-          this.recordScoreByKeywords = data[key];
+      for (let agent in superRecordingsSummary) {
+        superRecordingsSummary[agent]["results"]["totalScore"] =
+          (100 * superRecordingsSummary[agent]["results"]["totalScore"]) /
+          superRecordingsSummary[agent]["results"]["recordings"];
+      }
+      console.log("ver super", superRecordingsSummary);
+
+      let superRecordingsSummaryArray = [];
+
+      for (let agent in superRecordingsSummary) {
+        let agentPackage = {
+          name: agent,
+          results: superRecordingsSummary[agent].results
+        };
+
+        superRecordingsSummaryArray.push(agentPackage);
+      }
+      console.log("superAgentsSummaryArray", superRecordingsSummaryArray);
+
+      this.detailOfAgent = superRecordingsSummaryArray;
+    },
+    mostrarTableCallDetailByAgent(data, name) {
+      this.recordScoreByKeywords = [];
+      console.log(name);
+
+      console.log("length", data.length);
+      for (let i = 0; i < data.length; i++) {
+        for (let key in data[i].recordingsSummary) {
+          console.log("keyyy", key);
+          if (key == name) {
+            console.log("key ento", data[i].recordingsSummary[key]);
+
+            for (let j = 0; j < data[i].recordingsSummary[key].length; j++) {
+              data[i].recordingsSummary[key][j].results["interacción"] =
+                data[i].recordingsSummary[key][j].results["interacción"] * 100;
+              data[i].recordingsSummary[key][j].results["gestión del cliente"] =
+                data[i].recordingsSummary[key][j].results[
+                  "gestión del cliente"
+                ] * 100;
+              data[i].recordingsSummary[key][j].results[
+                "procesos y direccionamiento"
+              ] =
+                data[i].recordingsSummary[key][j].results[
+                  "procesos y direccionamiento"
+                ] * 100;
+              data[i].recordingsSummary[key][j].results.totalScore =
+                data[i].recordingsSummary[key][j].results.totalScore * 100;
+            }
+
+            this.recordScoreByKeywords = this.recordScoreByKeywords.concat(
+              data[i].recordingsSummary[key]
+            );
+          }
         }
       }
     },
@@ -512,12 +577,7 @@ export default {
       let scoringArray = [];
       let id = 0;
       for (let moduleKey in contents) {
-        //console.log('modulekey',moduleKey);
-
-        //let clusterArray = [];
         for (let clusterKey in contents[moduleKey]) {
-          //console.log("cluster[key]",clusterKey);
-
           let kp = contents[moduleKey][clusterKey].results;
           let kpStrings = kp.join(", ");
           let clusterPackage = {
@@ -527,16 +587,11 @@ export default {
             score: contents[moduleKey][clusterKey].score * 100,
             results: kpStrings
           };
-          //clusterArray.push(clusterPackage);
+
           scoringArray.push(clusterPackage);
           id++;
         }
-        //  let modulePackage = {
 
-        //    module:moduleKey,
-        //    clusters:clusterArray
-        //  }
-        //scoringArray.push(modulePackage);
         console.log(scoringArray);
         this.scoringKeywordsContents = scoringArray;
       }

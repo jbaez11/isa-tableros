@@ -8,13 +8,17 @@ const basePhrasesSchema = new Schema({
         type: String,
         unique:true
     },
-    module: String,
+    
     category: String,
+    module: String,
     createdAt: { 
         type: Date, 
         default: Date.now 
     },
 
+}, 
+{
+    versionKey: false,
 });
 
 //const model = mongoose.model('Basephrases', basePhrasesSchema);

@@ -159,12 +159,12 @@
                         v-model="basephrase.module"
                       >
                         <option disabled value="">Modulo</option>
-                        <option>Saludo</option>
-                        <option>Producto</option>
-                        <option>Validacion</option>
-                        <option>Venta</option>
-                        <option>Despedida</option>
-                        <option>Cierre</option>
+                        <option>saludo</option>
+                        <option>producto</option>
+                        <option>validacion</option>
+                        <option>venta</option>
+                        <option>despedida</option>
+                        <option>cierre</option>
                       </select>
                       <!-- <v-text-field
                         v-model="basephrase.module"
@@ -180,9 +180,9 @@
                         v-model="basephrase.category"
                       >
                         <option disabled value="">Categoria</option>
-                        <option>Infaltable</option>
-                        <option>Recomendacion</option>
-                        <option>No permitida</option>
+                        <option>infaltable</option>
+                        <option>recomendacion</option>
+                        <option>no permitida</option>
                       </select>
                       <!-- <v-text-field
                         v-model="basephrase.category"

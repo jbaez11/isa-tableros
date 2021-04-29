@@ -22,7 +22,7 @@ router.post('/', function(req,res){
     console.log('locals : ', res.locals.path_data_link );
     dbname = res.locals.path_data_link;
 
-    controller.addBaseKeywords(req.body.keyword, req.body.module, req.body.category,dbname)
+    controller.addBaseKeywords(req.body.keyword,req.body.category, req.body.module,req.body.cluster,dbname)
         .then((fullBaseKeywords) => {
             response.success(req,res, fullBaseKeywords, 201 );
         })
@@ -36,7 +36,7 @@ router.patch('/:id', function(req,res){
    console.log('locals : ', res.locals.path_data_link );
    dbname = res.locals.path_data_link;
 
-    controller.updateBaseKeywords(req.params.id, req.body.keyword, req.body.module, req.body.category,dbname)
+    controller.updateBaseKeywords(req.params.id, req.body.keyword, req.body.category, req.body.module,req.body.cluster,dbname)
         .then((data) => {
             response.success(req,res,data,200);
 

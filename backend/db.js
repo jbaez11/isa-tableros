@@ -6,8 +6,9 @@ function makeNewConnection(dbname) {
     const db = mongoose.createConnection(`${process.env.MONGO_STRING}`, 
     {
         dbName:dbname,
-        useNewUrlParser: true, useUnifiedTopology: true,
-        tls: true, auto_reconnect:true,
+        useNewUrlParser: true, useUnifiedTopology: true, auto_reconnect:true,
+        tls: true,
+        tlsCAFile: `${__dirname}/${process.env.CERTIFICATE}`
         
     });
 

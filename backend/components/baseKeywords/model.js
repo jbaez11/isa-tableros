@@ -7,20 +7,24 @@ const baseKeywordsSchema = new Schema({
     keyword :{
         type: String,
         unique:true,
-        lowercase: true
+        required:true,
+        //lowercase: true
     },
-    module: {
-        type: String,
-        lowercase: true
-    },
-    category: {
-        type: String,
-        lowercase: true
-    },
+    category: String,
+        
+    
+    module: String,
+        
+    
+    cluster: String,
+        
     createdAt: { 
         type: Date, 
         default: Date.now 
     },
+}, 
+{
+    versionKey: false,
 });
 
 //const model = mongoose.model('Basekeywords', baseKeywordsSchema);

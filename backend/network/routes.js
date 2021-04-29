@@ -11,6 +11,7 @@ const scores = require('../components/scorebykeywords/network');
 const scoringkeywords = require('../components/scoringKeywords/network');
 const auditconversations = require('../components/auditconversations/network');
 const conversations = require('../components/conversations/network');
+const stadisticsofkeywords = require('../components/stadisticsofkeywords/network')
 
 
 
@@ -27,6 +28,7 @@ const routes = function(server){
     server.use('/:bd/scoringkeywords', scoringkeywords);
     server.use('/:bd/auditconversations', auditconversations);
     server.use('/:bd/conversations', conversations);
+    server.use('/:bd/stadisticsofkeywords', stadisticsofkeywords);
     
 }
 

@@ -9,7 +9,7 @@ async function getAgents( nameDB){
             agents = await agentsSerFinanzaModel.find();
             return agents;
 
-        case 'aigsBancolombiaCO':
+        case 'igsBancolombiaCO':
             agents = await agentsBancoColombiaModel.find();
             return agents ;
 
@@ -77,18 +77,8 @@ function addAgents(agents,nameDB){
 
 }
 
-async function updateAgents(id,name,identification,gender,createdAt,nameDB){
-    // const foundAgents = await Model.findOne({
-    //     _id : id
-    // });
-
-    // foundAgents.name = name ;
-    // foundAgents.identification = identification ;
-    // foundAgents.gender = gender ;
-    // foundAgents.createdAt = createdAt;
-    // const newAgents = await foundAgents.save();
-    // console.log('new bae', newAgents);
-    // return newAgents;
+async function updateAgents(id,name,identification,gender,nameDB){
+    
 
     var foundAgents;
     var newAgents;
@@ -99,7 +89,6 @@ async function updateAgents(id,name,identification,gender,createdAt,nameDB){
             foundAgents.name = name ;
             foundAgents.identification = identification ;
             foundAgents.gender = gender ;
-            foundAgents.createdAt = createdAt;
             newAgents = await foundAgents.save();
             return newAgents;
 
@@ -108,7 +97,7 @@ async function updateAgents(id,name,identification,gender,createdAt,nameDB){
             foundAgents.name = name ;
             foundAgents.identification = identification ;
             foundAgents.gender = gender ;
-            foundAgents.createdAt = createdAt;
+            
             newAgents = await foundAgents.save();
             return newAgents;
 
@@ -117,7 +106,7 @@ async function updateAgents(id,name,identification,gender,createdAt,nameDB){
             foundAgents.name = name ;
             foundAgents.identification = identification ;
             foundAgents.gender = gender ;
-            foundAgents.createdAt = createdAt;
+            
             newAgents = await foundAgents.save();
             return newAgents;
         case 'igsBanorteMX' :
@@ -125,7 +114,7 @@ async function updateAgents(id,name,identification,gender,createdAt,nameDB){
             foundAgents.name = name ;
             foundAgents.identification = identification ;
             foundAgents.gender = gender ;
-            foundAgents.createdAt = createdAt;
+            
             newAgents = await foundAgents.save();
             return newAgents;
         case 'igsBanistmoPA' :
@@ -133,7 +122,7 @@ async function updateAgents(id,name,identification,gender,createdAt,nameDB){
             foundAgents.name = name ;
             foundAgents.identification = identification ;
             foundAgents.gender = gender ;
-            foundAgents.createdAt = createdAt;
+           
             newAgents = await foundAgents.save();
             return newAgents;
         case 'bpogsBoldEnglishUS' :
@@ -141,7 +130,7 @@ async function updateAgents(id,name,identification,gender,createdAt,nameDB){
             foundAgents.name = name ;
             foundAgents.identification = identification ;
             foundAgents.gender = gender ;
-            foundAgents.createdAt = createdAt;
+            
             newAgents = await foundAgents.save();
             return newAgents;
         case 'bpogsHitesDespachoRetrioCO' :
@@ -149,7 +138,7 @@ async function updateAgents(id,name,identification,gender,createdAt,nameDB){
             foundAgents.name = name ;
             foundAgents.identification = identification ;
             foundAgents.gender = gender ;
-            foundAgents.createdAt = createdAt;
+            
             newAgents = await foundAgents.save();
             return newAgents; 
     }

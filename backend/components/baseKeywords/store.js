@@ -14,7 +14,7 @@ async function getBaseKeywords(nameDB){
             baseKeywords = await baseKeywordsSerFinanzaModel.find();
             return baseKeywords;
 
-        case 'aigsBancolombiaCO':
+        case 'igsBancolombiaCO':
             baseKeywords = await baseKeywordsBancoColombiaModel.find();
             return baseKeywords ;
 
@@ -37,9 +37,6 @@ async function getBaseKeywords(nameDB){
 }
 
 function addBaseKeywords(baseKeywords,nameDB){
-
-    //const myBaseKeywords = new Model(baseKeywords);
-    //myBaseKeywords.save();
 
     var myBaseKeywords;
     switch (nameDB) {
@@ -75,21 +72,11 @@ function addBaseKeywords(baseKeywords,nameDB){
             myBaseKeywords.save();
             return myBaseKeywords;
         }
-
+        return myBaseKeywords;  
 }
 
-async function updateBaseKeywords(id,keyword,module,category,createdAt,nameDB){
-    // const foundBaseKeywords = await Model.findOne({
-    //     _id : id
-    // });
-
-    //  foundBaseKeywords.keyword = keyword ;
-    //  foundBaseKeywords.module = module ;
-    //  foundBaseKeywords.category = category ;
-    //  foundBaseKeywords.createdAt=createdAt;
-    // const newBaseKeywords = await foundBaseKeywords.save();
-    // console.log('new bae', newBaseKeywords);
-    // return newBaseKeywords;
+async function updateBaseKeywords(id,keyword,category,module,cluster,nameDB){
+    
 
     var foundBaseKeywords;
     var newBaseKeywords;
@@ -98,60 +85,60 @@ async function updateBaseKeywords(id,keyword,module,category,createdAt,nameDB){
         case 'igsSerfinanzaCO':
             foundBaseKeywords = await baseKeywordsSerFinanzaModel.findOne({_id:id});
             foundBaseKeywords.keyword = keyword ;
-            foundBaseKeywords.module = module ;
             foundBaseKeywords.category = category ;
-            foundBaseKeywords.createdAt=createdAt;
+            foundBaseKeywords.module = module ;
+            foundBaseKeywords.cluster=cluster;
             newBaseKeywords = await foundBaseKeywords.save();
             return newBaseKeywords;
 
         case 'igsBancolombiaCO':
             foundBaseKeywords = await baseKeywordsBancoColombiaModel.findOne({_id:id});
             foundBaseKeywords.keyword = keyword ;
-            foundBaseKeywords.module = module ;
             foundBaseKeywords.category = category ;
-            foundBaseKeywords.createdAt=createdAt;
+            foundBaseKeywords.module = module ;
+            foundBaseKeywords.cluster=cluster;
             newBaseKeywords = await foundBaseKeywords.save();
             return newBaseKeywords ;
 
         case 'igsEnelCL':
             foundBaseKeywords = await baseKeywordsEnelChileModel.findOne({_id:id});
             foundBaseKeywords.keyword = keyword ;
-            foundBaseKeywords.module = module ;
             foundBaseKeywords.category = category ;
-            foundBaseKeywords.createdAt=createdAt;
+            foundBaseKeywords.module = module ;
+            foundBaseKeywords.cluster=cluster;
             newBaseKeywords = await foundBaseKeywords.save();
             return newBaseKeywords;
         case 'igsBanorteMX' :
             foundBaseKeywords = await baseKeywordsIgsBanorteMXModel.findOne({_id:id});
             foundBaseKeywords.keyword = keyword ;
-            foundBaseKeywords.module = module ;
             foundBaseKeywords.category = category ;
-            foundBaseKeywords.createdAt=createdAt;
+            foundBaseKeywords.module = module ;
+            foundBaseKeywords.cluster=cluster;
             newBaseKeywords = await foundBaseKeywords.save();
-            break;
-            //return newBaseKeywords;
+            
+            return newBaseKeywords;
         case 'igsBanistmoPA' :
             foundBaseKeywords = await baseKeywordsIgsBanistmoPAModel.findOne({_id:id});
             foundBaseKeywords.keyword = keyword ;
-            foundBaseKeywords.module = module ;
             foundBaseKeywords.category = category ;
-            foundBaseKeywords.createdAt=createdAt;
+            foundBaseKeywords.module = module ;
+            foundBaseKeywords.cluster=cluster;
             newBaseKeywords = await foundBaseKeywords.save();
             return newBaseKeywords;
         case 'bpogsBoldEnglishUS' :
             foundBaseKeywords = await baseKeywordsBpogsBoldEnglishUSModel.findOne({_id:id});
             foundBaseKeywords.keyword = keyword ;
-            foundBaseKeywords.module = module ;
             foundBaseKeywords.category = category ;
-            foundBaseKeywords.createdAt=createdAt;
+            foundBaseKeywords.module = module ;
+            foundBaseKeywords.cluster=cluster;
             newBaseKeywords = await foundBaseKeywords.save();
             return newBaseKeywords;
         case 'bpogsHitesDespachoRetiroCO' :
             foundBaseKeywords = await baseKeywordsBpogsHitesDespachoRetrioCOModel.findOne({_id:id});
             foundBaseKeywords.keyword = keyword ;
-            foundBaseKeywords.module = module ;
             foundBaseKeywords.category = category ;
-            foundBaseKeywords.createdAt=createdAt;
+            foundBaseKeywords.module = module ;
+            foundBaseKeywords.cluster=cluster;
             newBaseKeywords = await foundBaseKeywords.save();
             return newBaseKeywords;
         }

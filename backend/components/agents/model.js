@@ -23,6 +23,9 @@ const agentsSchema = new Schema({
         type: Date, 
         default: Date.now 
     },
+}, 
+{
+    versionKey: false,
 });
 
 //const model = mongoose.model('BaseAgents', agentsSchema);

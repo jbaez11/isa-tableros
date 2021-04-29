@@ -29,8 +29,9 @@
                 <tr class=" ">
                   <!--<th class="white--text">ID</th>-->
                   <th class=""><h2>KEYWORD</h2></th>
-                  <th class=""><h2>MODULO</h2></th>
                   <th class=""><h2>CATEGORIA</h2></th>
+                  <th class=""><h2>MODULO</h2></th>
+                  <th class=""><h2>CLUSTER</h2></th>
                   <th class=""><h2>ACCIONES</h2></th>
                 </tr>
               </thead>
@@ -41,8 +42,10 @@
                 >
                   <!--<td>{{ basekeyword._id }}</td>-->
                   <td>{{ basekeyword.keyword }}</td>
-                  <td>{{ basekeyword.module }}</td>
                   <td>{{ basekeyword.category }}</td>
+                  <td>{{ basekeyword.module }}</td>
+                  <td>{{ basekeyword.cluster }}</td>
+
                   <td>
                     <v-btn
                       class="orange"
@@ -53,8 +56,9 @@
                         formEditar(
                           basekeyword._id,
                           basekeyword.keyword,
+                          basekeyword.category,
                           basekeyword.module,
-                          basekeyword.category
+                          basekeyword.cluster
                         )
                       "
                       ><v-icon>mdi-pencil</v-icon></v-btn
@@ -78,8 +82,10 @@
                 >
                   <!--<td>{{ basekeyword._id }}</td>-->
                   <td>{{ basekeyword.keyword }}</td>
-                  <td>{{ basekeyword.module }}</td>
                   <td>{{ basekeyword.category }}</td>
+                  <td>{{ basekeyword.module }}</td>
+
+                  <td>{{ basekeyword.cluster }}</td>
                   <td>
                     <v-btn
                       class="orange"
@@ -90,8 +96,9 @@
                         formEditar(
                           basekeyword._id,
                           basekeyword.keyword,
+                          basekeyword.category,
                           basekeyword.module,
-                          basekeyword.category
+                          basekeyword.cluster
                         )
                       "
                       ><v-icon>mdi-pencil</v-icon></v-btn
@@ -133,7 +140,7 @@
           </div>
         </div>
         <!--Inicio modal-->
-        <v-dialog v-model="dialog" max-width="500">
+        <v-dialog v-model="dialog" max-width="700">
           <v-form>
             <v-card>
               <v-card-title class="orange accent-3 white--text"
@@ -144,7 +151,7 @@
                 <v-container>
                   <v-row>
                     <!--<input v-model="basekeyword._id" hidden></input>-->
-                    <v-col cols="12" md="4">
+                    <v-col cols="12" md="3">
                       <v-text-field
                         v-model="basekeyword.keyword"
                         label="Keyword"
@@ -153,25 +160,7 @@
                         >{{ basekeyword.keyword }}</v-text-field
                       >
                     </v-col>
-                    <v-col cols="12" md="4">
-                      <select
-                        style="width:100px; height:50px"
-                        v-model="basekeyword.module"
-                      >
-                        <option disabled value="">Modulo</option>
-                        <option>Interacción</option>
-                        <option>Gestión del cliente</option>
-                        <option>Procesos y direccionamiento</option>
-                      </select>
-                      <!-- <v-text-field
-                        v-model="basekeyword.module"
-                        label="Module"
-                        solo
-                        required
-                        >{{ basekeyword.module }}</v-text-field
-                      > -->
-                    </v-col>
-                    <v-col cols="12" md="4">
+                    <v-col cols="12" md="3">
                       <select
                         style="width:110px; height:50px"
                         v-model="basekeyword.category"
@@ -181,13 +170,37 @@
                         <option>Recomendacion</option>
                         <option>No permitida</option>
                       </select>
-                      <!-- <v-text-field
-                        v-model="basekeyword.category"
-                        label="Category"
-                        solo
-                        required
-                        >{{ basekeyword.category }}</v-text-field
-                      > -->
+                    </v-col>
+                    <v-col cols="12" md="3">
+                      <select
+                        style="width:100px; height:50px"
+                        v-model="basekeyword.module"
+                      >
+                        <option disabled value="">Modulo</option>
+                        <option>Interacción</option>
+                        <option>Gestión del cliente</option>
+                        <option>Procesos y direccionamiento</option>
+                      </select>
+                    </v-col>
+                    <v-col cols="12" md="3">
+                      <select
+                        style="width:100px; height:50px"
+                        v-model="basekeyword.cluster"
+                      >
+                        <option disabled value="">Cluster</option>
+                        <option>greeting accordingly</option>
+                        <option>caller’s name</option>
+                        <option>listening skills</option>
+                        <option>took ownership to issue</option>
+                        <option>validated the customer’s account</option>
+                        <option>provided accurate information</option>
+                        <option>to providing service customer</option>
+                        <option>validated the customer’s account</option>
+                        <option>retention effort applies</option>
+                        <option>provided proper recap</option>
+
+                        <option>offered a survey when applicable</option>
+                      </select>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -230,14 +243,16 @@ export default {
       filter: null,
       module: "",
       category: "",
+      cluster: "",
       basekeywords: [],
       dialog: false,
       operacion: "",
       basekeyword: {
         _id: null,
         keyword: "",
+        category: this.category,
         module: this.module,
-        category: this.category
+        cluster: this.cluster
       },
       page: 1,
       perPage: 10,
@@ -269,8 +284,9 @@ export default {
     crear() {
       let parametros = {
         keyword: this.basekeyword.keyword,
+        category: this.basekeyword.category,
         module: this.basekeyword.module,
-        category: this.basekeyword.category
+        cluster: this.basekeyword.cluster
       };
       this.axios.post(url, parametros).then(response => {
         console.log(response.data);
@@ -278,15 +294,17 @@ export default {
         this.$swal.fire("¡Creado!", "", "success");
       });
       this.basekeyword.keyword = "";
-      this.basekeyword.module = "";
       this.basekeyword.category = "";
+      this.basekeyword.module = "";
+      this.basekeyword.cluster = "";
     },
     editar() {
       let parametros = {
         id: this.basekeyword._id,
         keyword: this.basekeyword.keyword,
+        category: this.basekeyword.category,
         module: this.basekeyword.module,
-        category: this.basekeyword.category
+        cluster: this.basekeyword.cluster
       };
       this.axios
         .patch(url + this.basekeyword._id, parametros)
@@ -330,14 +348,16 @@ export default {
       this.dialog = true;
       this.operacion = "crear";
       this.basekeyword.keyword = "";
-      this.basekeyword.module = "";
       this.basekeyword.category = "";
+      this.basekeyword.module = "";
+      this.basekeyword.cluster = "";
     },
-    formEditar: function(id, keyword, module, category) {
+    formEditar: function(id, keyword, category, module, cluster) {
       this.basekeyword._id = id;
       this.basekeyword.keyword = keyword;
-      this.basekeyword.module = module;
       this.basekeyword.category = category;
+      this.basekeyword.module = module;
+      this.basekeyword.cluster = cluster;
       this.dialog = true;
       this.operacion = "editar";
     }

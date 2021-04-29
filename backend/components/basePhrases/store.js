@@ -15,7 +15,7 @@ async function getBasePhrases(nameDB){
             basePhrases = await basePhrasesSerFinanzaModel.find();
             return basePhrases;
 
-        case 'aigsBancolombiaCO':
+        case 'igsBancolombiaCO':
             basePhrases = await basePhrasesBancoColombiaModel.find();
             return basePhrases ;
 
@@ -83,89 +83,80 @@ function addBasePhrases(basePhrases,nameDB){
 
 }
 
-async function updateBasePhrases(id,phrase,module,category,createdAt,nameDB){
-    // const foundBasePhrases = await Model.findOne({
-    //     _id : id
-    // });
-
-    // foundBasePhrases.phrase = phrase ;
-    // foundBasePhrases.module = module ;
-    // foundBasePhrases.category = category ;
-    // foundBasePhrases.createdAt = createdAt ;
-    // const newBasePhrases = await foundBasePhrases.save();
-    // console.log('new bae', newBasePhrases);
-    // return newBasePhrases;
+async function updateBasePhrases(id,phrase,module,category,nameDB){
+    
     var foundBasePhrases;
     var newBasePhrases;
     switch (nameDB) {
         
         case 'igsSerfinanzaCO':
-            basePhrases = await basePhrasesSerFinanzaModel.findOne({_id:id});
+            foundBasePhrases = await basePhrasesSerFinanzaModel.findOne({_id:id});
             foundBasePhrases.phrase = phrase ;
             foundBasePhrases.module = module ;
             foundBasePhrases.category = category ;
-            foundBasePhrases.createdAt = createdAt ;
+            
             newBasePhrases = await foundBasePhrases.save();
-            console.log('new bae', newBasePhrases);
+            
             return newBasePhrases;
             
 
         case 'igsBancolombiaCO':
-            basePhrases = await basePhrasesBancoColombiaModel.findOne({_id:id});
+            foundBasePhrases = await basePhrasesBancoColombiaModel.findOne({_id:id});
             foundBasePhrases.phrase = phrase ;
             foundBasePhrases.module = module ;
             foundBasePhrases.category = category ;
-            foundBasePhrases.createdAt = createdAt ;
+            
             newBasePhrases = await foundBasePhrases.save();
-            console.log('new bae', newBasePhrases);
+            
             return newBasePhrases;
 
         case 'igsEnelCL':
-            basePhrases = await basePhrasesEnelChileModel.findOne({_id:id});
+            foundBasePhrases = await basePhrasesEnelChileModel.findOne({_id:id});
             foundBasePhrases.phrase = phrase ;
             foundBasePhrases.module = module ;
             foundBasePhrases.category = category ;
-            foundBasePhrases.createdAt = createdAt ;
+            
             newBasePhrases = await foundBasePhrases.save();
-            console.log('new bae', newBasePhrases);
+            
             return newBasePhrases;
         case 'igsBanorteMX' :
-            basePhrases = await basePhrasesIgsBanorteMXModel.findOne({_id:id});
+            foundBasePhrases = await basePhrasesIgsBanorteMXModel.findOne({_id:id});
             foundBasePhrases.phrase = phrase ;
             foundBasePhrases.module = module ;
             foundBasePhrases.category = category ;
-            foundBasePhrases.createdAt = createdAt ;
+            
             newBasePhrases = await foundBasePhrases.save();
-            console.log('new bae', newBasePhrases);
+            
             return newBasePhrases;
         case 'igsBanistmoPA' :
-            basePhrases = await basePhrasesIgsBanistmoPAModel.findOne({_id:id});
+            foundBasePhrases = await basePhrasesIgsBanistmoPAModel.findOne({_id:id});
             foundBasePhrases.phrase = phrase ;
             foundBasePhrases.module = module ;
             foundBasePhrases.category = category ;
-            foundBasePhrases.createdAt = createdAt ;
+            
             newBasePhrases = await foundBasePhrases.save();
-            console.log('new bae', newBasePhrases);
+            
             return newBasePhrases;
         case 'bpogsBoldEnglishUS' :
-            basePhrases = await basePhrasesBpogsBoldEnglishUSModel.findOne({_id:id});
+            foundBasePhrases = await basePhrasesBpogsBoldEnglishUSModel.findOne({_id:id});
             foundBasePhrases.phrase = phrase ;
             foundBasePhrases.module = module ;
             foundBasePhrases.category = category ;
-            foundBasePhrases.createdAt = createdAt ;
+            
             newBasePhrases = await foundBasePhrases.save();
-            console.log('new bae', newBasePhrases);
+            
             return newBasePhrases;
         case 'bpogsHitesDespachoRetrioCO' :
-            basePhrases = await basePhrasesBpogsHitesDespachoRetrioCOModel.findOne({_id:id});
+            foundBasePhrases = await basePhrasesBpogsHitesDespachoRetrioCOModel.findOne({_id:id});
             foundBasePhrases.phrase = phrase ;
             foundBasePhrases.module = module ;
             foundBasePhrases.category = category ;
-            foundBasePhrases.createdAt = createdAt ;
+            
             newBasePhrases = await foundBasePhrases.save();
-            console.log('new bae', newBasePhrases);
+            
             return newBasePhrases;
         }
+        return newBasePhrases
 
 }
 
