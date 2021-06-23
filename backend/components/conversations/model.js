@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 //var connection = mongoose.createConnection()
-const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
-    BpogsHitesDespachoRetrioCOConn,alkTestCOconn } = require('../../db');
+const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,
+    IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
+    BpogsHitesDespachoRetrioCOConn,alkTestCOconn,BpogsBoldFrenchFRConn,IgsDaviplataCOConn,
+    BpogsAMCCOCon, IgsBancoDeOccidenteCOConn } = require('../../db');
 const Schema = mongoose.Schema;
 
 const conversationsSchema = new Schema({
@@ -34,7 +36,15 @@ const conversationsIgsBanistmoPAModel = IgsBanistmoPAConn.model('Conversations',
 const conversationsBpogsBoldEnglishUSModel = BpogsBoldEnglishUSConn.model('Conversations', conversationsSchema);
 const conversationsBpogsHitesDespachoRetrioCOModel = BpogsHitesDespachoRetrioCOConn.model('Conversations', conversationsSchema);
 const conversationsAlkTestCOModel = alkTestCOconn.model('Conversations', conversationsSchema)
+const conversationsBpogsBoldFrenchFRModel = BpogsBoldFrenchFRConn.model('Conversations', conversationsSchema);
+const conversationsDaviplataCOModel = IgsDaviplataCOConn.model('Conversations', conversationsSchema);
+const conversationsBpogsAMCCOModel = BpogsAMCCOCon.model('Conversations', conversationsSchema);
+const conversationsIgsBancoDeOccidenteCOModel = IgsBancoDeOccidenteCOConn.model('Conversations', conversationsSchema);
+
+
 module.exports = {
+    conversationsDaviplataCOModel,
+    conversationsBpogsBoldFrenchFRModel,
     conversationsSerFinanzaModel,
     conversationsBancoColombiaModel,
     conversationsEnelChileModel,
@@ -42,5 +52,7 @@ module.exports = {
     conversationsIgsBanistmoPAModel,
     conversationsBpogsBoldEnglishUSModel,
     conversationsBpogsHitesDespachoRetrioCOModel,
-    conversationsAlkTestCOModel
+    conversationsAlkTestCOModel,
+    conversationsBpogsAMCCOModel,
+    conversationsIgsBancoDeOccidenteCOModel,
 };

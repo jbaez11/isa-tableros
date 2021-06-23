@@ -1,4 +1,8 @@
-const { agentsSerFinanzaModel,agentsBancoColombiaModel, agentsEnelChileModel,agentsIgsBanorteMXModel,agentsIgsBanistmoPAModel,agentsBpogsBoldEnglishUSModel,agentsBpogsHitesDespachoRetrioCOModel} = require('./model');
+const { agentsSerFinanzaModel,agentsBancoColombiaModel,
+     agentsEnelChileModel,agentsIgsBanorteMXModel,agentsIgsBanistmoPAModel,
+     agentsBpogsBoldEnglishUSModel,agentsBpogsHitesDespachoRetrioCOModel,
+     agentsBpogsBoldFrenchFRModel,agentsDaviplataCOModel,agentsBpogsAMCCOModel,
+     agentsIgsBancoDeOccidenteCOModel} = require('./model');
 
 async function getAgents( nameDB){
     //const agents = await Model.find();
@@ -27,8 +31,23 @@ async function getAgents( nameDB){
             return agents;
         case 'bpogsHitesDespachoRetrioCO' :
             agents = await agentsBpogsHitesDespachoRetrioCOModel.find();
-            return agents;            
-
+            return agents;
+        case 'bpogsBoldFrenchFR' :
+            agents = await agentsBpogsBoldFrenchFRModel.find();
+            return agents;
+        case 'igsDaviplataCO' :
+            agents = await agentsDaviplataCOModel.find();
+            return agents;
+        case 'igsDaviplataCO' :
+            agents = await agentsDaviplataCOModel.find();
+            return agents;
+        case 'bpogsAMCCO' :
+            agents = await agentsBpogsAMCCOModel.find();
+            return agents;
+        case 'igsBancoDeOccidenteCO' :
+            agents = await agentsIgsBancoDeOccidenteCOModel.find();
+            return agents;                         
+            
 
 
     }
@@ -73,6 +92,26 @@ function addAgents(agents,nameDB){
             myAgents = new agentsBpogsHitesDespachoRetrioCOModel(agents);
             myAgents.save();
             return myAgents;
+        case 'bpogsBoldFrenchFR' :
+            myAgents = new agentsBpogsBoldFrenchFRModel(agents);
+            myAgents.save();
+            return myAgents;
+        case 'igsDaviplataCO' :
+            myAgents = new agentsDaviplataCOModel(agents);
+            myAgents.save();
+            return myAgents;
+        case 'bpogsAMCCO' :
+            myAgents = new agentsBpogsAMCCOModel(agents);
+            myAgents.save();
+            return myAgents;
+            
+        case 'igsBancoDeOccidenteCO' :
+            myAgents = new agentsIgsBancoDeOccidenteCOModel(agents);
+            myAgents.save();
+            return myAgents;
+            
+            
+            
     }
 
 }
@@ -141,6 +180,43 @@ async function updateAgents(id,name,identification,gender,nameDB){
             
             newAgents = await foundAgents.save();
             return newAgents; 
+            
+        case 'bpogsBoldFrenchFR' :
+            foundAgents = await agentsBpogsBoldFrenchFRModel.findOne({_id : id});
+            foundAgents.name = name ;
+            foundAgents.identification = identification ;
+            foundAgents.gender = gender ;
+                
+            newAgents = await foundAgents.save();
+            return newAgents;
+        case 'igsDaviplataCO' :
+            foundAgents = await agentsDaviplataCOModel.findOne({_id : id});
+            foundAgents.name = name ;
+            foundAgents.identification = identification ;
+            foundAgents.gender = gender ;
+                
+            newAgents = await foundAgents.save();
+            return newAgents;
+
+        case 'bpogsAMCCO' :
+            foundAgents = await agentsBpogsAMCCOModel.findOne({_id : id});
+            foundAgents.name = name ;
+            foundAgents.identification = identification ;
+            foundAgents.gender = gender ;
+                
+            newAgents = await foundAgents.save();
+            return newAgents;
+
+        case 'igsBancoDeOccidenteCO' :
+            foundAgents = await agentsIgsBancoDeOccidenteCOModel.findOne({_id : id});
+            foundAgents.name = name ;
+            foundAgents.identification = identification ;
+            foundAgents.gender = gender ;
+                
+            newAgents = await foundAgents.save();
+            return newAgents;
+
+            
     }
     return newAgents;
 
@@ -175,6 +251,20 @@ function removeAgents(id,nameDB){
             
         case 'bpogsHitesDespachoRetrioCO' :
             return agentsBpogsHitesDespachoRetrioCOModel.deleteOne({_id:id});
+            
+        case 'bpogsBoldFrenchFR' :
+            return agentsBpogsBoldFrenchFRModel.deleteOne({_id:id});
+        case 'igsDaviplataCO' :
+            return agentsDaviplataCOModel.deleteOne({_id:id});
+            
+        case 'bpogsAMCCO' :
+            return agentsDaviplataCOModel.deleteOne({_id:id});
+        case 'bpogsAMCCO' :
+            return agentsBpogsAMCCOModel.deleteOne({_id:id});
+        case 'igsBancoDeOccidenteCO' :
+            return agentsIgsBancoDeOccidenteCOModel.deleteOne({_id:id});
+            
+            
                         
     }
 }

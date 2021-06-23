@@ -4,7 +4,11 @@ const {keywordsSerFinanzaModel,
     keywordsIgsBanorteMXModel,
     keywordsIgsBanistmoPAModel,
     keywordsBpogsBoldEnglishUSModel,
-    keywordsBpogsHitesDespachoRetrioCOModel} = require('./model');
+    keywordsBpogsHitesDespachoRetrioCOModel,
+    keywordsBpogsBoldFrenchFRModel,
+    keywordsDaviplataCOModel,
+    keywordsBpogsAMCCOModel,
+    keywordsIgsBancoDeOccidenteCOModel} = require('./model');
 
 async function getAsesores(filterAgentsAudit,nameDB){
     let filter = {};
@@ -21,7 +25,7 @@ async function getAsesores(filterAgentsAudit,nameDB){
             keywords = await keywordsSerFinanzaModel.find(filter);
             return keywords;
 
-        case 'aigsBancolombiaCO':
+        case 'igsBancolombiaCO':
             keywords = await keywordsBancoColombiaModel.find(filter);
             return keywords ;
 
@@ -39,7 +43,20 @@ async function getAsesores(filterAgentsAudit,nameDB){
             return keywords;
         case 'bpogsHitesDespachoRetiroCO' :
             keywords = await keywordsBpogsHitesDespachoRetrioCOModel.find(filter);
-            return keywords;            
+            return keywords; 
+        case 'bpogsBoldFrenchFR' :
+            keywords = await keywordsBpogsBoldFrenchFRModel.find(filter);
+            return keywords;
+        case 'igsDaviplataCO' :
+            keywords = await keywordsDaviplataCOModel.find(filter);
+            return keywords;
+        case 'bpogsAMCCO' :
+            keywords = await keywordsBpogsAMCCOModel.find(filter);
+            return keywords;
+        case 'igsBancoDeOccidenteCO' :
+            keywords = await keywordsIgsBancoDeOccidenteCOModel.find(filter);
+            return keywords;    
+                       
         }
 }
 

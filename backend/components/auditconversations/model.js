@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
-    BpogsHitesDespachoRetrioCOConn,alkTestCOconn } = require('../../db');
+    BpogsHitesDespachoRetrioCOConn,alkTestCOconn,BpogsBoldFrenchFRConn, IgsDaviplataCOConn, BpogsAMCCOCon,
+IgsBancoDeOccidenteCOConn } = require('../../db');
 const Schema = mongoose.Schema;
 
 const auditconversationSchema = new Schema({
@@ -30,8 +31,15 @@ const auditconversationIgsBanistmoPAModel = IgsBanistmoPAConn.model('Auditconver
 const auditconversationBpogsBoldEnglishUSModel = BpogsBoldEnglishUSConn.model('Auditconversations', auditconversationSchema);
 const auditconversationBpogsHitesDespachoRetrioCOModel = BpogsHitesDespachoRetrioCOConn.model('Auditconversations', auditconversationSchema);
 const auditconversationalkTestCOModel = alkTestCOconn.model('Auditconversations', auditconversationSchema);
+const auditconversationBpogsBoldFrenchFRModel = BpogsBoldFrenchFRConn.model('Auditconversations', auditconversationSchema);
+const auditconversationDaviplataCOModel = IgsDaviplataCOConn.model('Auditconversations', auditconversationSchema);
+const auditconversationBpogsAMCCOModel = BpogsAMCCOCon.model('Auditconversations', auditconversationSchema);
+const auditconversationIgsBancoDeOccidenteCOModel = IgsBancoDeOccidenteCOConn.model('Auditconversations', auditconversationSchema);
+
 
 module.exports = {
+    auditconversationDaviplataCOModel,
+    auditconversationBpogsBoldFrenchFRModel,
     auditconversationSerFinanzaModel,
     auditconversationBancoColombiaModel,
     auditconversationEnelChileModel,
@@ -39,6 +47,8 @@ module.exports = {
     auditconversationIgsBanistmoPAModel,
     auditconversationBpogsBoldEnglishUSModel,
     auditconversationBpogsHitesDespachoRetrioCOModel,
-    auditconversationalkTestCOModel
+    auditconversationalkTestCOModel,
+    auditconversationBpogsAMCCOModel,
+    auditconversationIgsBancoDeOccidenteCOModel,
 };
 

@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const Int32 = require('mongoose-int32');
 const Double = require('@mongoosejs/double');
 const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
-    BpogsHitesDespachoRetrioCOConn } = require('../../db');
+    BpogsHitesDespachoRetrioCOConn,BpogsBoldFrenchFRConn,IgsDaviplataCOConn, BpogsAMCCOCon,
+IgsBancoDeOccidenteCOConn } = require('../../db');
 const Schema = mongoose.Schema;
 
 const consumptionSchema = new Schema({
@@ -51,13 +52,21 @@ const consumptionIgsBanorteMXModel = IgsBanorteMXConn.model('Consumptions', cons
 const consumptionIgsBanistmoPAModel = IgsBanistmoPAConn.model('Consumptions', consumptionSchema);
 const consumptionBpogsBoldEnglishUSModel = BpogsBoldEnglishUSConn.model('Consumptions', consumptionSchema);
 const consumptionBpogsHitesDespachoRetrioCOModel = BpogsHitesDespachoRetrioCOConn.model('Consumptions', consumptionSchema);
+const consumptionBpogsBoldFrenchFRModel = BpogsBoldFrenchFRConn.model('Consumptions', consumptionSchema);
+const consumptionDaviplataCOModel = IgsDaviplataCOConn.model('Consumptions', consumptionSchema);
+const consumptionBpogsAMCCOModel = BpogsAMCCOCon.model('Consumptions', consumptionSchema);
+const consumptionIgsBancoDeOccidenteCOModel = IgsBancoDeOccidenteCOConn.model('Consumptions', consumptionSchema);
 
 module.exports = {
+    consumptionDaviplataCOModel,
+    consumptionBpogsBoldFrenchFRModel,
     consumptionSerFinanzaModel,
     consumptionBancoColombiaModel,
     consumptionEnelChileModel,
     consumptionIgsBanorteMXModel,
     consumptionIgsBanistmoPAModel,
     consumptionBpogsBoldEnglishUSModel,
-    consumptionBpogsHitesDespachoRetrioCOModel
+    consumptionBpogsHitesDespachoRetrioCOModel,
+    consumptionBpogsAMCCOModel,
+    consumptionIgsBancoDeOccidenteCOModel,
 }; 

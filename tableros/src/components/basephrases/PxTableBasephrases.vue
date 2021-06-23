@@ -153,27 +153,7 @@
                         >{{ basephrase.phrase }}</v-text-field
                       >
                     </v-col>
-                    <v-col cols="12" md="4">
-                      <select
-                        style="width:100px; height:50px"
-                        v-model="basephrase.module"
-                      >
-                        <option disabled value="">Modulo</option>
-                        <option>saludo</option>
-                        <option>producto</option>
-                        <option>validacion</option>
-                        <option>venta</option>
-                        <option>despedida</option>
-                        <option>cierre</option>
-                      </select>
-                      <!-- <v-text-field
-                        v-model="basephrase.module"
-                        label="Module"
-                        solo
-                        required
-                        >{{ basephrase.module }}</v-text-field
-                      > -->
-                    </v-col>
+
                     <v-col cols="12" md="4">
                       <select
                         style="width:110px; height:50px"
@@ -181,7 +161,7 @@
                       >
                         <option disabled value="">Categoria</option>
                         <option>infaltable</option>
-                        <option>recomendacion</option>
+                        <option>recomendación</option>
                         <option>no permitida</option>
                       </select>
                       <!-- <v-text-field
@@ -190,6 +170,30 @@
                         solo
                         required
                         >{{ basephrase.category }}</v-text-field
+                      > -->
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <select
+                        style="width:100px; height:50px"
+                        v-model="basephrase.module"
+                      >
+                        <option disabled value="">Modulo</option>
+                        <option v-for="modules in modules" :key="modules">{{
+                          modules
+                        }}</option>
+                        <!-- <option>saludo</option>
+                        <option>producto</option>
+                        <option>validacion</option>
+                        <option>venta</option>
+                        <option>despedida</option>
+                        <option>cierre</option> -->
+                      </select>
+                      <!-- <v-text-field
+                        v-model="basephrase.module"
+                        label="Module"
+                        solo
+                        required
+                        >{{ basephrase.module }}</v-text-field
                       > -->
                     </v-col>
                   </v-row>
@@ -221,7 +225,9 @@
 <script>
 let currentUrl = window.location.pathname;
 console.log("currenturl", currentUrl);
+let nameBDconn = currentUrl.split("/");
 let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}/`; //igsSerfinanzaCO/basephrases/
+let urlBaseScore = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/basescore`;
 console.log("url", url);
 
 export default {
@@ -232,6 +238,7 @@ export default {
       module: "",
       category: "",
       basephrases: [],
+      modules: [],
       dialog: false,
       operacion: "",
       basephrase: {
@@ -242,7 +249,8 @@ export default {
       },
       page: 1,
       perPage: 10,
-      pages: []
+      pages: [],
+      datasCMC: []
     };
   },
   created() {
@@ -254,6 +262,17 @@ export default {
     async mostrar() {
       const response = await this.axios.get(url);
       this.basephrases = response.data.body;
+      const dataCMC = await this.axios.get(urlBaseScore);
+      this.datasCMC = dataCMC.data.body;
+      this.obtenerModules(this.datasCMC);
+    },
+    obtenerModules(data) {
+      this.modules = [];
+
+      for (let key in data[0].infaltable) {
+        //console.log('key modules', key);
+        this.modules.push(key);
+      }
     },
     paginate(basephrases) {
       let page = this.page;

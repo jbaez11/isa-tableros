@@ -13,6 +13,7 @@
           <v-btn class="mx-2" fab dark color="#FF9B00" @click="formNuevo()"
             ><v-icon dark>mdi-plus</v-icon></v-btn
           >
+
           <input
             class=""
             id="filter"
@@ -21,6 +22,14 @@
             v-model="filter"
             name="filter"
           />
+
+          <v-btn tile color="success" @click="getReport()">
+            <v-icon left>
+              mdi-pencil
+            </v-icon>
+            Descargar
+          </v-btn>
+
           <!-- Tabla y formulario -->
 
           <v-simple-table class="mt-5">
@@ -56,14 +65,14 @@
                       "
                       ><v-icon>mdi-pencil</v-icon></v-btn
                     >
-                    <v-btn
+                    <!-- <v-btn
                       class="error"
                       fab
                       dark
                       small
                       @click="borrar(agent._id)"
                       ><v-icon>mdi-delete</v-icon></v-btn
-                    >
+                    > -->
                   </td>
                 </tr>
               </tbody>
@@ -92,14 +101,14 @@
                       ><v-icon>mdi-pencil</v-icon></v-btn
                     >
 
-                    <v-btn
+                    <!-- <v-btn
                       class="error"
                       fab
                       dark
                       small
                       @click="borrar(agent._id)"
                       ><v-icon>mdi-delete</v-icon></v-btn
-                    >
+                    > -->
                   </td>
                 </tr>
               </tbody>
@@ -122,24 +131,31 @@
             >
               {{ pageNmber }}
             </v-btn>
+            <v-btn>
+              ...
+            </v-btn>
+            <v-btn v-if="page < pages.length" @click="page = pages.length">
+              {{ pages.length }}
+            </v-btn>
             <v-btn v-if="page < pages.length" @click="page++">
               Siguiente
             </v-btn>
           </div>
         </div>
+
         <!--Inicio modal-->
-        <v-dialog v-model="dialog" max-width="500">
+        <v-dialog v-model="dialog" max-width="700">
           <v-form>
             <v-card>
               <v-card-title class="orange accent-3 white--text"
-                >Agentes</v-card-title
+                >Agente</v-card-title
               >
               <v-card-text>
                 <!---->
                 <v-container>
                   <v-row>
                     <!--<input v-model="agent._id" hidden></input>-->
-                    <v-col cols="12" md="4">
+                    <v-col cols="12" md="12">
                       <v-text-field
                         v-model="agent.name"
                         label="Nombre"
@@ -148,7 +164,9 @@
                         >{{ agent.name }}</v-text-field
                       >
                     </v-col>
-                    <v-col cols="12" md="4">
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" md="12">
                       <v-text-field
                         v-model="agent.identification"
                         label="Identificación"
@@ -157,9 +175,11 @@
                         >{{ agent.identification }}</v-text-field
                       >
                     </v-col>
-                    <v-col cols="12" md="4">
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" md="12">
                       <select
-                        style="width:80px; height:50px"
+                        style="width:400px; height:50px"
                         v-model="agent.gender"
                       >
                         <option disabled value="">Genero</option>
@@ -195,6 +215,7 @@
 </template>
 
 <script>
+
 require("dotenv").config();
 let currentUrl = window.location.pathname;
 console.log("currenturl", currentUrl);
@@ -235,7 +256,51 @@ export default {
     async mostrar() {
       const response = await this.axios.get(url);
       this.agents = response.data.body;
-      console.log("mostrar todo", response.data.body);
+      //console.log("mostrar todo", response.data.body);
+    },
+    objectToCsv(data) {
+      const csvRows = [];
+      const headers = Object.keys(data[0]);
+      csvRows.push(headers.join(","));
+
+      //console.log('headers',csvRows)
+
+      for (const row of data) {
+        const values = headers.map(header => {
+          const scaped = ("" + row[header]).replace(/"/g, '\\"');
+          return `"${scaped}"`;
+        });
+        csvRows.push(values.join(","));
+      }
+
+      return csvRows.join("\n");
+    },
+    download(data) {
+      const dataF="\ufeff"+data;
+      const hora = new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
+      const blob = new Blob([dataF], { type: ' type: "text/csv;charset=UTF-8"' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("hidden", "");
+      a.setAttribute("href", url);
+      a.setAttribute("download", "agentes_" + hora + ".csv");
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    },
+    async getReport() {
+      // console.log('this.agents', this.agents);
+
+      const data = this.agents.map(row => ({
+        nombre: row.name,
+        identificacion: row.identification,
+        genero: row.gender,
+        creacion: row.createdAt
+      }));
+      console.log("data", data);
+      //const csvData =
+      const csvData = this.objectToCsv(data);
+      this.download(csvData);
     },
     paginate(agents) {
       let page = this.page;

@@ -4,7 +4,9 @@ const {basePhrasesSerFinanzaModel,
     basePhrasesIgsBanorteMXModel,
     basePhrasesIgsBanistmoPAModel,
     basePhrasesBpogsBoldEnglishUSModel,
-    basePhrasesBpogsHitesDespachoRetrioCOModel} = require('./model');
+    basePhrasesBpogsHitesDespachoRetrioCOModel,
+    basePhrasesBpogsBoldFrenchFRModel,
+    basePhrasesDaviplataCOModel} = require('./model');
 
 
 async function getBasePhrases(nameDB){
@@ -33,6 +35,13 @@ async function getBasePhrases(nameDB){
             return basePhrases;
         case 'bpogsHitesDespachoRetiroCO' :
             basePhrases = await basePhrasesBpogsHitesDespachoRetrioCOModel.find();
+            return basePhrases;
+            
+        case 'bpogsBoldFrenchFR' :
+            basePhrases = await basePhrasesBpogsBoldFrenchFRModel.find();
+            return basePhrases;
+        case 'igsDaviplataCO' :
+            basePhrases = await basePhrasesDaviplataCOModel.find();
             return basePhrases;
         }
 }
@@ -76,6 +85,15 @@ function addBasePhrases(basePhrases,nameDB){
             return myBasePhrases;
         case 'bpogsHitesDespachoRetiroCO' :
             myBasePhrases = new basePhrasesBpogsHitesDespachoRetrioCOModel(basePhrases);
+            myBasePhrases.save();
+            return myBasePhrases;
+            
+        case 'bpogsBoldFrenchFR' :
+            myBasePhrases = new basePhrasesBpogsBoldFrenchFRModel(basePhrases);
+            myBasePhrases.save();
+            return myBasePhrases;
+        case 'igsDaviplataCO' :
+            myBasePhrases = new basePhrasesDaviplataCOModel(basePhrases);
             myBasePhrases.save();
             return myBasePhrases;
         }
@@ -155,6 +173,26 @@ async function updateBasePhrases(id,phrase,module,category,nameDB){
             newBasePhrases = await foundBasePhrases.save();
             
             return newBasePhrases;
+            case 'bpogsBoldFrenchFR' :
+            foundBasePhrases = await basePhrasesBpogsBoldFrenchFRModel.findOne({_id:id});
+            foundBasePhrases.phrase = phrase ;
+            foundBasePhrases.module = module ;
+            foundBasePhrases.category = category ;
+            
+            newBasePhrases = await foundBasePhrases.save();
+            
+            return newBasePhrases;
+
+            case 'igsDaviplataCO' :
+            foundBasePhrases = await basePhrasesDaviplataCOModel.findOne({_id:id});
+            foundBasePhrases.phrase = phrase ;
+            foundBasePhrases.module = module ;
+            foundBasePhrases.category = category ;
+            
+            newBasePhrases = await foundBasePhrases.save();
+            
+            return newBasePhrases;
+            
         }
         return newBasePhrases
 
@@ -187,6 +225,10 @@ function removeBasePhrases(id,nameDB){
             
         case 'bpogsHitesDespachoRetiroCO' :
             return basePhrasesBpogsHitesDespachoRetrioCOModel.deleteOne({_id:id});
+        case 'bpogsBoldFrenchFR' :
+            return basePhrasesBpogsBoldFrenchFRModel.deleteOne({_id:id});
+        case 'igsDaviplataCO' :
+            return basePhrasesDaviplataCOModel.deleteOne({_id:id});    
             
         }
 }

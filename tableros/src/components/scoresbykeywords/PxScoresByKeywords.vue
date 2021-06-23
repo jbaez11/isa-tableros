@@ -20,6 +20,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
+                  @click="identificarFecha()"
                     v-model="dates"
                     label="Date"
                     hint="YYYY/MM/DD"
@@ -56,8 +57,21 @@
           placeholder="Buscar..."
           type="text"
           v-model="search"
-          v-if="pxinfo == false"
+          v-if="pxinfo == false && recordScoreByKeywordsMostrar == false"
         />
+
+        <div v-if="pxinfo == false && recordScoreByKeywordsMostrar != false">
+          <v-btn
+            class="ma-2"
+            color="orange darken-2"
+            dark
+            rounded
+            @click="retroceder()"
+          >
+            <v-icon dark left> mdi-arrow-left </v-icon>Volver
+          </v-btn>
+        </div>
+
         <v-simple-table class="mt-5" v-if="pxinfo == false">
           <template v-slot:default>
             <thead>
@@ -81,6 +95,9 @@
                     >PUNTAJE PROMEDIO</span
                   >
                 </th>
+                <th style="text-align: center;" class="white--text ">
+                  VER AUDITORIA
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -97,6 +114,18 @@
                 <td style="text-align: center;">
                   {{ scoresbykeywords.results.totalScore.toFixed(1) }} %
                 </td>
+                <td style="text-align:center;">
+                    <v-btn
+                      style="text-align:center;"
+                      class="orange"
+                      dark
+                      small
+                      fab
+                      @click="irAuditKeywords(scoresbykeywords.name)"
+                      ><v-icon>{{icons.mdiClipboardTextOutline}}</v-icon></v-btn
+                    >
+                    
+                  </td>
               </tr>
             </tbody>
           </template>
@@ -110,6 +139,17 @@
           type="text"
           v-model="search2"
         />
+        <div v-if="pxinfo == false && recordScoreByKeywordsMostrar != false">
+          <v-btn
+            class="ma-2"
+            color="orange darken-2"
+            dark
+            fab
+            @click="retroceder2()"
+          >
+            <v-icon dark> mdi-arrow-left </v-icon>
+          </v-btn>
+        </div>
         <v-simple-table
           class="mt-5"
           v-if="recordScoreByKeywordsMostrar != false && pxinfo == false"
@@ -216,6 +256,17 @@
         <!--ENDTABLE LLAMADAS-->
 
         <!--Tablas cluster-->
+        <div v-if="pxinfo == false && scoringKeywordsContentsMostrar != false">
+          <v-btn
+            class="ma-2"
+            color="orange darken-2"
+            dark
+            fab
+            @click="retroceder3()"
+          >
+            <v-icon dark> mdi-arrow-left </v-icon>
+          </v-btn>
+        </div>
         <v-simple-table
           class="mt-5"
           v-if="scoringKeywordsContentsMostrar != false && pxinfo == false"
@@ -268,9 +319,15 @@
 import PxInfo from "@/components/agentsAudit/PxInfo.vue";
 
 let currentUrl = window.location.pathname;
+//console.log("currentUrl",currentUrl);
 let nameBDconn = currentUrl.split("/");
+let valores  = window.location.search;
+
 let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}`;
 let urlClusterScore = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/scoringkeywords`;
+
+import { mdiClipboardTextOutline } from '@mdi/js';
+
 export default {
   name: "PxScoresByKeywords",
   components: {
@@ -278,15 +335,19 @@ export default {
   },
   data() {
     return {
+      icons:{
+        mdiClipboardTextOutline
+      },
       dates: [new Date().toISOString().substr(0, 10)],
       pxinfo: true,
       //date: new Date().toISOString().substr(0, 10),
       //dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
       cantidadLlamadas: 0,
+      nameTraido:'',
       scoresbykeywords: [],
       clusterScore: {},
       menu1: false,
-      search: "",
+      search: '',
       sortOrder: 1,
       ordenamiento1: Number,
       search2: "",
@@ -300,7 +361,8 @@ export default {
       agentSelected: "",
       keyfileSelected: "",
       bandera: false,
-      banderaCluster: false
+      banderaCluster: false,
+      
     };
   },
   created() {
@@ -316,7 +378,8 @@ export default {
 
       return this.detailOfAgent
         .filter(agent => {
-          return agent.name.match(this.search);
+          return agent.name.toLowerCase().includes(this.search.toLowerCase());
+          //return agent.name.match(this.search);
         })
         .sort((a, b) => {
           if (filtrarPor1 == 1) {
@@ -412,11 +475,51 @@ export default {
   },
   watch: {},
   methods: {
+    identificarFecha(){
+      
+      const urlParams = new URLSearchParams(valores);
+      let fechaTraida = urlParams.get('eventDate');
+      
+      if(fechaTraida != null){
+        window.location.href=`auditkeywords`
+      }
+    },
+    irAuditKeywords(name){
+
+      window.location.href=`auditkeywords?eventDate=${this.dates}T00:00:00.000Z&name=${name}`
+    },
+    retroceder() {
+      window.location.href=`auditscoringkeywords?eventDate=${this.dates}T00:00:00.000Z`
+      this.search = "";
+      this.bandera = false;
+      this.recordScoreByKeywordsMostrar = false;
+      this.search2 = "";
+      this.banderaCluster = false;
+      this.scoringKeywordsContentsMostrar = false;
+      this.agentSelected = "";
+      this.keyfileSelected = "";
+    },
+    retroceder2() {
+      this.search = "";
+      this.bandera = false;
+      this.recordScoreByKeywordsMostrar = false;
+      this.search2 = "";
+      this.banderaCluster = false;
+      this.scoringKeywordsContentsMostrar = false;
+      this.agentSelected = "";
+      this.keyfileSelected = "";
+    },
+    retroceder3() {
+      this.search2 = "";
+      this.banderaCluster = false;
+      this.scoringKeywordsContentsMostrar = false;
+      this.keyfileSelected = "";
+    },
     changeSortOrder(order1) {
       this.sortOrder = this.sortOrder == 1 ? -1 : 1;
       this.ordenamiento1 = order1;
 
-      console.log("como se va a organizar", this.ordenamiento);
+      //console.log("como se va a organizar", this.ordenamiento);
     },
     changeSortOrderCalls(order1) {
       this.sortOrderCalls = this.sortOrderCalls == 1 ? -1 : 1;
@@ -425,13 +528,15 @@ export default {
 
     mostrarDetalleCall(name) {
       this.agentSelected = name;
-      console.log("el agent seleccionado", this.agentSelected);
-
+      //console.log("el agent seleccionado", this.agentSelected);
+      
       if (this.bandera == false) {
+        
         this.search = name;
         this.bandera = true;
         this.recordScoreByKeywordsMostrar = true;
       } else {
+         
         this.search = "";
         this.bandera = false;
         this.recordScoreByKeywordsMostrar = false;
@@ -445,7 +550,7 @@ export default {
     },
     mostrarDetalleCluster(keyfile) {
       this.keyfileSelected = keyfile;
-      console.log("keyfile selected", keyfile);
+      //console.log("keyfile selected", keyfile);
       if (this.banderaCluster == false) {
         this.search2 = keyfile;
         this.banderaCluster = true;
@@ -462,29 +567,64 @@ export default {
       // const response = await this.axios.get(
       //   url + `?eventDate=${this.date}T00:00:00.000Z`
       // );
-
+      console.log('valores obtenidos por url',valores);
+      const urlParams = new URLSearchParams(valores);
+      let fechaTraida = urlParams.get('eventDate');
+      let nameTraido = urlParams.get('name');
+      this.fechaTraida = fechaTraida;
+      if(nameTraido != null){
+        this.search= nameTraido
+      }
+      console.log('fechaTraida ', fechaTraida , 'nameTraido ',nameTraido)
       let response;
 
-      if (this.dates.length == 1) {
-        response = await this.axios.get(
-          url + `?eventDate=${this.dates}T00:00:00.000Z`
-        );
-        if (this.scoresbykeywords[0].recordingsSummary == undefined) {
-          this.pxinfo = true;
-        } else {
-          this.pxinfo = false;
+      if(fechaTraida != null || nameTraido != null){
+        if(fechaTraida.includes(',')){
+          console.log('entre rango')
+          let nuevaFechaRango;
+           nuevaFechaRango = fechaTraida.split(',');
+          console.log('nuevaFechaRango',nuevaFechaRango[0])
+          this.dates = [new Date(nuevaFechaRango[0]+'T00:00:00.000Z').toISOString().substr(0, 10),new Date(nuevaFechaRango[1]).toISOString().substr(0, 10)]
+        }else{
+          this.dates = [new Date(fechaTraida).toISOString().substr(0, 10)];
+          console.log('This dates prue', this.dates)
+          console.log('this.dates.length',this.dates.length)
         }
-        //console.log("url + `?eventDate=${this.dates}T00:00:00.000Z`",url + `?eventDate=${this.dates}T00:00:00.000Z`)
-      } else {
-        response = await this.axios.get(
-          url +
-            `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`
-        );
-        //console.log("url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}`",url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`)
+        // this.dates = [new Date(fechaTraida).toISOString().substr(0, 10)];
+        // console.log('this.dates.length',this.dates.length)
+        
       }
-
-      this.scoresbykeywords = response.data.body;
-      console.log("object", this.scoresbykeywords);
+      
+      if (this.dates.length == 1) {
+        
+            response = await this.axios.get(
+              url + `?eventDate=${this.dates}T00:00:00.000Z`
+              
+            );
+            console.log('response', response)
+            console.log('url',url + `?eventDate=${this.dates}T00:00:00.000Z`)
+            
+            this.scoresbykeywords = response.data.body;
+            console.log('this.scoresbykeywords',this.scoresbykeywords)
+            if (this.scoresbykeywords[0].recordingsSummary == undefined) {
+              
+              this.pxinfo = true;
+            } else {
+              
+              this.pxinfo = false;
+            }
+        } else {
+            response = await this.axios.get(
+              url +
+                `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`
+            );
+            this.scoresbykeywords = response.data.body;
+            //console.log("url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}`",url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`)
+       }
+      console.log('url',url)
+       
+      
+      //console.log("object", this.scoresbykeywords);
 
       this.mostrarCantidadDeLLamadas(this.scoresbykeywords);
       this.mostrarTableDetailOfAgents(this.scoresbykeywords);
@@ -534,14 +674,14 @@ export default {
             recordings += 1;
           }
 
-          console.log(
-            "name ",
-            agent,
-            "score ",
-            realTotalScore,
-            " recordings ",
-            recordings
-          );
+          // console.log(
+          //   "name ",
+          //   agent,
+          //   "score ",
+          //   realTotalScore,
+          //   " recordings ",
+          //   recordings
+          // );
           if (!(agent in superRecordingsSummary)) {
             superRecordingsSummary[agent] = {
               results: {}
@@ -566,7 +706,7 @@ export default {
           (100 * superRecordingsSummary[agent]["results"]["totalScore"]) /
           superRecordingsSummary[agent]["results"]["recordings"];
       }
-      console.log("ver super", superRecordingsSummary);
+      //console.log("ver super", superRecordingsSummary);
 
       let superRecordingsSummaryArray = [];
 
@@ -578,20 +718,20 @@ export default {
 
         superRecordingsSummaryArray.push(agentPackage);
       }
-      console.log("superAgentsSummaryArray", superRecordingsSummaryArray);
+      //console.log("superAgentsSummaryArray", superRecordingsSummaryArray);
 
       this.detailOfAgent = superRecordingsSummaryArray;
     },
     mostrarTableCallDetailByAgent(data, name) {
       this.recordScoreByKeywords = [];
-      console.log(name);
+      //console.log(name);
 
-      console.log("length", data.length);
+      //console.log("length", data.length);
       for (let i = 0; i < data.length; i++) {
         for (let key in data[i].recordingsSummary) {
-          console.log("keyyy", key);
+         // console.log("keyyy", key);
           if (key == name) {
-            console.log("key ento", data[i].recordingsSummary[key]);
+           // console.log("key ento", data[i].recordingsSummary[key]);
 
             for (let j = 0; j < data[i].recordingsSummary[key].length; j++) {
               data[i].recordingsSummary[key][j].results.cierre =

@@ -10,6 +10,7 @@ import api from '@/api';
         <v-container class="">
           <v-row>
             <v-col cols="6" sm="4">
+              
               <v-menu
                 ref="menu1"
                 v-model="menu1"
@@ -18,9 +19,11 @@ import api from '@/api';
                 offset-y
                 max-width="290px"
                 min-width="auto"
+                
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
+                  @click="identificarFecha()"
                     v-model="dates"
                     label="Date"
                     hint="YYYY/MM/DD"
@@ -29,6 +32,7 @@ import api from '@/api';
                     v-bind="attrs"
                     @blur="date = parseDate(dateFormatted)"
                     v-on="on"
+                    
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -54,7 +58,8 @@ import api from '@/api';
               style="justify-content: center; align-items: center;text-align: center;"
             >
               <h3 class="orange--text">
-                TOTAL <span style="color:#CACACA">GRABACIONES</span> AFECTADAS
+                AFECTADAS <span style="color:#CACACA">POR </span> NO
+                PERMITIDAS
               </h3>
               <span class="text-h2 orange--text">{{
                 this.cantidadLlamadasAfectadas
@@ -76,8 +81,20 @@ import api from '@/api';
           placeholder="Buscar..."
           type="text"
           v-model="search"
-          v-if="pxinfo == false"
+          v-if="pxinfo == false && recordsByCategoryMostrar == false"
         />
+        <div v-if="pxinfo == false && recordsByCategoryMostrar != false">
+          <v-btn
+            class="ma-2"
+            color="orange darken-2"
+            dark
+            rounded
+            @click="retroceder()"
+          >
+            <v-icon dark left > mdi-arrow-left </v-icon>Volver
+          </v-btn>
+        </div>
+
         <v-simple-table class="mt-5" v-if="pxinfo == false">
           <template v-slot:default>
             <thead>
@@ -130,6 +147,9 @@ import api from '@/api';
                     >RECOMENDACIÓN</span
                   >
                 </th>
+                <th style="text-align: center;" class="white--text ">
+                  VER PUNTAJE
+                </th>
                 <!-- <th class="white--text ">RECOMENDACION NEGATIVE</th> -->
               </tr>
             </thead>
@@ -154,6 +174,18 @@ import api from '@/api';
                 <td style="text-align: center;">
                   {{ agentAudit.results.positivesOfRecommendation }}
                 </td>
+                <td style="text-align:center;">
+                    <v-btn
+                      style="text-align:center;"
+                      class="orange"
+                      dark
+                      small
+                      fab
+                      @click="irPuntaje(agentAudit.name)"
+                      ><v-icon>{{icons.mdiPulse}}</v-icon></v-btn
+                    >
+                    
+                  </td>
               </tr>
             </tbody>
           </template>
@@ -168,6 +200,17 @@ import api from '@/api';
           type="text"
           v-model="search2"
         />
+        <div v-if="pxinfo == false && recordsByCategoryMostrar != false">
+          <v-btn
+            class="ma-2"
+            color="orange darken-2"
+            dark
+            fab
+            @click="retroceder2()"
+          >
+            <v-icon dark > mdi-arrow-left </v-icon>
+          </v-btn>
+        </div>
         <v-simple-table
           class="mt-5"
           v-if="recordsByCategoryMostrar != false && pxinfo == false"
@@ -234,6 +277,17 @@ import api from '@/api';
         </v-simple-table>
         <!--ENDTABLE LLAMADAS-->
         <!-- TABLE DATOS-->
+        <div v-if="pxinfo == false && keywordsResultsMostrar != false">
+          <v-btn
+            class="ma-2"
+            color="orange darken-2"
+            dark
+            fab
+            @click="retroceder3()"
+          >
+            <v-icon dark > mdi-arrow-left </v-icon>
+          </v-btn>
+        </div>
         <v-container
           v-if="keywordsResultsMostrar != false && pxinfo == false"
           class="pt-10"
@@ -284,27 +338,36 @@ import api from '@/api';
                 <th class="white--text ">MODULO</th>
                 <th class="white--text ">
                   <img src="../../assets/sort.png" class="mr-2" />
-                  <span class="underline cursor-pointer"> DESDE</span>
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderMin(1)"
+                  >
+                    DESDE</span
+                  >
                 </th>
                 <th class="white--text ">
                   <img src="../../assets/sort.png" class="mr-2" />
-                  <span class="underline cursor-pointer">HASTA</span>
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrderMin(2)"
+                    >HASTA</span
+                  >
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="element in filterRadio" :key="element.id">
-                <td>
+                <td v-if="element.from != '-'">
                   {{ element.name }}
                 </td>
 
-                <td style="text-transform: capitalize">
+                <td style="text-transform: capitalize" v-if="element.from != '-'">
                   {{ element.category }}
                 </td>
-                <td style="text-transform: capitalize">{{ element.module }}</td>
-                <td>{{ element.from }}</td>
+                <td style="text-transform: capitalize" v-if="element.from != '-'">{{ element.module }}</td>
+                <td v-if="element.from != '-'">{{ element.from }}</td>
 
-                <td>{{ element.to }}</td>
+                <td v-if="element.from != '-'">{{ element.to }}</td>
 
                 <!-- <td>{{agentAudit.keywords}}</td> -->
               </tr>
@@ -325,22 +388,29 @@ import PxInfo from "./PxInfo.vue";
 
 let currentUrl = window.location.pathname;
 let nameBDconn = currentUrl.split("/");
+let valores  = window.location.search;
 //console.log("currenturl", currentUrl);
 let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}`; //igsSerfinanzaCO/basephrases/
 let urlKeywords = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/keywords`;
 //console.log(urlKeywords);
-
+import { mdiPulse } from '@mdi/js';
 export default {
+  
   name: "PxAgentsAudit",
   components: {
     PxInfo
   },
+
   data() {
     return {
+      icons:{
+        mdiPulse
+      },
       auditAgents: [],
       dates: [new Date().toISOString().substr(0, 10)],
       keywords: {},
       pxinfo: true,
+      nameTraido:'',
       //date: new Date().toISOString().substr(0, 10),
       cantidadLlamadas: 0,
       cantidadLlamadasAfectadas: 0,
@@ -358,9 +428,11 @@ export default {
       search3: "",
       picked: "",
       sortOrder: 1,
+      sortOrderMin: 1,
       sortOrderCalls: 1,
       sortOrderKeywords: 1,
       ordenamiento1Keywords: Number,
+      ordenamiento1Min: Number,
       ordenamiento1: 0,
       ordenamiento1Calls: Number,
       bandera: false,
@@ -382,7 +454,8 @@ export default {
 
       return this.topByCategory
         .filter(agent => {
-          return agent.name.match(this.search);
+          return agent.name.toLowerCase().includes(this.search.toLowerCase());
+          //return agent.name.match(this.search);
         })
         .sort((a, b) => {
           if (filtrarPor1 == 1) {
@@ -479,13 +552,73 @@ export default {
     },
 
     filterRadio: function() {
-      return this.keywordsResults.filter(keyword => {
-        return keyword.category.match(this.picked);
-      });
+      const altOrderMins = this.sortOrderMin == 1 ? -1 : 1;
+      const filtrarPor1 = this.ordenamiento1Min;
+      return this.keywordsResults
+        .filter(keyword => {
+          return keyword.category.match(this.picked);
+        })
+        .sort((a, b) => {
+          if (filtrarPor1 == 1) {
+            if (String(a.from) > String(b.from)) {
+              return this.sortOrderMin;
+            }
+          }
+          if (filtrarPor1 == 2) {
+            if (String(a.to) > String(b.to)) {
+              return this.sortOrderMin;
+            }
+          }
+
+          this.ordenamiento1Min = "";
+
+          return altOrderMins;
+        });
     }
   },
   watch: {},
   methods: {
+    identificarFecha(){
+      
+      const urlParams = new URLSearchParams(valores);
+      let fechaTraida = urlParams.get('eventDate');
+      
+      if(fechaTraida != null){
+        window.location.href=`auditkeywords`
+      }
+    },
+    irPuntaje(name){
+
+      //console.log('igsSerfinanzaCO/auditscoringkeywords?eventDate=2021-06-15T00%3A00%3A00.000Z&name=',name);
+      window.location.href=`auditscoringkeywords?eventDate=${this.dates}T00:00:00.000Z&name=${name}`
+    },
+    retroceder() {
+      window.location.href=`auditkeywords?eventDate=${this.dates}T00:00:00.000Z`
+      this.search = "";
+      this.bandera = false;
+      this.search2 = "";
+      this.banderaConver = false;
+      this.recordsByCategoryMostrar = false;
+      this.keywordsResultsMostrar = false;
+      this.agentSelected = "";
+      this.keyfileSelected = "";
+    },
+    retroceder2() {
+      this.search = "";
+      this.bandera = false;
+      this.search2 = "";
+      this.banderaConver = false;
+      this.recordsByCategoryMostrar = false;
+      this.keywordsResultsMostrar = false;
+      this.agentSelected = "";
+      this.keyfileSelected = "";
+    },
+    retroceder3() {
+      this.search2 = "";
+      this.banderaConver = false;
+      this.keywordsResultsMostrar = false;
+      this.keyfileSelected = "";
+    },
     changeSortOrder(order1) {
       this.sortOrder = this.sortOrder == 1 ? -1 : 1;
       this.ordenamiento1 = order1;
@@ -500,7 +633,10 @@ export default {
       this.sortOrderKeywords = this.sortOrderKeywords == 1 ? -1 : 1;
       this.ordenamiento1Keywords = order1;
     },
-
+    changeSortOrderMin(order1) {
+      this.sortOrderMin = this.sortOrderMin == 1 ? -1 : 1;
+      this.ordenamiento1Min = order1;
+    },
     mostrarDetalleCall(name) {
       this.agentSelected = name;
       console.log("el agent seleccionado", this.agentSelected);
@@ -537,25 +673,56 @@ export default {
       this.mostrar();
     },
     async mostrar() {
+
+      console.log('valores obtenidos por url',valores);
+      const urlParams = new URLSearchParams(valores);
+      let fechaTraida = urlParams.get('eventDate');
+      //console.log('Fecha traida',fechaTraida[0])
+      let nameTraido = urlParams.get('name');
+      this.fechaTraida = fechaTraida;
+      if(nameTraido != null){
+        this.search= nameTraido
+      }
+      console.log('fechaTraida ', fechaTraida , 'nameTraido ',nameTraido)
       let response;
+
+      if(fechaTraida != null || nameTraido != null){
+        console.log('entre')
+        if(fechaTraida.includes(',')){
+          console.log('entre rango')
+          let nuevaFechaRango;
+           nuevaFechaRango = fechaTraida.split(',');
+          console.log('nuevaFechaRango',nuevaFechaRango[0])
+          this.dates = [new Date(nuevaFechaRango[0]+'T00:00:00.000Z').toISOString().substr(0, 10),new Date(nuevaFechaRango[1]).toISOString().substr(0, 10)]
+        }else{
+          this.dates = [new Date(fechaTraida).toISOString().substr(0, 10)];
+          console.log('This dates prue', this.dates)
+          console.log('this.dates.length',this.dates.length)
+        }
+        
+        
+      }
 
       if (this.dates.length == 1) {
         response = await this.axios.get(
           url + `?eventDate=${this.dates}T00:00:00.000Z`
         );
+        this.auditAgents = response.data.body;
         if (this.auditAgents[0].recordingsSummary == undefined) {
           this.pxinfo = true;
         } else {
           this.pxinfo = false;
         }
-        //console.log("url + `?eventDate=${this.dates}T00:00:00.000Z`",url + `?eventDate=${this.dates}T00:00:00.000Z`)
+        console.log("url + `?eventDate=${this.dates}T00:00:00.000Z`",url + `?eventDate=${this.dates}T00:00:00.000Z`)
+        
       } else {
         this.pxinfo = false;
         response = await this.axios.get(
           url +
             `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`
         );
-        //console.log("url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}`",url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`)
+        console.log("url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}`",url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`)
+        this.auditAgents = response.data.body;
       }
       //console.log('url + `?eventDate=${this.dates}T00:00:00.000Z`',url + `?eventDate=${this.dates}T00:00:00.000Z`)
       this.auditAgents = response.data.body;

@@ -13,6 +13,12 @@ import AuditScoringKeywordsNoVentas from "@/views/noVentas/auditscoringkeywords/
 import BasekeywordsNoVentas from "@/views/noVentas/basekeywords/Basekeywords";
 import BasePhrasesNoVentas from "@/views/noVentas/basephrases/Basephrases";
 import Stadisticsofkeywords from "@/views/stadisticsofkeywords/Stadisticsofkeywords";
+import Auditkeywordstatistics from "@/views/auditkeywordstatistics/Auditkeywordstatistics";
+import AuditkeywordstatisticsInterno from "@/views/auditkeywordstatisticsInterno/AuditkeywordstatisticsInterno";
+import Tablerodirectivo from "@/views/tableroDirectivo/Tablerodirectivo";
+import Basescore from "@/views/basescore/Basescore";
+import AuditScoringKeywordsNoVentasAmc from "@/views/noVentas/auditscoringkeywordsamc/AuditScoringKeywords"
+
 Vue.use(Router);
 
 export default new Router({
@@ -83,6 +89,31 @@ export default new Router({
       path: "/:bd/stadisticsofkeywords",
       name: "stadisticsofkeywords",
       component: Stadisticsofkeywords
+    },
+    {
+      path: "/:bd/auditkeywordstatistics",
+      name: "auditkeywordstatistics",
+      component: Auditkeywordstatistics
+    },
+    {
+      path: "/:bd/auditkeywordstatisticsinterno",
+      name: "auditkeywordstatisticsinterno",
+      component: AuditkeywordstatisticsInterno
+    },
+    {
+      path: "/tablerodirectivotablerodirectivoprivate1230",
+      name: "tablerodirectivotablerodirectivoprivate1230",
+      component: Tablerodirectivo
+    },
+    {
+      path: "/:bd/basescore",
+      name: "basescore",
+      component: Basescore
+    },
+    {
+      path: "/:bd/auditscoringkeywordsnoventasamc",
+      name: "auditscoringkeywordsnoventasamc",
+      component: AuditScoringKeywordsNoVentasAmc
     }
   ]
 });

@@ -4,7 +4,11 @@ const {stadisticOfKeywordsSerFinanzaModel,
     stadisticOfKeywordsIgsBanorteMXModel,
     stadisticOfKeywordsIgsBanistmoPAModel,
     stadisticOfKeywordsBpogsBoldEnglishUSModel,
-    stadisticOfKeywordsBpogsHitesDespachoRetrioCOModel} = require('./model');
+    stadisticOfKeywordsBpogsHitesDespachoRetrioCOModel,
+    stadisticOfKeywordsBpogsBoldFrenchFRModel,
+    stadisticOfKeywordsDaviplataCOModel,
+    stadisticOfKeywordsBpogsAMCCOModel,
+    stadisticOfKeywordsIgsBancoDeOccidenteCOModel} = require('./model');
 
 
 async function getStadisticOfKeywords(filterStadisticOfKeywords,nameDB){
@@ -54,8 +58,21 @@ async function getStadisticOfKeywords(filterStadisticOfKeywords,nameDB){
             return stadisticOfKeywords;
         case 'bpogsHitesDespachoRetiroCO' :
             stadisticOfKeywords = await stadisticOfKeywordsBpogsHitesDespachoRetrioCOModel.find(filter);
-            return stadisticOfKeywords;            
+            return stadisticOfKeywords;  
+        case 'bpogsBoldFrenchFR' :
+            stadisticOfKeywords = await stadisticOfKeywordsBpogsBoldFrenchFRModel.find(filter);
+            return stadisticOfKeywords;
+        case 'igsDaviplataCO' :
+            stadisticOfKeywords = await stadisticOfKeywordsDaviplataCOModel.find(filter);
+            return stadisticOfKeywords;
+        case 'bpogsAMCCO' :
+            stadisticOfKeywords = await stadisticOfKeywordsBpogsAMCCOModel.find(filter);
+            return stadisticOfKeywords;
+        case 'igsBancoDeOccidenteCO' :
+            stadisticOfKeywords = await stadisticOfKeywordsIgsBancoDeOccidenteCOModel.find(filter);
+            return stadisticOfKeywords;              
         }
+        
         return stadisticOfKeywords;
         
 }

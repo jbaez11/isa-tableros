@@ -14,7 +14,7 @@
             ><v-icon dark>mdi-plus</v-icon></v-btn
           >
           <input
-            class="" 
+            class=""
             id="filter"
             placeholder="Buscar..."
             type="text"
@@ -22,13 +22,20 @@
             name="filter"
           />
 
+          <v-btn tile color="success" @click="getReport()">
+            <v-icon left>
+              mdi-pencil
+            </v-icon>
+            Descargar
+          </v-btn>
+
           <!-- Tabla y formulario -->
           <v-simple-table class="mt-5">
             <template v-slot:default>
               <thead>
                 <tr class=" ">
                   <!--<th class="white--text">ID</th>-->
-                  <th class=""><h2>KEYWORD</h2></th>
+                  <th class=""><h2>KEYWORD / FRASE</h2></th>
                   <th class=""><h2>CATEGORIA</h2></th>
                   <th class=""><h2>MODULO</h2></th>
                   <th class=""><h2>CLUSTER</h2></th>
@@ -80,7 +87,6 @@
                   v-for="basekeyword in filteredBasekeywords"
                   :key="basekeyword._id"
                 >
-                  
                   <td>{{ basekeyword.keyword }}</td>
                   <td>{{ basekeyword.category }}</td>
                   <td>{{ basekeyword.module }}</td>
@@ -133,6 +139,12 @@
             >
               {{ pageNmber }}
             </v-btn>
+            <v-btn>
+              ...
+            </v-btn>
+            <v-btn v-if="page < pages.length" @click="page = pages.length">
+              {{ pages.length }}
+            </v-btn>
             <v-btn v-if="page < pages.length" @click="page++">
               Siguiente
             </v-btn>
@@ -143,68 +155,64 @@
           <v-form>
             <v-card>
               <v-card-title class="orange accent-3 white--text"
-                >BaseKeyword</v-card-title
+                >Keyword / Frase</v-card-title
               >
               <v-card-text>
                 <!---->
                 <v-container>
                   <v-row>
                     <!--<input v-model="basekeyword._id" hidden></input>-->
-                    <v-col cols="12" md="3">
+                    <v-col cols="12" md="12">
                       <v-text-field
                         v-model="basekeyword.keyword"
-                        label="Keyword"
+                        label="Keyword / Frase"
                         solo
                         required
                         >{{ basekeyword.keyword }}</v-text-field
                       >
                     </v-col>
-                    <v-col cols="12" md="3">
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" md="12">
                       <select
-                        style="width:110px; height:50px"
+                        style="width:500px; height:50px; background-color: #EEEDED;"
                         v-model="basekeyword.category"
+                        @click="obtenerCategorySelect($event)"
                       >
                         <option disabled value="">Categoria</option>
-                        <option>infaltable</option>
-                        <option>recomendacion</option>
-                        <option>no permitida</option>
+                        <option value="infaltable">infaltable</option>
+                        <option value="recomendacion">recomendación</option>
+                        <option value="no permitida">no permitida</option>
                       </select>
                     </v-col>
-                    <v-col cols="12" md="3">
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" md="12">
                       <select
-                        style="width:100px; height:50px"
+                        style="width:500px; height:50px; background-color: #EEEDED;"
                         v-model="basekeyword.module"
+                        @click="obtenerModuleSelect($event)"
                       >
                         <option disabled value="">Modulo</option>
-                        <option>saludo</option>
-                        <option>producto</option>
-                        <option>validacion</option>
-                        <option>venta</option>
-                        <option>despedida</option>
-                        <option>cierre</option>
+                        <option
+                          v-bind:value="modules"
+                          v-for="modules in modules"
+                          :key="modules"
+                          >{{ modules }}</option
+                        >
                       </select>
                     </v-col>
-                    <v-col cols="12" md="3">
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" md="12">
                       <select
-                        style="width:110px; height:50px"
+                        style="width:500px; height:50px;background-color: #EEEDED;"
                         v-model="basekeyword.cluster"
                       >
                         <option disabled value="">Cluster</option>
-                        <option>identificación</option>
-                        <option>saludo</option>
-                        <option>términos</option>
-                        <option>nombre de cobertura</option>
-                        <option>descripción</option>
-                        <option>número de eventos</option>
-                        <option>confirmación</option>
-                        <option>modo de pago</option>
-                        <option>precio</option>
-                        <option>activación</option>
-                        <option>cierre</option>
-                        <option>tiempo de activación</option>
-                        <option>validación</option>
-                        <option>nombre</option>
-                        <option>despedida</option>
+                        <option v-for="clusters in clusters" :key="clusters">{{
+                          clusters
+                        }}</option>
                       </select>
                     </v-col>
                   </v-row>
@@ -236,9 +244,12 @@
 <script>
 require("dotenv").config();
 let currentUrl = window.location.pathname;
+let nameBDconn = currentUrl.split("/");
 console.log("currenturl", currentUrl);
 let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}/`; //igsSerfinanzaCO/basephrases/
+let urlBaseScore = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/basescore`;
 console.log("url", url);
+console.log("baseScore", urlBaseScore);
 //let url = "http://localhost:3000/basekeywords/";
 
 export default {
@@ -247,6 +258,11 @@ export default {
     return {
       filter: null,
       category: "",
+      modules: [],
+      selectModule: "",
+      selectCategory: "",
+      clusters: [],
+      datasCMC: [],
       module: "",
       cluster: "",
       basekeywords: [],
@@ -264,16 +280,104 @@ export default {
       pages: []
     };
   },
-  mounted() {
-    console.log("esta es ", process.env.VUE_APP_URLBACKEND);
-  },
+  mounted() {},
   created() {
     this.mostrar();
   },
   methods: {
+    obtenerCategorySelect(event) {
+      this.selectCategory = event.target.value;
+      this.mostrar();
+    },
+    obtenerModuleSelect(event) {
+      this.selectModule = event.target.value;
+      this.mostrar();
+    },
     async mostrar() {
       const response = await this.axios.get(url);
       this.basekeywords = response.data.body;
+      const dataCMC = await this.axios.get(urlBaseScore);
+      this.datasCMC = dataCMC.data.body;
+      this.obtenerModules(this.datasCMC);
+      this.obtnerCluster(this.datasCMC, this.selectCategory, this.selectModule);
+    },
+
+    obtenerModules(data) {
+      this.modules = [];
+      //console.log("sleec",select," this.basekeyword.category ",this.category)
+      //if(select == "infaltable" || select == "recomendación" || select == "no permitida"){
+      for (let key in data[0].infaltable) {
+        //console.log('key modules', key);
+        this.modules.push(key);
+      }
+      // }else{
+      //   this.modules=this.modules[0]='-';
+      // }
+
+      //console.log('this.modules',this.modules)
+    },
+
+    obtnerCluster(data, selectCategory, selectModule) {
+      this.clusters = [];
+
+      if (selectCategory == "infaltable" && selectModule != "-") {
+        for (let moduleKey in data[0].infaltable) {
+          if (moduleKey == selectModule) {
+            for (let cluster in data[0].infaltable[moduleKey]) {
+              this.clusters = this.clusters.concat(cluster);
+            }
+          }
+        }
+      } else {
+        this.clusters = this.clusters[0] = "-";
+      }
+
+      // console.log("this.clusters", this.clusters);
+    },
+    objectToCsv(data) {
+      const csvRows = [];
+      const headers = Object.keys(data[0]);
+      csvRows.push(headers.join(","));
+
+      //console.log('headers',csvRows)
+
+      for (const row of data) {
+        const values = headers.map(header => {
+          const scaped = ("" + row[header]).replace(/"/g, '\\"');
+          return `"${scaped}"`;
+        });
+        csvRows.push(values.join(","));
+      }
+
+      return csvRows.join("\n");
+    },
+    download(data) {
+      const dataF="\ufeff"+data;
+      const hora = new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
+      const blob = new Blob([dataF], { type: ' type: "text/csv;charset=UTF-8"'  } );
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.setAttribute("hidden", "");
+      a.setAttribute("href", url);
+      a.setAttribute("download", "keywords_frases_" + hora + ".csv");
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    },
+    async getReport() {
+      // console.log('this.agents', this.agents);
+
+      const data = this.basekeywords.map(row => ({
+        keyword: row.keyword,
+        categoria: row.category,
+        modulo: row.module,
+        cluster: row.cluster,
+        creacion: row.createdAt
+      }));
+      console.log("data", data);
+      //const csvData =
+      const csvData = this.objectToCsv(data);
+      this.download(csvData);
     },
     paginate(basekeywords) {
       let page = this.page;
@@ -342,6 +446,7 @@ export default {
           }
         });
     },
+
     //Botones y formularios
     guardar: function() {
       if (this.operacion == "crear") {

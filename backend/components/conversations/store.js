@@ -5,7 +5,11 @@ const {conversationsSerFinanzaModel,
     conversationsIgsBanistmoPAModel,
     conversationsBpogsBoldEnglishUSModel,
     conversationsBpogsHitesDespachoRetrioCOModel,
-    conversationsAlkTestCOModel} = require('./model');
+    conversationsAlkTestCOModel,
+    conversationsBpogsBoldFrenchFRModel,
+    conversationsDaviplataCOModel,
+    conversationsBpogsAMCCOModel,
+    conversationsIgsBancoDeOccidenteCOModel} = require('./model');
 
 async function getConversations(filterConversations,nameDB){
     let filter = {};
@@ -22,7 +26,7 @@ async function getConversations(filterConversations,nameDB){
             conversations = await conversationsSerFinanzaModel.find(filter);
             return conversations;
 
-        case 'aigsBancolombiaCO':
+        case 'igsBancolombiaCO':
             conversations = await conversationsBancoColombiaModel.find(filter);
             return conversations ;
 
@@ -43,7 +47,20 @@ async function getConversations(filterConversations,nameDB){
             return conversations;
         case 'alkTestCO' :
             conversations = await conversationsAlkTestCOModel.find(filter);
-            return conversations;                
+            return conversations; 
+        case 'bpogsBoldFrenchFR' :
+            conversations = await conversationsBpogsBoldFrenchFRModel.find(filter);
+            return conversations;
+        case 'igsDaviplataCO' :
+            conversations = await conversationsDaviplataCOModel.find(filter);
+            return conversations;
+        case 'bpogsAMCCO' :
+            conversations = await conversationsBpogsAMCCOModel.find(filter);
+            return conversations;
+        case 'igsBancoDeOccidenteCO' :
+            conversations = await conversationsIgsBancoDeOccidenteCOModel.find(filter);
+            return conversations;    
+                           
         }
 }
 

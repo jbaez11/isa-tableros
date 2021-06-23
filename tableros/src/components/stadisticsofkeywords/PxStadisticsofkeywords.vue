@@ -97,13 +97,17 @@
                 </th>
                 <th style="text-align: center;" class="white--text ">
                   <img src="../../assets/sort.png" class="mr-2" />
-                  <span class="underline cursor-pointer"
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrder(1)"
                     >HALLAZGO POR GRABACIÓN</span
                   >
                 </th>
                 <th style="text-align: center;" class="white--text ">
                   <img src="../../assets/sort.png" class="mr-2" />
-                  <span class="underline cursor-pointer"
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrder(2)"
                     >KEYWORD EN EL TOTAL DE GRABACIONES
                   </span>
                 </th>
@@ -119,7 +123,7 @@
             </thead>
             <tbody>
               <tr
-                v-for="stadisticsofkeyword in infaltables"
+                v-for="stadisticsofkeyword in filteredStadistics"
                 :key="stadisticsofkeyword.keyword"
               >
                 <td>
@@ -151,13 +155,17 @@
 
                 <th style="text-align: center;" class="white--text ">
                   <img src="../../assets/sort.png" class="mr-2" />
-                  <span class="underline cursor-pointer"
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrder(1)"
                     >HALLAZGO POR GRABACIÓN</span
                   >
                 </th>
                 <th style="text-align: center;" class="white--text ">
                   <img src="../../assets/sort.png" class="mr-2" />
-                  <span class="underline cursor-pointer"
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrder(2)"
                     >KEYWORD EN EL TOTAL DE GRABACIONES
                   </span>
                 </th>
@@ -173,7 +181,7 @@
             </thead>
             <tbody>
               <tr
-                v-for="stadisticsofkeyword in noPermitidas"
+                v-for="stadisticsofkeyword in filteredStadisticsNo"
                 :key="stadisticsofkeyword.keyword"
               >
                 <td>
@@ -205,13 +213,17 @@
 
                 <th style="text-align: center;" class="white--text ">
                   <img src="../../assets/sort.png" class="mr-2" />
-                  <span class="underline cursor-pointer"
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrder(1)"
                     >HALLAZGO POR GRABACIÓN</span
                   >
                 </th>
                 <th style="text-align: center;" class="white--text ">
                   <img src="../../assets/sort.png" class="mr-2" />
-                  <span class="underline cursor-pointer"
+                  <span
+                    class="underline cursor-pointer"
+                    @click="changeSortOrder(2)"
                     >KEYWORD EN EL TOTAL DE GRABACIONES
                   </span>
                 </th>
@@ -227,7 +239,7 @@
             </thead>
             <tbody>
               <tr
-                v-for="stadisticsofkeyword in recomendacion"
+                v-for="stadisticsofkeyword in filteredStadisticsRe"
                 :key="stadisticsofkeyword.keyword"
               >
                 <td>
@@ -267,12 +279,15 @@ export default {
       dates: [new Date().toISOString().substr(0, 10)],
       cantidadLlamadas: 0,
       totalHallazgos: 0,
+      search: "",
       menu1: false,
       stadisticsofkeywords: [],
       infaltables: [],
       toggle_exclusive: undefined,
       noPermitidas: [],
       recomendacion: [],
+      sortOrder: 1,
+      ordenamiento1: 0,
       select: "infaltable"
     };
   },
@@ -282,9 +297,90 @@ export default {
   computed: {
     dateRangeText() {
       return this.dates.join(" ~ ") && this.mostrar();
+    },
+    filteredStadistics: function() {
+      const altOrder = this.sortOrder == 1 ? -1 : 1;
+      const filtrarPor1 = this.ordenamiento1;
+
+      return this.infaltables
+        .filter(agent => {
+          return agent.keyword.match(this.search);
+        })
+        .sort((a, b) => {
+          if (filtrarPor1 == 1) {
+            if (parseInt(a.found) > parseInt(b.found)) {
+              return this.sortOrder;
+            }
+          }
+          if (filtrarPor1 == 2) {
+            if (parseInt(a.porcentage2) > parseInt(b.porcentage2)) {
+              return this.sortOrder;
+            }
+          }
+
+          this.ordenamiento1 = 0;
+
+          return altOrder;
+        });
+    },
+    filteredStadisticsNo: function() {
+      const altOrder = this.sortOrder == 1 ? -1 : 1;
+      const filtrarPor1 = this.ordenamiento1;
+
+      return this.noPermitidas
+        .filter(agent => {
+          return agent.keyword.match(this.search);
+        })
+        .sort((a, b) => {
+          if (filtrarPor1 == 1) {
+            if (parseInt(a.found) > parseInt(b.found)) {
+              return this.sortOrder;
+            }
+          }
+          if (filtrarPor1 == 2) {
+            if (parseInt(a.porcentage2) > parseInt(b.porcentage2)) {
+              return this.sortOrder;
+            }
+          }
+
+          this.ordenamiento1 = 0;
+
+          return altOrder;
+        });
+    },
+    filteredStadisticsRe: function() {
+      const altOrder = this.sortOrder == 1 ? -1 : 1;
+      const filtrarPor1 = this.ordenamiento1;
+
+      return this.recomendacion
+        .filter(agent => {
+          return agent.keyword.match(this.search);
+        })
+        .sort((a, b) => {
+          if (filtrarPor1 == 1) {
+            if (parseInt(a.found) > parseInt(b.found)) {
+              return this.sortOrder;
+            }
+          }
+          if (filtrarPor1 == 2) {
+            if (parseInt(a.porcentage2) > parseInt(b.porcentage2)) {
+              return this.sortOrder;
+            }
+          }
+
+          this.ordenamiento1 = 0;
+
+          return altOrder;
+        });
     }
   },
   methods: {
+    changeSortOrder(order1) {
+      this.sortOrder = this.sortOrder == 1 ? -1 : 1;
+      this.ordenamiento1 = order1;
+
+      console.log("como se va a organizar", this.ordenamiento1);
+    },
     async mostrar() {
       let response;
 

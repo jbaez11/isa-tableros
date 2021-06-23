@@ -5,7 +5,11 @@ const {auditconversationSerFinanzaModel,
     auditconversationIgsBanistmoPAModel,
     auditconversationBpogsBoldEnglishUSModel,
     auditconversationBpogsHitesDespachoRetrioCOModel,
-    auditconversationalkTestCOModel} = require('./model');
+    auditconversationalkTestCOModel,
+    auditconversationBpogsBoldFrenchFRModel,
+    auditconversationDaviplataCOModel,
+    auditconversationBpogsAMCCOModel,
+    auditconversationIgsBancoDeOccidenteCOModel} = require('./model');
 
 async function getConversations(filterConversations){
     let filter = {};
@@ -23,7 +27,7 @@ async function getConversations(filterConversations){
             auditconversation = await auditconversationSerFinanzaModel.find(filter);
             return auditconversation;
 
-        case 'aigsBancolombiaCO':
+        case 'igsBancolombiaCO':
             auditconversation = await auditconversationBancoColombiaModel.find(filter);
             return auditconversation ;
 
@@ -44,7 +48,19 @@ async function getConversations(filterConversations){
             return auditconversation;
         case 'alkTestCO' :
             conversations = await auditconversationalkTestCOModel.find(filter);
-            return conversations;            
+            return conversations;
+        case 'bpogsBoldFrenchFR' :
+            auditconversation = await auditconversationBpogsBoldFrenchFRModel.find(filter);
+            return auditconversation;
+        case 'igsDaviplataCO' :
+            auditconversation = await auditconversationDaviplataCOModel.find(filter);
+            return auditconversation;
+        case 'bpogsAMCCO' :
+            auditconversation = await auditconversationBpogsAMCCOModel.find(filter);
+            return auditconversation;
+        case 'igsBancoDeOccidenteCO' :
+            auditconversation = await auditconversationIgsBancoDeOccidenteCOModel.find(filter);
+            return auditconversation;               
         }
 }
 

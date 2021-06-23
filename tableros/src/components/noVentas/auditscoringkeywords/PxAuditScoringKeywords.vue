@@ -51,8 +51,25 @@
           </v-row>
         </v-container>
         <!--Table score general-->
-        <input class="" placeholder="Buscar..." type="text" v-model="search" />
-        <v-simple-table class="mt-5">
+        <input
+          class=""
+          placeholder="Buscar..."
+          type="text"
+          v-model="search"
+          v-if="pxinfo == false && recordScoreByKeywordsMostrar == false"
+        />
+        <div v-if="pxinfo == false && recordScoreByKeywordsMostrar != false">
+          <v-btn
+            class="ma-2"
+            color="orange darken-2"
+            dark
+            rounded
+            @click="retroceder()"
+          >
+            <v-icon dark left> mdi-arrow-left </v-icon>Volver
+          </v-btn>
+        </div>
+        <v-simple-table class="mt-5" v-if="pxinfo == false">
           <template v-slot:default>
             <thead>
               <tr style="background-color:#CACACA">
@@ -104,6 +121,17 @@
           type="text"
           v-model="search2"
         />
+        <div v-if="pxinfo == false && recordScoreByKeywordsMostrar != false">
+          <v-btn
+            class="ma-2"
+            color="orange darken-2"
+            dark
+            fab
+            @click="retroceder2()"
+          >
+            <v-icon dark > mdi-arrow-left </v-icon>
+          </v-btn>
+        </div>
         <v-simple-table
           class="mt-5"
           v-if="recordScoreByKeywordsMostrar != false"
@@ -186,6 +214,17 @@
         <!--ENDTABLE LLAMADAS-->
 
         <!--Tablas cluster-->
+        <div v-if="pxinfo == false && scoringKeywordsContentsMostrar != false">
+          <v-btn
+            class="ma-2"
+            color="orange darken-2"
+            dark
+            fab
+            @click="retroceder3()"
+          >
+            <v-icon dark> mdi-arrow-left </v-icon>
+          </v-btn>
+        </div>
         <v-simple-table
           class="mt-5"
           v-if="scoringKeywordsContentsMostrar != false"
@@ -285,7 +324,8 @@ export default {
 
       return this.detailOfAgent
         .filter(agent => {
-          return agent.name.match(this.search);
+          return agent.name.toLowerCase().includes(this.search.toLowerCase());
+          //return agent.name.match(this.search);
         })
         .sort((a, b) => {
           if (filtrarPor1 == 1) {
@@ -369,6 +409,32 @@ export default {
   },
   watch: {},
   methods: {
+    retroceder() {
+      this.search = "";
+      this.bandera = false;
+      this.recordScoreByKeywordsMostrar = false;
+      this.search2 = "";
+      this.banderaCluster = false;
+      this.scoringKeywordsContentsMostrar = false;
+      this.agentSelected = "";
+      this.keyfileSelected = "";
+    },
+    retroceder2() {
+      this.search = "";
+      this.bandera = false;
+      this.recordScoreByKeywordsMostrar = false;
+      this.search2 = "";
+      this.banderaCluster = false;
+      this.scoringKeywordsContentsMostrar = false;
+      this.agentSelected = "";
+      this.keyfileSelected = "";
+    },
+    retroceder3() {
+      this.search2 = "";
+      this.banderaCluster = false;
+      this.scoringKeywordsContentsMostrar = false;
+      this.keyfileSelected = "";
+    },
     changeSortOrder(order1) {
       this.sortOrder = this.sortOrder == 1 ? -1 : 1;
       this.ordenamiento1 = order1;

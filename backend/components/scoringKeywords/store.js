@@ -4,28 +4,22 @@ const {scoringkeywordsSerFinanzaModel,
     scoringkeywordsIgsBanorteMXModel,
     scoringkeywordsIgsBanistmoPAModel,
     scoringkeywordsBpogsBoldEnglishUSModel,
-    scoringkeywordsBpogsHitesDespachoRetrioCOModel} = require('./model');
+    scoringkeywordsBpogsHitesDespachoRetrioCOModel,
+    scoringkeywordsBpogsBoldFrenchFRModel,
+    scoringkeywordsDaviplataCOModel,
+    scoringkeywordsBpogsAMCCOModel,
+    scoringkeywordsIgsBancoDeOccidenteCOModel} = require('./model');
 
 async function getScoringkeywords(filterScoringKeywords,nameDB){
     let filter = {};
     
     if(filterScoringKeywords != null){
-        if(filterScoringKeywords[0] == 2 && filterScoringKeywords[1]==0){
+        
             filter = {
-                eventDate:filterScoringKeywords
-              //eventDate:{$gte:[filterAgentsAudit[0]],$lte:[filterAgentsAudit[1]]}
-                //eventDate:{in:[filterAgentsAudit,filterAgentsAudit2]}
+                keyfile:filterScoringKeywords
+               
             };
-        }else{
-            if(filterScoringKeywords[0]>filterScoringKeywords[1]){
-               filterScoringKeywords.sort();
-            }
-            filter = {
-                //eventDate:filterAgentsAudit
-              eventDate:{$gte:[filterScoringKeywords[0]],$lte:[filterScoringKeywords[1]]}
-                //eventDate:{in:[filterAgentsAudit,filterAgentsAudit2]}
-            };
-        }
+        
         
     }
     var scoringkeywords ;
@@ -35,7 +29,7 @@ async function getScoringkeywords(filterScoringKeywords,nameDB){
             scoringkeywords = await scoringkeywordsSerFinanzaModel.find(filter);
             return scoringkeywords;
 
-        case 'aigsBancolombiaCO':
+        case 'igsBancolombiaCO':
             scoringkeywords = await scoringkeywordsBancoColombiaModel.find(filter);
             return scoringkeywords ;
 
@@ -53,7 +47,20 @@ async function getScoringkeywords(filterScoringKeywords,nameDB){
             return scoringkeywords;
         case 'bpogsHitesDespachoRetiroCO' :
             scoringkeywords = await scoringkeywordsBpogsHitesDespachoRetrioCOModel.find(filter);
-            return scoringkeywords;            
+            return scoringkeywords; 
+        case 'bpogsBoldFrenchFR' :
+            scoringkeywords = await scoringkeywordsBpogsBoldFrenchFRModel.find(filter);
+            return scoringkeywords;
+        case 'igsDaviplataCO' :
+            scoringkeywords = await scoringkeywordsDaviplataCOModel.find(filter);
+            return scoringkeywords;
+        case 'bpogsAMCCO' :
+            scoringkeywords = await scoringkeywordsBpogsAMCCOModel.find(filter);
+            return scoringkeywords;
+        case 'igsBancoDeOccidenteCO' :
+            scoringkeywords = await scoringkeywordsIgsBancoDeOccidenteCOModel.find(filter);
+            return scoringkeywords;                    
+               
         }
 }
 

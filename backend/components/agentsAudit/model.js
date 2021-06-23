@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
-    BpogsHitesDespachoRetrioCOConn } = require('../../db');
+    BpogsHitesDespachoRetrioCOConn,BpogsBoldFrenchFRConn,IgsDaviplataCOConn, BpogsAMCCOCon,
+IgsBancoDeOccidenteCOConn } = require('../../db');
 
 const Schema = mongoose.Schema;
 
@@ -30,13 +31,21 @@ const agentsAuditIgsBanorteMXModel = IgsBanorteMXConn.model('Auditkeywords', age
 const agentsAuditIgsBanistmoPAModel = IgsBanistmoPAConn.model('Auditkeywords', agentsAuditSchema);
 const agentsAuditBpogsBoldEnglishUSModel = BpogsBoldEnglishUSConn.model('Auditkeywords', agentsAuditSchema);
 const agentsAuditBpogsHitesDespachoRetrioCOModel = BpogsHitesDespachoRetrioCOConn.model('Auditkeywords', agentsAuditSchema);
+const agentsAuditBpogsBoldFrenchFRModel = BpogsBoldFrenchFRConn.model('Auditkeywords', agentsAuditSchema);
+const agentsAuditIgsDaviplataCOModel = IgsDaviplataCOConn.model('Auditkeywords', agentsAuditSchema);
+const agentsAuditBpogsAMCCOModel = BpogsAMCCOCon.model('Auditkeywords', agentsAuditSchema);
+const agentsAuditIgsBancoDeOccidenteCOModel = IgsBancoDeOccidenteCOConn.model('Auditkeywords', agentsAuditSchema);
 
 module.exports = {
+    agentsAuditIgsDaviplataCOModel,
     agentsAuditSerFinanzaModel,
     agentsAuditBancoColombiaModel,
     agentsAuditEnelChileModel,
     agentsAuditIgsBanorteMXModel,
     agentsAuditIgsBanistmoPAModel,
     agentsAuditBpogsBoldEnglishUSModel,
-    agentsAuditBpogsHitesDespachoRetrioCOModel
+    agentsAuditBpogsHitesDespachoRetrioCOModel,
+    agentsAuditBpogsBoldFrenchFRModel,
+    agentsAuditBpogsAMCCOModel,
+    agentsAuditIgsBancoDeOccidenteCOModel
 };

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
-    BpogsHitesDespachoRetrioCOConn } = require('../../db');
+    BpogsHitesDespachoRetrioCOConn,BpogsBoldFrenchFRConn,IgsDaviplataCOConn, BpogsAMCCOCon,
+IgsBancoDeOccidenteCOConn } = require('../../db');
 
 const Schema = mongoose.Schema;
 
@@ -34,13 +35,22 @@ const stadisticOfKeywordsIgsBanorteMXModel = IgsBanorteMXConn.model('StadisticsO
 const stadisticOfKeywordsIgsBanistmoPAModel = IgsBanistmoPAConn.model('StadisticsOfKeywords', stadisticOfKeywordsSchema);
 const stadisticOfKeywordsBpogsBoldEnglishUSModel = BpogsBoldEnglishUSConn.model('StadisticsOfKeywords', stadisticOfKeywordsSchema);
 const stadisticOfKeywordsBpogsHitesDespachoRetrioCOModel = BpogsHitesDespachoRetrioCOConn.model('StadisticOfKeywords', stadisticOfKeywordsSchema);
+const stadisticOfKeywordsBpogsBoldFrenchFRModel = BpogsBoldFrenchFRConn.model('StadisticsOfKeywords', stadisticOfKeywordsSchema);
+const stadisticOfKeywordsDaviplataCOModel = IgsDaviplataCOConn.model('StadisticsOfKeywords', stadisticOfKeywordsSchema);
+const stadisticOfKeywordsBpogsAMCCOModel = BpogsAMCCOCon.model('StadisticsOfKeywords', stadisticOfKeywordsSchema);
+const stadisticOfKeywordsIgsBancoDeOccidenteCOModel = IgsBancoDeOccidenteCOConn.model('StadisticsOfKeywords', stadisticOfKeywordsSchema);
+
 
 module.exports = {
+    stadisticOfKeywordsDaviplataCOModel,
+    stadisticOfKeywordsBpogsBoldFrenchFRModel,
     stadisticOfKeywordsSerFinanzaModel,
     stadisticOfKeywordsBancoColombiaModel,
     stadisticOfKeywordsEnelChileModel,
     stadisticOfKeywordsIgsBanorteMXModel,
     stadisticOfKeywordsIgsBanistmoPAModel,
     stadisticOfKeywordsBpogsBoldEnglishUSModel,
-    stadisticOfKeywordsBpogsHitesDespachoRetrioCOModel
+    stadisticOfKeywordsBpogsHitesDespachoRetrioCOModel,
+    stadisticOfKeywordsBpogsAMCCOModel,
+    stadisticOfKeywordsIgsBancoDeOccidenteCOModel,
 };

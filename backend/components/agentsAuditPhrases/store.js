@@ -4,7 +4,9 @@ const {auditPhrasesSerFinanzaModel,
     auditPhrasesIgsBanorteMXModel,
     auditPhrasesIgsBanistmoPAModel,
     auditPhrasesBpogsBoldEnglishUSModel,
-    auditPhrasesBpogsHitesDespachoRetrioCOModel} = require('./model');
+    auditPhrasesBpogsHitesDespachoRetrioCOModel,
+    auditPhrasesBpogsBoldFrenchFRModel,
+    auditPhrasesIgsDaviplataCOModel} = require('./model');
 
 async function getAsesoresPhrases(filterAgentsAuditPhrases,nameDB){
     let filter = {};
@@ -35,7 +37,7 @@ async function getAsesoresPhrases(filterAgentsAuditPhrases,nameDB){
             auditPhrases = await auditPhrasesSerFinanzaModel.find(filter);
             return auditPhrases;
 
-        case 'aigsBancolombiaCO':
+        case 'igsBancolombiaCO':
             auditPhrases = await auditPhrasesBancoColombiaModel.find(filter);
             return auditPhrases ;
 
@@ -53,7 +55,15 @@ async function getAsesoresPhrases(filterAgentsAuditPhrases,nameDB){
             return auditPhrases;
         case 'bpogsHitesDespachoRetiroCO' :
             auditPhrases = await auditPhrasesBpogsHitesDespachoRetrioCOModel.find(filter);
-            return auditPhrases;            
+            return auditPhrases;
+        case 'bpogsBoldFrenchFR' :
+            auditPhrases = await auditPhrasesBpogsBoldFrenchFRModel.find(filter);
+            return auditPhrases;
+            
+        case 'igsDaviplataCO' :
+            auditPhrases = await auditPhrasesIgsDaviplataCOModel.find(filter);
+            return auditPhrases; 
+                        
         }
 }
 
