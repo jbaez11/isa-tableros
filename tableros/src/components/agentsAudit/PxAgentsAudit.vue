@@ -10,7 +10,6 @@ import api from '@/api';
         <v-container class="">
           <v-row>
             <v-col cols="6" sm="4">
-              
               <v-menu
                 ref="menu1"
                 v-model="menu1"
@@ -19,11 +18,10 @@ import api from '@/api';
                 offset-y
                 max-width="290px"
                 min-width="auto"
-                
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                  @click="identificarFecha()"
+                    @click="identificarFecha()"
                     v-model="dates"
                     label="Date"
                     hint="YYYY/MM/DD"
@@ -32,7 +30,6 @@ import api from '@/api';
                     v-bind="attrs"
                     @blur="date = parseDate(dateFormatted)"
                     v-on="on"
-                    
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -58,8 +55,7 @@ import api from '@/api';
               style="justify-content: center; align-items: center;text-align: center;"
             >
               <h3 class="orange--text">
-                AFECTADAS <span style="color:#CACACA">POR </span> NO
-                PERMITIDAS
+                AFECTADAS <span style="color:#CACACA">POR </span> NO PERMITIDAS
               </h3>
               <span class="text-h2 orange--text">{{
                 this.cantidadLlamadasAfectadas
@@ -91,7 +87,7 @@ import api from '@/api';
             rounded
             @click="retroceder()"
           >
-            <v-icon dark left > mdi-arrow-left </v-icon>Volver
+            <v-icon dark left> mdi-arrow-left </v-icon>Volver
           </v-btn>
         </div>
 
@@ -175,17 +171,16 @@ import api from '@/api';
                   {{ agentAudit.results.positivesOfRecommendation }}
                 </td>
                 <td style="text-align:center;">
-                    <v-btn
-                      style="text-align:center;"
-                      class="orange"
-                      dark
-                      small
-                      fab
-                      @click="irPuntaje(agentAudit.name)"
-                      ><v-icon>{{icons.mdiPulse}}</v-icon></v-btn
-                    >
-                    
-                  </td>
+                  <v-btn
+                    style="text-align:center;"
+                    class="orange"
+                    dark
+                    small
+                    fab
+                    @click="irPuntaje(agentAudit.name)"
+                    ><v-icon>{{ icons.mdiPulse }}</v-icon></v-btn
+                  >
+                </td>
               </tr>
             </tbody>
           </template>
@@ -208,7 +203,7 @@ import api from '@/api';
             fab
             @click="retroceder2()"
           >
-            <v-icon dark > mdi-arrow-left </v-icon>
+            <v-icon dark> mdi-arrow-left </v-icon>
           </v-btn>
         </div>
         <v-simple-table
@@ -285,7 +280,7 @@ import api from '@/api';
             fab
             @click="retroceder3()"
           >
-            <v-icon dark > mdi-arrow-left </v-icon>
+            <v-icon dark> mdi-arrow-left </v-icon>
           </v-btn>
         </div>
         <v-container
@@ -361,10 +356,18 @@ import api from '@/api';
                   {{ element.name }}
                 </td>
 
-                <td style="text-transform: capitalize" v-if="element.from != '-'">
+                <td
+                  style="text-transform: capitalize"
+                  v-if="element.from != '-'"
+                >
                   {{ element.category }}
                 </td>
-                <td style="text-transform: capitalize" v-if="element.from != '-'">{{ element.module }}</td>
+                <td
+                  style="text-transform: capitalize"
+                  v-if="element.from != '-'"
+                >
+                  {{ element.module }}
+                </td>
                 <td v-if="element.from != '-'">{{ element.from }}</td>
 
                 <td v-if="element.from != '-'">{{ element.to }}</td>
@@ -388,14 +391,13 @@ import PxInfo from "./PxInfo.vue";
 
 let currentUrl = window.location.pathname;
 let nameBDconn = currentUrl.split("/");
-let valores  = window.location.search;
+let valores = window.location.search;
 //console.log("currenturl", currentUrl);
 let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}`; //igsSerfinanzaCO/basephrases/
 let urlKeywords = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/keywords`;
 //console.log(urlKeywords);
-import { mdiPulse } from '@mdi/js';
+import { mdiPulse } from "@mdi/js";
 export default {
-  
   name: "PxAgentsAudit",
   components: {
     PxInfo
@@ -403,14 +405,14 @@ export default {
 
   data() {
     return {
-      icons:{
+      icons: {
         mdiPulse
       },
       auditAgents: [],
       dates: [new Date().toISOString().substr(0, 10)],
       keywords: {},
       pxinfo: true,
-      nameTraido:'',
+      nameTraido: "",
       //date: new Date().toISOString().substr(0, 10),
       cantidadLlamadas: 0,
       cantidadLlamadasAfectadas: 0,
@@ -578,22 +580,20 @@ export default {
   },
   watch: {},
   methods: {
-    identificarFecha(){
-      
+    identificarFecha() {
       const urlParams = new URLSearchParams(valores);
-      let fechaTraida = urlParams.get('eventDate');
-      
-      if(fechaTraida != null){
-        window.location.href=`auditkeywords`
+      let fechaTraida = urlParams.get("eventDate");
+
+      if (fechaTraida != null) {
+        window.location.href = `auditkeywords`;
       }
     },
-    irPuntaje(name){
-
+    irPuntaje(name) {
       //console.log('igsSerfinanzaCO/auditscoringkeywords?eventDate=2021-06-15T00%3A00%3A00.000Z&name=',name);
-      window.location.href=`auditscoringkeywords?eventDate=${this.dates}T00:00:00.000Z&name=${name}`
+      window.location.href = `auditscoringkeywords?eventDate=${this.dates}T00:00:00.000Z&name=${name}`;
     },
     retroceder() {
-      window.location.href=`auditkeywords?eventDate=${this.dates}T00:00:00.000Z`
+      window.location.href = `auditkeywords?eventDate=${this.dates}T00:00:00.000Z`;
       this.search = "";
       this.bandera = false;
       this.search2 = "";
@@ -673,34 +673,36 @@ export default {
       this.mostrar();
     },
     async mostrar() {
-
-      console.log('valores obtenidos por url',valores);
+      console.log("valores obtenidos por url", valores);
       const urlParams = new URLSearchParams(valores);
-      let fechaTraida = urlParams.get('eventDate');
+      let fechaTraida = urlParams.get("eventDate");
       //console.log('Fecha traida',fechaTraida[0])
-      let nameTraido = urlParams.get('name');
+      let nameTraido = urlParams.get("name");
       this.fechaTraida = fechaTraida;
-      if(nameTraido != null){
-        this.search= nameTraido
+      if (nameTraido != null) {
+        this.search = nameTraido;
       }
-      console.log('fechaTraida ', fechaTraida , 'nameTraido ',nameTraido)
+      console.log("fechaTraida ", fechaTraida, "nameTraido ", nameTraido);
       let response;
 
-      if(fechaTraida != null || nameTraido != null){
-        console.log('entre')
-        if(fechaTraida.includes(',')){
-          console.log('entre rango')
+      if (fechaTraida != null || nameTraido != null) {
+        console.log("entre");
+        if (fechaTraida.includes(",")) {
+          console.log("entre rango");
           let nuevaFechaRango;
-           nuevaFechaRango = fechaTraida.split(',');
-          console.log('nuevaFechaRango',nuevaFechaRango[0])
-          this.dates = [new Date(nuevaFechaRango[0]+'T00:00:00.000Z').toISOString().substr(0, 10),new Date(nuevaFechaRango[1]).toISOString().substr(0, 10)]
-        }else{
+          nuevaFechaRango = fechaTraida.split(",");
+          console.log("nuevaFechaRango", nuevaFechaRango[0]);
+          this.dates = [
+            new Date(nuevaFechaRango[0] + "T00:00:00.000Z")
+              .toISOString()
+              .substr(0, 10),
+            new Date(nuevaFechaRango[1]).toISOString().substr(0, 10)
+          ];
+        } else {
           this.dates = [new Date(fechaTraida).toISOString().substr(0, 10)];
-          console.log('This dates prue', this.dates)
-          console.log('this.dates.length',this.dates.length)
+          console.log("This dates prue", this.dates);
+          console.log("this.dates.length", this.dates.length);
         }
-        
-        
       }
 
       if (this.dates.length == 1) {
@@ -713,15 +715,21 @@ export default {
         } else {
           this.pxinfo = false;
         }
-        console.log("url + `?eventDate=${this.dates}T00:00:00.000Z`",url + `?eventDate=${this.dates}T00:00:00.000Z`)
-        
+        console.log(
+          "url + `?eventDate=${this.dates}T00:00:00.000Z`",
+          url + `?eventDate=${this.dates}T00:00:00.000Z`
+        );
       } else {
         this.pxinfo = false;
         response = await this.axios.get(
           url +
             `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`
         );
-        console.log("url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}`",url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`)
+        console.log(
+          "url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}`",
+          url +
+            `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`
+        );
         this.auditAgents = response.data.body;
       }
       //console.log('url + `?eventDate=${this.dates}T00:00:00.000Z`',url + `?eventDate=${this.dates}T00:00:00.000Z`)

@@ -20,7 +20,7 @@
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                  @click="identificarFecha()"
+                    @click="identificarFecha()"
                     v-model="dates"
                     label="Date"
                     hint="YYYY/MM/DD"
@@ -115,17 +115,16 @@
                   {{ scoresbykeywords.results.totalScore.toFixed(1) }} %
                 </td>
                 <td style="text-align:center;">
-                    <v-btn
-                      style="text-align:center;"
-                      class="orange"
-                      dark
-                      small
-                      fab
-                      @click="irAuditKeywords(scoresbykeywords.name)"
-                      ><v-icon>{{icons.mdiClipboardTextOutline}}</v-icon></v-btn
-                    >
-                    
-                  </td>
+                  <v-btn
+                    style="text-align:center;"
+                    class="orange"
+                    dark
+                    small
+                    fab
+                    @click="irAuditKeywords(scoresbykeywords.name)"
+                    ><v-icon>{{ icons.mdiClipboardTextOutline }}</v-icon></v-btn
+                  >
+                </td>
               </tr>
             </tbody>
           </template>
@@ -321,12 +320,12 @@ import PxInfo from "@/components/agentsAudit/PxInfo.vue";
 let currentUrl = window.location.pathname;
 //console.log("currentUrl",currentUrl);
 let nameBDconn = currentUrl.split("/");
-let valores  = window.location.search;
+let valores = window.location.search;
 
 let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}`;
 let urlClusterScore = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/scoringkeywords`;
 
-import { mdiClipboardTextOutline } from '@mdi/js';
+import { mdiClipboardTextOutline } from "@mdi/js";
 
 export default {
   name: "PxScoresByKeywords",
@@ -335,7 +334,7 @@ export default {
   },
   data() {
     return {
-      icons:{
+      icons: {
         mdiClipboardTextOutline
       },
       dates: [new Date().toISOString().substr(0, 10)],
@@ -343,11 +342,11 @@ export default {
       //date: new Date().toISOString().substr(0, 10),
       //dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
       cantidadLlamadas: 0,
-      nameTraido:'',
+      nameTraido: "",
       scoresbykeywords: [],
       clusterScore: {},
       menu1: false,
-      search: '',
+      search: "",
       sortOrder: 1,
       ordenamiento1: Number,
       search2: "",
@@ -361,8 +360,7 @@ export default {
       agentSelected: "",
       keyfileSelected: "",
       bandera: false,
-      banderaCluster: false,
-      
+      banderaCluster: false
     };
   },
   created() {
@@ -475,21 +473,19 @@ export default {
   },
   watch: {},
   methods: {
-    identificarFecha(){
-      
+    identificarFecha() {
       const urlParams = new URLSearchParams(valores);
-      let fechaTraida = urlParams.get('eventDate');
-      
-      if(fechaTraida != null){
-        window.location.href=`auditkeywords`
+      let fechaTraida = urlParams.get("eventDate");
+
+      if (fechaTraida != null) {
+        window.location.href = `auditkeywords`;
       }
     },
-    irAuditKeywords(name){
-
-      window.location.href=`auditkeywords?eventDate=${this.dates}T00:00:00.000Z&name=${name}`
+    irAuditKeywords(name) {
+      window.location.href = `auditkeywords?eventDate=${this.dates}T00:00:00.000Z&name=${name}`;
     },
     retroceder() {
-      window.location.href=`auditscoringkeywords?eventDate=${this.dates}T00:00:00.000Z`
+      window.location.href = `auditscoringkeywords?eventDate=${this.dates}T00:00:00.000Z`;
       this.search = "";
       this.bandera = false;
       this.recordScoreByKeywordsMostrar = false;
@@ -529,14 +525,12 @@ export default {
     mostrarDetalleCall(name) {
       this.agentSelected = name;
       //console.log("el agent seleccionado", this.agentSelected);
-      
+
       if (this.bandera == false) {
-        
         this.search = name;
         this.bandera = true;
         this.recordScoreByKeywordsMostrar = true;
       } else {
-         
         this.search = "";
         this.bandera = false;
         this.recordScoreByKeywordsMostrar = false;
@@ -567,63 +561,62 @@ export default {
       // const response = await this.axios.get(
       //   url + `?eventDate=${this.date}T00:00:00.000Z`
       // );
-      console.log('valores obtenidos por url',valores);
+      console.log("valores obtenidos por url", valores);
       const urlParams = new URLSearchParams(valores);
-      let fechaTraida = urlParams.get('eventDate');
-      let nameTraido = urlParams.get('name');
+      let fechaTraida = urlParams.get("eventDate");
+      let nameTraido = urlParams.get("name");
       this.fechaTraida = fechaTraida;
-      if(nameTraido != null){
-        this.search= nameTraido
+      if (nameTraido != null) {
+        this.search = nameTraido;
       }
-      console.log('fechaTraida ', fechaTraida , 'nameTraido ',nameTraido)
+      console.log("fechaTraida ", fechaTraida, "nameTraido ", nameTraido);
       let response;
 
-      if(fechaTraida != null || nameTraido != null){
-        if(fechaTraida.includes(',')){
-          console.log('entre rango')
+      if (fechaTraida != null || nameTraido != null) {
+        if (fechaTraida.includes(",")) {
+          console.log("entre rango");
           let nuevaFechaRango;
-           nuevaFechaRango = fechaTraida.split(',');
-          console.log('nuevaFechaRango',nuevaFechaRango[0])
-          this.dates = [new Date(nuevaFechaRango[0]+'T00:00:00.000Z').toISOString().substr(0, 10),new Date(nuevaFechaRango[1]).toISOString().substr(0, 10)]
-        }else{
+          nuevaFechaRango = fechaTraida.split(",");
+          console.log("nuevaFechaRango", nuevaFechaRango[0]);
+          this.dates = [
+            new Date(nuevaFechaRango[0] + "T00:00:00.000Z")
+              .toISOString()
+              .substr(0, 10),
+            new Date(nuevaFechaRango[1]).toISOString().substr(0, 10)
+          ];
+        } else {
           this.dates = [new Date(fechaTraida).toISOString().substr(0, 10)];
-          console.log('This dates prue', this.dates)
-          console.log('this.dates.length',this.dates.length)
+          console.log("This dates prue", this.dates);
+          console.log("this.dates.length", this.dates.length);
         }
         // this.dates = [new Date(fechaTraida).toISOString().substr(0, 10)];
         // console.log('this.dates.length',this.dates.length)
-        
       }
-      
+
       if (this.dates.length == 1) {
-        
-            response = await this.axios.get(
-              url + `?eventDate=${this.dates}T00:00:00.000Z`
-              
-            );
-            console.log('response', response)
-            console.log('url',url + `?eventDate=${this.dates}T00:00:00.000Z`)
-            
-            this.scoresbykeywords = response.data.body;
-            console.log('this.scoresbykeywords',this.scoresbykeywords)
-            if (this.scoresbykeywords[0].recordingsSummary == undefined) {
-              
-              this.pxinfo = true;
-            } else {
-              
-              this.pxinfo = false;
-            }
+        response = await this.axios.get(
+          url + `?eventDate=${this.dates}T00:00:00.000Z`
+        );
+        console.log("response", response);
+        console.log("url", url + `?eventDate=${this.dates}T00:00:00.000Z`);
+
+        this.scoresbykeywords = response.data.body;
+        console.log("this.scoresbykeywords", this.scoresbykeywords);
+        if (this.scoresbykeywords[0].recordingsSummary == undefined) {
+          this.pxinfo = true;
         } else {
-            response = await this.axios.get(
-              url +
-                `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`
-            );
-            this.scoresbykeywords = response.data.body;
-            //console.log("url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}`",url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`)
-       }
-      console.log('url',url)
-       
-      
+          this.pxinfo = false;
+        }
+      } else {
+        response = await this.axios.get(
+          url +
+            `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`
+        );
+        this.scoresbykeywords = response.data.body;
+        //console.log("url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}`",url + `?eventDate=${this.dates[0]}T00:00:00.000Z&&eventDate=${this.dates[1]}T00:00:00.000Z`)
+      }
+      console.log("url", url);
+
       //console.log("object", this.scoresbykeywords);
 
       this.mostrarCantidadDeLLamadas(this.scoresbykeywords);
@@ -729,9 +722,9 @@ export default {
       //console.log("length", data.length);
       for (let i = 0; i < data.length; i++) {
         for (let key in data[i].recordingsSummary) {
-         // console.log("keyyy", key);
+          // console.log("keyyy", key);
           if (key == name) {
-           // console.log("key ento", data[i].recordingsSummary[key]);
+            // console.log("key ento", data[i].recordingsSummary[key]);
 
             for (let j = 0; j < data[i].recordingsSummary[key].length; j++) {
               data[i].recordingsSummary[key][j].results.cierre =

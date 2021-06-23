@@ -129,7 +129,7 @@
             fab
             @click="retroceder2()"
           >
-            <v-icon dark > mdi-arrow-left </v-icon>
+            <v-icon dark> mdi-arrow-left </v-icon>
           </v-btn>
         </div>
         <v-simple-table
@@ -196,11 +196,7 @@
                   %
                 </td>
                 <td style="text-align: center;">
-                  {{
-                    scoresbykeywords.results[
-                      "transparencia"
-                    ].toFixed(1)
-                  }}
+                  {{ scoresbykeywords.results["transparencia"].toFixed(1) }}
                   %
                 </td>
 
@@ -369,8 +365,8 @@ export default {
         .sort((a, b) => {
           if (filtrarPor1 == 1) {
             if (
-              parseFloat(a.results['actitud comercial']) >
-              parseFloat(b.results['actitud comercial'])
+              parseFloat(a.results["actitud comercial"]) >
+              parseFloat(b.results["actitud comercial"])
             ) {
               return this.sortOrderCalls;
             }
@@ -614,17 +610,17 @@ export default {
 
             for (let j = 0; j < data[i].recordingsSummary[key].length; j++) {
               data[i].recordingsSummary[key][j].results["actitud comercial"] =
-                data[i].recordingsSummary[key][j].results["actitud comercial"] * 100;
-              data[i].recordingsSummary[key][j].results["gestión del contacto"] =
+                data[i].recordingsSummary[key][j].results["actitud comercial"] *
+                100;
+              data[i].recordingsSummary[key][j].results[
+                "gestión del contacto"
+              ] =
                 data[i].recordingsSummary[key][j].results[
                   "gestión del contacto"
                 ] * 100;
-              data[i].recordingsSummary[key][j].results[
-                "transparencia"
-              ] =
-                data[i].recordingsSummary[key][j].results[
-                  "transparencia"
-                ] * 100;
+              data[i].recordingsSummary[key][j].results["transparencia"] =
+                data[i].recordingsSummary[key][j].results["transparencia"] *
+                100;
               data[i].recordingsSummary[key][j].results.totalScore =
                 data[i].recordingsSummary[key][j].results.totalScore * 100;
             }

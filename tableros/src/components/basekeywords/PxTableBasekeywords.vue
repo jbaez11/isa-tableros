@@ -352,9 +352,16 @@ export default {
       return csvRows.join("\n");
     },
     download(data) {
-      const dataF="\ufeff"+data;
-      const hora = new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds();
-      const blob = new Blob([dataF], { type: ' type: "text/csv;charset=UTF-8"'  } );
+      const dataF = "\ufeff" + data;
+      const hora =
+        new Date().getHours() +
+        ":" +
+        new Date().getMinutes() +
+        ":" +
+        new Date().getSeconds();
+      const blob = new Blob([dataF], {
+        type: ' type: "text/csv;charset=UTF-8"'
+      });
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.setAttribute("hidden", "");

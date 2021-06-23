@@ -17,7 +17,7 @@ import Auditkeywordstatistics from "@/views/auditkeywordstatistics/Auditkeywords
 import AuditkeywordstatisticsInterno from "@/views/auditkeywordstatisticsInterno/AuditkeywordstatisticsInterno";
 import Tablerodirectivo from "@/views/tableroDirectivo/Tablerodirectivo";
 import Basescore from "@/views/basescore/Basescore";
-import AuditScoringKeywordsNoVentasAmc from "@/views/noVentas/auditscoringkeywordsamc/AuditScoringKeywords"
+import AuditScoringKeywordsNoVentasAmc from "@/views/noVentas/auditscoringkeywordsamc/AuditScoringKeywords";
 
 Vue.use(Router);
 

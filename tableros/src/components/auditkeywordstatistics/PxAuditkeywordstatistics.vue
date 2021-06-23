@@ -85,7 +85,7 @@
           placeholder="Buscar..."
           type="text"
           v-model="search"
-          v-if="pxinfo == false && keywordsMostrar == false "
+          v-if="pxinfo == false && keywordsMostrar == false"
         />
         <div v-if="pxinfo == false && keywordsMostrar != false">
           <v-btn
@@ -100,7 +100,7 @@
         </div>
         <v-simple-table
           class="mt-5"
-          v-if="select == 'infaltable' && pxinfo == false "
+          v-if="select == 'infaltable' && pxinfo == false"
         >
           <template v-slot:default>
             <thead>
@@ -766,7 +766,7 @@ export default {
       dates: [new Date().toISOString().substr(0, 10)],
       cantidadLlamadas: 0,
       totalHallazgos: 0,
-      keywordsMostrar : false,
+      keywordsMostrar: false,
       search: "",
       search2: "",
       search3: "",
@@ -950,7 +950,7 @@ export default {
     }
   },
   methods: {
-    retroceder(){
+    retroceder() {
       //this.select = category;
       this.search = "";
       this.keywordsMostrar = false;

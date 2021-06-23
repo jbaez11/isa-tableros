@@ -129,7 +129,7 @@
             fab
             @click="retroceder2()"
           >
-            <v-icon dark > mdi-arrow-left </v-icon>
+            <v-icon dark> mdi-arrow-left </v-icon>
           </v-btn>
         </div>
         <v-simple-table

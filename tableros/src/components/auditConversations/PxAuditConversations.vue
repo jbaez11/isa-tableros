@@ -65,8 +65,13 @@ import PxAuditConversations from
         </v-container>
         <!--END fechas-->
         <!--Table score general-->
-        <input class="" placeholder="Buscar..." type="text" v-model="search" 
-        v-if="pxinfo == false && recordsByCategoryMostrar == false" />
+        <input
+          class=""
+          placeholder="Buscar..."
+          type="text"
+          v-model="search"
+          v-if="pxinfo == false && recordsByCategoryMostrar == false"
+        />
 
         <div v-if="pxinfo == false && recordsByCategoryMostrar != false">
           <v-btn
@@ -226,7 +231,7 @@ export default {
       dateFormatted: this.formatDate(new Date().toISOString().substr(0, 10)),
       cantidadLlamadas: 0,
       menu1: false,
-      recordsByCategoryMostrar:false,
+      recordsByCategoryMostrar: false,
       search: "",
       sortOrder: 1,
       ordenamiento1: Number,
@@ -338,15 +343,15 @@ export default {
     }
   },
   methods: {
-    retroceder(){
-        this.search = "";
-        this.bandera = false;
-        this.recordsConversationsMostrar = false;
-        this.search2 = "";
-        this.banderaConversations = false;
-        this.conversationsCompleteMostrar = false;
-        this.agentSelected = "";
-        this.keyfileSelected = "";
+    retroceder() {
+      this.search = "";
+      this.bandera = false;
+      this.recordsConversationsMostrar = false;
+      this.search2 = "";
+      this.banderaConversations = false;
+      this.conversationsCompleteMostrar = false;
+      this.agentSelected = "";
+      this.keyfileSelected = "";
     },
     changeSortOrder(order1) {
       this.sortOrder = this.sortOrder == 1 ? -1 : 1;
