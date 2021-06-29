@@ -8,7 +8,9 @@ const {consumptionSerFinanzaModel,
     consumptionBpogsBoldFrenchFRModel,
     consumptionDaviplataCOModel,
     consumptionBpogsAMCCOModel,
-    consumptionIgsBancoDeOccidenteCOModel} = require('./model');
+    consumptionIgsBancoDeOccidenteCOModel,
+    consumptionIgsSufiCOModel,
+    consumptionBpogsHitesFinancieroCOModel} = require('./model');
  
 async function getConsumption(filterConsumption,nameDB){
     let filter = {};
@@ -55,8 +57,15 @@ async function getConsumption(filterConsumption,nameDB){
             return consumption;
         case 'igsBancoDeOccidenteCO' :
             consumption = await consumptionIgsBancoDeOccidenteCOModel.find(filter);
-            return consumption;      
-                 
+            return consumption;
+            
+        case 'igsSufiCO' :
+            consumption = await consumptionIgsSufiCOModel.find(filter);
+            return consumption;
+        case 'bpogsHitesFinancieroCO' :
+            consumption = await consumptionBpogsHitesFinancieroCOModel.find(filter);
+            return consumption;
+             
         }
 }
  

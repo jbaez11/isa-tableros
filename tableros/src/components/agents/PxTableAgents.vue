@@ -255,7 +255,7 @@ export default {
     async mostrar() {
       const response = await this.axios.get(url);
       this.agents = response.data.body;
-      //console.log("mostrar todo", response.data.body);
+      console.log("mostrar todo", response.data.body);
     },
     objectToCsv(data) {
       const csvRows = [];

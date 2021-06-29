@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,
     IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
     BpogsHitesDespachoRetrioCOConn,alkTestCOconn,BpogsBoldFrenchFRConn,IgsDaviplataCOConn,
-    BpogsAMCCOCon, IgsBancoDeOccidenteCOConn } = require('../../db');
+    BpogsAMCCOCon, IgsBancoDeOccidenteCOConn,IgsSufiCOConn,BpogsHitesFinancieroCOConn } = require('../../db');
 const Schema = mongoose.Schema;
 
 const conversationsSchema = new Schema({
@@ -40,7 +40,8 @@ const conversationsBpogsBoldFrenchFRModel = BpogsBoldFrenchFRConn.model('Convers
 const conversationsDaviplataCOModel = IgsDaviplataCOConn.model('Conversations', conversationsSchema);
 const conversationsBpogsAMCCOModel = BpogsAMCCOCon.model('Conversations', conversationsSchema);
 const conversationsIgsBancoDeOccidenteCOModel = IgsBancoDeOccidenteCOConn.model('Conversations', conversationsSchema);
-
+const conversationsIgsSufiCOModel = IgsSufiCOConn.model('Conversations', conversationsSchema);
+const conversationsBpogsHitesFinancieroCOModel = BpogsHitesFinancieroCOConn.model('Conversations', conversationsSchema);
 
 module.exports = {
     conversationsDaviplataCOModel,
@@ -55,4 +56,7 @@ module.exports = {
     conversationsAlkTestCOModel,
     conversationsBpogsAMCCOModel,
     conversationsIgsBancoDeOccidenteCOModel,
+    conversationsIgsSufiCOModel,
+    conversationsBpogsHitesFinancieroCOModel,
+
 };

@@ -8,7 +8,9 @@ const {scoreSerFinanzaModel,
     scoreBpogsBoldFrenchFRModel,
     scoreDaviplataCOModel,
     scoreBpogsAMCCOModel,
-    scoreIgsBancoDeOccidenteCOModel} = require('./model');
+    scoreIgsBancoDeOccidenteCOModel,
+    scoreIgsSufiCOModel,
+    scoreBpogsHitesFinancieroCOModel} = require('./model');
 
 async function getScore(filterScore){
     let filter = {};
@@ -70,8 +72,15 @@ async function getScore(filterScore){
         case 'igsBancoDeOccidenteCO' :
             score = await scoreIgsBancoDeOccidenteCOModel.find(filter);
             return score;
-                     
+        case 'igsSufiCO' :
+            score = await scoreIgsSufiCOModel.find(filter);
+            return score;
+       case 'bpogsHitesFinancieroCO' :
+            score = await scoreBpogsHitesFinancieroCOModel.find(filter);
+            return score;
+                         
         }
+        
 }
 
 module.exports = {

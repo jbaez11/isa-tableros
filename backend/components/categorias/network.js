@@ -7,9 +7,10 @@ router.get('/', function(req,res){
     // variable de peticion
     console.log('locals : ', res.locals.path_data_link );
     dbname = res.locals.path_data_link;
-    controller.getBasePhrases(dbname)
-    .then((basePhrasesList) => {
-        response.success(req,res, basePhrasesList, 200);
+
+    controller.getBaseCategories(dbname)
+    .then((baseCategoriesList) => {
+        response.success(req,res, baseCategoriesList, 200);
     })
     .catch(e => {
         response.error(req,res, 'Unexpected Error', 500 , e);
@@ -22,9 +23,9 @@ router.post('/', function(req,res){
     console.log('locals : ', res.locals.path_data_link );
     dbname = res.locals.path_data_link;
 
-    controller.addBasePhrases(req.body.phrase, req.body.module, req.body.category,dbname)
-        .then((fullBasePhrases) => {
-            response.success(req,res, fullBasePhrases, 201 );
+    controller.addBaseCategories(req.body.name, req.body.qualifying,dbname)
+        .then((fullBaseagents) => {0
+            response.success(req,res, fullBaseagents, 201 );
         })
         .catch(e => {
             response.error(req,res,'Informacion Invalida', 400, 'error en el controller post');
@@ -37,7 +38,7 @@ router.patch('/:id', function(req,res){
     console.log('locals : ', res.locals.path_data_link );
     dbname = res.locals.path_data_link;
 
-    controller.updateBasePhrases(req.params.id, req.body.phrase, req.body.module, req.body.category,dbname)
+    controller.updateBaseCategories(req.params.id, req.body.name, req.body.qualifying,dbname)
         .then((data) => {
             response.success(req,res,data,200);
 
@@ -52,16 +53,13 @@ router.delete('/:id', function(req,res){
     console.log('locals : ', res.locals.path_data_link );
     dbname = res.locals.path_data_link;
 
-    controller.deleteBasePhrases(req.params.id,dbname)
+    controller.deleteBaseCategories(req.params.id,dbname)
         .then(() => {
-            response.success(req,res, `BasePhrases ${req.params.id} eliminado `,200);
+            response.success(req,res, `Agent ${req.params.id} eliminado `,200);
         })
         .catch(e => {
             response.error(req,res, 'Error Interno', 500, e);
         });
 });
-
-
-
 
 module.exports = router;

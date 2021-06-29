@@ -8,7 +8,9 @@ const {baseKeywordsSerFinanzaModel,
     baseKeywordsBpogsBoldFrenchFRModel,
     baseKeywordsDaviplataCOModel,
     baseKeywordsBpogsAMCCOModel,
-    baseKeywordsIgsBancoDeOccidenteCOModel} = require('./model');
+    baseKeywordsIgsBancoDeOccidenteCOModel,
+    baseKeywordsIgsSufiCOModel,
+    baseKeywordsBpogsHitesFinancieroCOModel,} = require('./model');
 
 async function getBaseKeywords(nameDB){
     var baseKeywords;
@@ -50,7 +52,15 @@ async function getBaseKeywords(nameDB){
         case 'igsBancoDeOccidenteCO' :
             baseKeywords = await baseKeywordsIgsBancoDeOccidenteCOModel.find();
             return baseKeywords;
+        case 'igsSufiCO' :
+            baseKeywords = await baseKeywordsIgsSufiCOModel.find();
+            return baseKeywords;
+        case 'bpogsHitesFinancieroCO' :
+            baseKeywords = await baseKeywordsBpogsHitesFinancieroCOModel.find();
+            return baseKeywords;
         }
+        
+    
 }
 
 function addBaseKeywords(baseKeywords,nameDB){
@@ -105,7 +115,17 @@ function addBaseKeywords(baseKeywords,nameDB){
             myBaseKeywords = new baseKeywordsIgsBancoDeOccidenteCOModel(baseKeywords);
             myBaseKeywords.save();
             return myBaseKeywords;
+        case 'igsSufiCO' :
+            myBaseKeywords = new baseKeywordsIgsSufiCOModel(baseKeywords);
+            myBaseKeywords.save();
+            return myBaseKeywords;
+        case 'bpogsHitesFinancieroCO' :
+            myBaseKeywords = new baseKeywordsBpogsHitesFinancieroCOModel(baseKeywords);
+            myBaseKeywords.save();
+            return myBaseKeywords;    
         }
+        
+    
         return myBaseKeywords;  
 }
 
@@ -210,9 +230,29 @@ async function updateBaseKeywords(id,keyword,category,module,cluster,nameDB){
             foundBaseKeywords.cluster=cluster;
             newBaseKeywords = await foundBaseKeywords.save();
             return newBaseKeywords;
+
+        case 'igsSufiCO' :
+            foundBaseKeywords = await baseKeywordsIgsSufiCOModel.findOne({_id:id});
+            foundBaseKeywords.keyword = keyword ;
+            foundBaseKeywords.category = category ;
+            foundBaseKeywords.module = module ;
+            foundBaseKeywords.cluster=cluster;
+            newBaseKeywords = await foundBaseKeywords.save();
+            return newBaseKeywords;
+
+        case 'bpogsHitesFinancieroCO' :
+            foundBaseKeywords = await baseKeywordsBpogsHitesFinancieroCOModel.findOne({_id:id});
+            foundBaseKeywords.keyword = keyword ;
+            foundBaseKeywords.category = category ;
+            foundBaseKeywords.module = module ;
+            foundBaseKeywords.cluster=cluster;
+            newBaseKeywords = await foundBaseKeywords.save();
+            return newBaseKeywords;
         }
 
       return newBaseKeywords;
+      
+    
 }
 
 
@@ -252,8 +292,15 @@ function removeBaseKeywords(id,nameDB){
         case 'bpogsAMCCO' :
             return baseKeywordsBpogsAMCCOModel.deleteOne({_id:id});
         case 'igsBancoDeOccidenteCO' :
-            return baseKeywordsIgsBancoDeOccidenteCOModel.deleteOne({_id:id});    
+            return baseKeywordsIgsBancoDeOccidenteCOModel.deleteOne({_id:id});
+        case 'igsSufiCO' :
+            return baseKeywordsIgsSufiCOModel.deleteOne({_id:id});
+        case 'bpogsHitesFinancieroCO' :
+            return baseKeywordsBpogsHitesFinancieroCOModel.deleteOne({_id:id});    
         }
+
+        
+    
 }
 
 module.exports = {

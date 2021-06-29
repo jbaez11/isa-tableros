@@ -42,12 +42,16 @@ const alkTestCOconn = makeNewConnection('alkTestCO');
 const BpogsBoldFrenchFRConn = makeNewConnection('bpogsBoldFrenchFR');
 const IgsDaviplataCOConn = makeNewConnection('igsDaviplataCO');
 const BpogsAMCCOCon = makeNewConnection('bpogsAMCCO');
-const IgsBancoDeOccidenteCOConn = makeNewConnection('igsBancoDeOccidenteCO')
+const IgsBancoDeOccidenteCOConn = makeNewConnection('igsBancoDeOccidenteCO');
+const IgsSufiCOConn = makeNewConnection('igsSufiCO');
+const BpogsHitesFinancieroCOConn = makeNewConnection('bpogsHitesFinancieroCO');
+
 
 module.exports = {
     SerFinanzaConn,BancolombiaConn,EnelChileConn,
     IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
     BpogsHitesDespachoRetrioCOConn,alkTestCOconn,
-    BpogsBoldFrenchFRConn,IgsDaviplataCOConn,BpogsAMCCOCon,IgsBancoDeOccidenteCOConn
+    BpogsBoldFrenchFRConn,IgsDaviplataCOConn,BpogsAMCCOCon,IgsBancoDeOccidenteCOConn,
+    IgsSufiCOConn,BpogsHitesFinancieroCOConn
 };
 

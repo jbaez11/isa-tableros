@@ -8,82 +8,59 @@ const {basescoreSerFinanzaModel,
     basescoreBpogsBoldFrenchFRModel,
     basescoreDaviplataCOModel,
     basescoreBpogsAMCCOModel,
-    basescoreIgsBancoDeOccidenteCOModel,
-    basescoreIgsSufiCOModel,
-    basescoreBpogsHitesFinancieroCOModel} = require('./model');
+    basescoreIgsBancoDeOccidenteCOModel} = require('./model');
  
 
-async function getBasescore(filterBasescore,nameDB){
-    let filter = {};
-    console.log('filtro fc',filterBasescore)
-    //console.log('filtro 0 ',filterAgentsAudit[0],' y filtro 1 ',filterAgentsAudit[1])
-    if(filterBasescore != null){
-        
-            filter = {
-                eventDate:filterBasescore
-            };
-        
-    }
+async function getBasescore(nameDB){
+    
+    
 
     var basescore ;
     switch (nameDB) {
         
         case 'igsSerfinanzaCO':
-            basescore = await basescoreSerFinanzaModel.find(filter);
+            basescore = await basescoreSerFinanzaModel.find();
             return basescore;
 
         case 'igsBancolombiaCO':
-            basescore = await basescoreBancoColombiaModel.find(filter);
+            basescore = await basescoreBancoColombiaModel.find();
             return basescore ;
 
         case 'igsEnelCL':
-            basescore = await basescoreEnelChileModel.find(filter);
+            basescore = await basescoreEnelChileModel.find();
             return basescore;
         case 'igsBanorteMX' :
-            basescore = await basescoreIgsBanorteMXModel.find(filter);
+            basescore = await basescoreIgsBanorteMXModel.find();
             return basescore;
         case 'igsBanistmoPA' :
-            basescore = await basescoreIgsBanistmoPAModel.find(filter);
+            basescore = await basescoreIgsBanistmoPAModel.find();
             return basescore;
         case 'bpogsBoldEnglishUS' :
-            basescore = await basescoreBpogsBoldEnglishUSModel.find(filter);
+            basescore = await basescoreBpogsBoldEnglishUSModel.find();
             return basescore;
         case 'bpogsHitesDespachoRetiroCO' :
-            basescore = await basescoreBpogsHitesDespachoRetrioCOModel.find(filter);
+            basescore = await basescoreBpogsHitesDespachoRetrioCOModel.find();
             return basescore; 
         case 'bpogsBoldFrenchFR' :
-            basescore = await basescoreBpogsBoldFrenchFRModel.find(filter);
+            basescore = await basescoreBpogsBoldFrenchFRModel.find();
             return basescore;
         case 'igsDaviplataCO' :
-            basescore = await basescoreDaviplataCOModel.find(filter);
+            basescore = await basescoreDaviplataCOModel.find();
             return basescore;
         case 'bpogsAMCCO' :
-            basescore = await basescoreBpogsAMCCOModel.find(filter);
+            basescore = await basescoreBpogsAMCCOModel.find();
             return basescore;
         case 'igsBancoDeOccidenteCO' :
-            basescore = await basescoreIgsBancoDeOccidenteCOModel.find(filter);
-            return basescore;
-        case 'igsSufiCO' :
-            basescore = await basescoreIgsSufiCOModel.find(filter);
-            return basescore;
-        case 'bpogsHitesFinancieroCO' :
-            basescore = await basescoreBpogsHitesFinancieroCOModel.find(filter);
+            basescore = await basescoreIgsBancoDeOccidenteCOModel.find();
             return basescore;
                        
         }
-        
-
     //return asesores;
 }
 
 function addBasescore(basescore,nameDB){
    
     
-    // const myBasePhrases = new Model(basePhrases);
-    // console.log('store ',myBasePhrases)
-    // myBasePhrases.save();
-
-
     var myBasescore;
     switch (nameDB) {
         
@@ -140,7 +117,7 @@ function addBasescore(basescore,nameDB){
 
 }
 
-async function updateBasescore(id,infaltable,nameDB){
+async function updateBasescore(id,category,modulo,nameDB){
     
     var foundBasescore;
     var newBasescore;
@@ -148,7 +125,9 @@ async function updateBasescore(id,infaltable,nameDB){
         
         case 'igsSerfinanzaCO':
             foundBasescore = await basescoreSerFinanzaModel.findOne({_id:id});
-            foundBasescore.infaltable = infaltable ;
+            foundBasescore.category = category ;
+            foundBasescore.modulo = modulo;
+            
     
             newBasescore = await foundBasescore.save();
             
@@ -157,7 +136,9 @@ async function updateBasescore(id,infaltable,nameDB){
 
         case 'igsBancolombiaCO':
             foundBasescore = await basescoreBancoColombiaModel.findOne({_id:id});
-            foundBasescore.phrase = phrase ;
+            foundBasescore.category = category ;
+            foundBasescore.modulo = modulo;
+            foundBasescore.clusters = clusters;
             
             newBasescore = await foundBasescore.save();
             
@@ -165,42 +146,54 @@ async function updateBasescore(id,infaltable,nameDB){
 
         case 'igsEnelCL':
             foundBasescore = await basescoreEnelChileModel.findOne({_id:id});
-            foundBasescore.phrase = phrase ;
+            foundBasescore.category = category ;
+            foundBasescore.modulo = modulo;
+            foundBasescore.clusters = clusters;
             
             newBasescore = await foundBasescore.save();
             
             return newBasescore;
         case 'igsBanorteMX' :
             foundBasescore = await basescoreIgsBanorteMXModel.findOne({_id:id});
-            foundBasescore.phrase = phrase ;
+            foundBasescore.category = category ;
+            foundBasescore.modulo = modulo;
+            foundBasescore.clusters = clusters;
             
             newBasescore = await foundBasescore.save();
             
             return newBasescore;
         case 'igsBanistmoPA' :
             foundBasescore = await basescoreIgsBanistmoPAModel.findOne({_id:id});
-            foundBasescore.phrase = phrase ;
+            foundBasescore.category = category ;
+            foundBasescore.modulo = modulo;
+            foundBasescore.clusters = clusters;
             
             newBasescore = await foundBasescore.save();
             
             return newBasescore;
         case 'bpogsBoldEnglishUS' :
             foundBasescore = await basescoreBpogsBoldEnglishUSModel.findOne({_id:id});
-            foundBasescore.phrase = phrase ;
+            foundBasescore.category = category ;
+            foundBasescore.modulo = modulo;
+            foundBasescore.clusters = clusters;
             
             newBasescore = await foundBasescore.save();
             
             return newBasescore;
         case 'bpogsHitesDespachoRetrioCO' :
             foundBasescore = await basescoreBpogsHitesDespachoRetrioCOModel.findOne({_id:id});
-            foundBasescore.phrase = phrase ;
+            foundBasescore.category = category ;
+            foundBasescore.modulo = modulo;
+            foundBasescore.clusters = clusters;
             
             newBasescore = await foundBasescore.save();
             
             return newBasescore;
             case 'bpogsBoldFrenchFR' :
             foundBasescore = await basescoreBpogsBoldFrenchFRModel.findOne({_id:id});
-            foundBasescore.phrase = phrase ;
+            foundBasescore.category = category ;
+            foundBasescore.modulo = modulo;
+            foundBasescore.clusters = clusters;
             
             newBasescore = await foundBasescore.save();
             
@@ -208,7 +201,9 @@ async function updateBasescore(id,infaltable,nameDB){
 
         case 'igsDaviplataCO' :
             foundBasescore = await basescoreDaviplataCOModel.findOne({_id:id});
-            foundBasescore.phrase = phrase ;
+            foundBasescore.category = category ;
+            foundBasescore.modulo = modulo;
+            foundBasescore.clusters = clusters;
             
             newBasescore = await foundBasescore.save();
             
@@ -216,7 +211,9 @@ async function updateBasescore(id,infaltable,nameDB){
 
         case 'bpogsAMCCO' :
             foundBasescore = await basescoreBpogsAMCCOModel.findOne({_id:id});
-            foundBasescore.phrase = phrase ;
+            foundBasescore.category = category ;
+            foundBasescore.modulo = modulo;
+            foundBasescore.clusters = clusters;
             
             newBasescore = await foundBasescore.save();
             
@@ -224,7 +221,9 @@ async function updateBasescore(id,infaltable,nameDB){
 
         case 'igsBancoDeOccidenteCO' :
             foundBasescore = await basescoreIgsBancoDeOccidenteCOModel.findOne({_id:id});
-            foundBasescore.phrase = phrase ;
+            foundBasescore.category = category ;
+            foundBasescore.modulo = modulo;
+            foundBasescore.clusters = clusters;
             
             newBasescore = await foundBasescore.save();
             

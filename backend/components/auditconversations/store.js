@@ -9,7 +9,9 @@ const {auditconversationSerFinanzaModel,
     auditconversationBpogsBoldFrenchFRModel,
     auditconversationDaviplataCOModel,
     auditconversationBpogsAMCCOModel,
-    auditconversationIgsBancoDeOccidenteCOModel} = require('./model');
+    auditconversationIgsBancoDeOccidenteCOModel,
+    auditconversationIgsSufiCOModel,
+    auditconversationBpogsHitesFinancieroCOModel} = require('./model');
 
 async function getConversations(filterConversations){
     let filter = {};
@@ -60,8 +62,16 @@ async function getConversations(filterConversations){
             return auditconversation;
         case 'igsBancoDeOccidenteCO' :
             auditconversation = await auditconversationIgsBancoDeOccidenteCOModel.find(filter);
-            return auditconversation;               
+            return auditconversation;
+        case 'igsSufiCO' :
+                auditconversation = await auditconversationIgsSufiCOModel.find(filter);
+                return auditconversation;
+        case 'bpogsHitesFinancieroCO' :
+                auditconversation = await auditconversationBpogsHitesFinancieroCOModel.find(filter);
+                return auditconversation;                    
         }
+        
+    
 }
 
 module.exports = {

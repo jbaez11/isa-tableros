@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 //var connection = mongoose.createConnection()
 const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
     BpogsHitesDespachoRetrioCOConn,BpogsBoldFrenchFRConn,IgsDaviplataCOConn,BpogsAMCCOCon,
-    IgsBancoDeOccidenteCOConn } = require('../../db');
+    IgsBancoDeOccidenteCOConn,IgsSufiCOConn,BpogsHitesFinancieroCOConn } = require('../../db');
 const Schema = mongoose.Schema;
 
 const keywordsSchema = new Schema({
@@ -37,6 +37,8 @@ const keywordsBpogsBoldFrenchFRModel = BpogsBoldFrenchFRConn.model('Keywords', k
 const keywordsDaviplataCOModel = IgsDaviplataCOConn.model('Keywords', keywordsSchema);
 const keywordsBpogsAMCCOModel = BpogsAMCCOCon.model('Keywords', keywordsSchema);
 const keywordsIgsBancoDeOccidenteCOModel = IgsBancoDeOccidenteCOConn.model('Keywords', keywordsSchema);
+const keywordsIgsSufiCOModel = IgsSufiCOConn.model('Keywords', keywordsSchema);
+const keywordsBpogsHitesFinancieroCOModel = BpogsHitesFinancieroCOConn.model('Keywords', keywordsSchema);
 
 
 module.exports = {
@@ -51,4 +53,6 @@ module.exports = {
     keywordsBpogsHitesDespachoRetrioCOModel,
     keywordsBpogsAMCCOModel,
     keywordsIgsBancoDeOccidenteCOModel,
+    keywordsIgsSufiCOModel,
+    keywordsBpogsHitesFinancieroCOModel,
 };

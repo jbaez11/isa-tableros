@@ -7,7 +7,9 @@ const {agentsAuditSerFinanzaModel,
     agentsAuditBpogsHitesDespachoRetrioCOModel,
     agentsAuditBpogsBoldFrenchFRModel,
     agentsAuditIgsDaviplataCOModel,agentsAuditBpogsAMCCOModel,
-    agentsAuditIgsBancoDeOccidenteCOModel} = require('./model');
+    agentsAuditIgsBancoDeOccidenteCOModel,
+    agentsAuditIgsSufiCOModel,
+    agentsAuditBpogsHitesFinancieroCOModel} = require('./model');
 
 
 async function getAsesores(filterAgentsAudit,nameDB){
@@ -72,7 +74,13 @@ async function getAsesores(filterAgentsAudit,nameDB){
                 return agentsAudit;
         case 'igsBancoDeOccidenteCO' :
                 agentsAudit = await agentsAuditIgsBancoDeOccidenteCOModel.find(filter);
-                return agentsAudit;                      
+                return agentsAudit;
+        case 'igsSufiCO' :
+                agentsAudit = await agentsAuditIgsSufiCOModel.find(filter);
+                return agentsAudit;
+        case 'bpogsHitesFinancieroCO' :
+                agentsAudit = await agentsAuditBpogsHitesFinancieroCOModel.find(filter);
+                return agentsAudit;                                      
                        
         }
     //return asesores;

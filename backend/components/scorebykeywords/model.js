@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { SerFinanzaConn, BancolombiaConn, EnelChileConn,IgsBanorteMXConn,IgsBanistmoPAConn,BpogsBoldEnglishUSConn,
     BpogsHitesDespachoRetrioCOConn,BpogsBoldFrenchFRConn,IgsDaviplataCOConn, BpogsAMCCOCon,
-IgsBancoDeOccidenteCOConn } = require('../../db');
+IgsBancoDeOccidenteCOConn,IgsSufiCOConn,BpogsHitesFinancieroCOConn } = require('../../db');
 const Schema = mongoose.Schema;
 
 const scoreSchema = new Schema({
@@ -33,7 +33,8 @@ const scoreBpogsBoldFrenchFRModel = BpogsBoldFrenchFRConn.model('Auditscoringkey
 const scoreDaviplataCOModel = IgsDaviplataCOConn.model('Auditscoringkeywords', scoreSchema);
 const scoreBpogsAMCCOModel = BpogsAMCCOCon.model('Auditscoringkeywords', scoreSchema);
 const scoreIgsBancoDeOccidenteCOModel = IgsBancoDeOccidenteCOConn.model('Auditscoringkeywords', scoreSchema);
-
+const scoreIgsSufiCOModel = IgsSufiCOConn.model('Auditscoringkeywords', scoreSchema);
+const scoreBpogsHitesFinancieroCOModel = BpogsHitesFinancieroCOConn.model('Auditscoringkeywords', scoreSchema);
 
 module.exports = {
     scoreDaviplataCOModel,
@@ -47,4 +48,6 @@ module.exports = {
     scoreBpogsHitesDespachoRetrioCOModel,
     scoreBpogsAMCCOModel,
     scoreIgsBancoDeOccidenteCOModel,
+    scoreIgsSufiCOModel,
+    scoreBpogsHitesFinancieroCOModel
 }; 

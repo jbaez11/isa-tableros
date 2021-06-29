@@ -8,7 +8,9 @@ const {keywordsSerFinanzaModel,
     keywordsBpogsBoldFrenchFRModel,
     keywordsDaviplataCOModel,
     keywordsBpogsAMCCOModel,
-    keywordsIgsBancoDeOccidenteCOModel} = require('./model');
+    keywordsIgsBancoDeOccidenteCOModel,
+    keywordsIgsSufiCOModel,
+    keywordsBpogsHitesFinancieroCOModel,} = require('./model');
 
 async function getAsesores(filterAgentsAudit,nameDB){
     let filter = {};
@@ -55,9 +57,16 @@ async function getAsesores(filterAgentsAudit,nameDB){
             return keywords;
         case 'igsBancoDeOccidenteCO' :
             keywords = await keywordsIgsBancoDeOccidenteCOModel.find(filter);
-            return keywords;    
+            return keywords;
+        case 'igsSufiCO' :
+                keywords = await keywordsIgsSufiCOModel.find(filter);
+                return keywords;
+        case 'bpogsHitesFinancieroCO' :
+                keywords = await keywordsBpogsHitesFinancieroCOModel.find(filter);
+                return keywords;        
                        
         }
+        
 }
 
 module.exports = {
