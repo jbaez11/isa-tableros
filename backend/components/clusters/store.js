@@ -131,7 +131,7 @@ function addClusters(clusters,nameDB){
 
 }
 
-async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
+async function updateClusters(id,nameCategory,nameModule,nameClusters,puntaje,nameDB){
    
 
    var foundClusters;
@@ -143,6 +143,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
            foundClusters.nameCategory = nameCategory ;
            foundClusters.nameModule = nameModule ;
            foundClusters.nameClusters = nameClusters ;
+           foundClusters.puntaje = puntaje;
            newClusters = await foundClusters.save();
            return newClusters;
 
@@ -151,6 +152,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
            foundClusters.nameCategory = nameCategory ;
            foundClusters.nameModule = nameModule ;
            foundClusters.nameClusters = nameClusters ;
+           foundClusters.puntaje = puntaje;
            newClusters = await foundClusters.save();
            return newClusters;
 
@@ -159,6 +161,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
            foundClusters.nameCategory = nameCategory ;
            foundClusters.nameModule = nameModule ;
            foundClusters.nameClusters = nameClusters ;
+           foundClusters.puntaje = puntaje;
            newClusters = await foundClusters.save();
            return newClusters;
        case 'igsBanorteMX' :
@@ -166,6 +169,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
            foundClusters.nameCategory = nameCategory ;
            foundClusters.nameModule = nameModule ;
            foundClusters.nameClusters = nameClusters ;
+           foundClusters.puntaje = puntaje;
            newClusters = await foundClusters.save();
            return newClusters;
        case 'igsBanistmoPA' :
@@ -173,6 +177,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
            foundClusters.nameCategory = nameCategory ;
            foundClusters.nameModule = nameModule ;
            foundClusters.nameClusters = nameClusters ;
+           foundClusters.puntaje = puntaje;
            newClusters = await foundClusters.save();
            return newClusters;
        case 'bpogsBoldEnglishUS' :
@@ -180,6 +185,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
            foundClusters.nameCategory = nameCategory ;
            foundClusters.nameModule = nameModule ;
            foundClusters.nameClusters = nameClusters ;
+           foundClusters.puntaje = puntaje;
            newClusters = await foundClusters.save();
            return newClusters;
        case 'bpogsHitesDespachoRetrioCO' :
@@ -187,6 +193,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
            foundClusters.nameCategory = nameCategory ;
            foundClusters.nameModule = nameModule ;
            foundClusters.nameClusters = nameClusters ;
+           foundClusters.puntaje = puntaje;
            newClusters = await foundClusters.save();
            return newClusters; 
            
@@ -195,6 +202,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
            foundClusters.nameCategory = nameCategory ;
            foundClusters.nameModule = nameModule ;
            foundClusters.nameClusters = nameClusters ;
+           foundClusters.puntaje = puntaje;
            newClusters = await foundClusters.save();
            return newClusters;
        case 'igsDaviplataCO' :
@@ -202,6 +210,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
            foundClusters.nameCategory = nameCategory ;
            foundClusters.nameModule = nameModule ;
            foundClusters.nameClusters = nameClusters ;
+           foundClusters.puntaje = puntaje;
            newClusters = await foundClusters.save();
            return newClusters;
 
@@ -210,6 +219,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
            foundClusters.nameCategory = nameCategory ;
            foundClusters.nameModule = nameModule ;
            foundClusters.nameClusters = nameClusters ;
+           foundClusters.puntaje = puntaje;
            newClusters = await foundClusters.save();
            return newClusters;
 
@@ -218,6 +228,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
            foundClusters.nameCategory = nameCategory ;
            foundClusters.nameModule = nameModule ;
            foundClusters.nameClusters = nameClusters ;
+           foundClusters.puntaje = puntaje;
            newClusters = await foundClusters.save();
            return newClusters;
 
@@ -226,6 +237,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
            foundClusters.nameCategory = nameCategory ;
            foundClusters.nameModule = nameModule ;
            foundClusters.nameClusters = nameClusters ;
+           foundClusters.puntaje = puntaje;
            newClusters = await foundClusters.save();
            return newClusters;
            
@@ -235,6 +247,7 @@ async function updateClusters(id,nameCategory,nameModule,nameClusters,nameDB){
                foundClusters.nameCategory = nameCategory ;
                foundClusters.nameModule = nameModule ;
                foundClusters.nameClusters = nameClusters ;
+               foundClusters.puntaje = puntaje;
                newClusters = await foundClusters.save();
                return newClusters;
            

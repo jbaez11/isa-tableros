@@ -23,7 +23,7 @@ router.post('/', function(req,res){
     console.log('locals : ', res.locals.path_data_link );
     dbname = res.locals.path_data_link;
 
-    controller.addClusters(req.body.nameCategory, req.body.nameModule, req.body.nameClusters,dbname)
+    controller.addClusters(req.body.nameCategory, req.body.nameModule, req.body.nameClusters,req.body.puntaje ,dbname)
         .then((fullClusters) => {0
             response.success(req,res, fullClusters, 201 );
         })
@@ -38,7 +38,7 @@ router.patch('/:id', function(req,res){
     console.log('locals : ', res.locals.path_data_link );
     dbname = res.locals.path_data_link;
 
-    controller.updateClusters(req.params.id, req.body.nameCategory, req.body.nameModule,req.body.nameClusters,dbname)
+    controller.updateClusters(req.params.id, req.body.nameCategory, req.body.nameModule,req.body.nameClusters,req.body.puntaje,dbname)
         .then((data) => {
             response.success(req,res,data,200);
 

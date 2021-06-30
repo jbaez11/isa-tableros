@@ -106,8 +106,8 @@ export default new Router({
       component: Tablerodirectivo
     },
     {
-      path: "/:bd/basescoresp",
-      name: "basescoresp",
+      path: "/:bd/basescores",
+      name: "basescores",
       component: Basescore
     },
     {

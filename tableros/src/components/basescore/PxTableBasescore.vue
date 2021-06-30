@@ -2,6 +2,8 @@
   <div class="app">
     <v-app>
       <v-main>
+
+        <!--Tabla de categorias-->
         <v-card class="mx-auto mt-5" color="transparent" max-width="1280" elevation="0">
             <v-btn class="mx-2" fab dark color="#FF9B00" @click="formNuevo()"><v-icon dark>mdi-plus</v-icon></v-btn>
         
@@ -9,19 +11,13 @@
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th><h2>Modulo</h2> </th>
-                        <th><h2>Cluster</h2></th>
-                        <th><h2>Porcentaje</h2></th>
+                        <th><h2>Categorias</h2> </th>
                         <th><h2>Acciones</h2> </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="basescore in basescores" :key="basescore._id">
-                        <td @click="obtenerClusters(basescore.modulo)">{{basescore.modulo}}</td>
-                        
-                        <td v-for="cluster in basescore.clusters" :key="cluster.name">{{cluster.name}} </td>
-                        <td v-for="cluster in basescore.clusters" :key="cluster.name">{{cluster.valor}}</td>
-                        
+                      <tr v-for="baseCategorie in baseCategories" :key="baseCategorie.name">
+                        <td>{{baseCategorie.name}} </td>
                         
                         <td>
                           <v-btn
@@ -31,11 +27,9 @@
                               fab
                               @click="
                                 formEditar(
-                                  basescore._id,
-                                  basescore.category,
-                                  basescore.modulo,
-                                  basescore.clusters.name,
-                                  basescore.clusters.valor
+                                  baseCategorie._id,
+                                  baseCategorie.name,
+                                  
 
                                 )
                               "
@@ -47,7 +41,7 @@
                               fab
                               dark
                               small
-                              @click="borrar(basescore._id)"
+                              @click="borrar(baseCategorie._id)"
                               ><v-icon>mdi-delete</v-icon>
                           </v-btn>
                             
@@ -63,39 +57,28 @@
           <v-form>
             <v-card>
             
-            <v-card-title class="orange accent-3 white--text">Modulo</v-card-title>
+            <v-card-title class="orange accent-3 white--text">Categoria</v-card-title>
             <v-card-text>
               <v-container>
                 <v-row>
                   <v-col cols="12" md="12">
                       <v-text-field
-                        v-model="basescore.modulo"
-                        label="Modulo"
+                        v-model="baseCategorie.name"
+                        label="Categoria"
                         solo
                         required
-                        >{{ basescore.modulo }}
-                        </v-text-field
-                      >
-                    </v-col>
-
-                    <v-col cols="12" md="12" >
-                      <v-text-field 
-                        v-model="basescore.clusters.name"
-                        label="Nombre cluster"
-                        solo
-                        required
-                        >{{ basescore.clusters.name }}
+                        >{{ baseCategorie.name }}
                         </v-text-field
                       >
                     </v-col>
 
                     <v-col cols="12" md="12">
                       <v-text-field
-                        v-model="basescore.clusters.valor"
-                        label="Porcentaje de culster"
+                        v-model="baseCategorie.qualifying"
+                        label="Categorya para evaluar"
                         solo
                         required
-                        >{{ basescore.clusters.valor }}
+                        >{{ baseCategorie.qualifying }}
                         </v-text-field
                       >
                     </v-col>
@@ -120,25 +103,28 @@
             </v-card>
           </v-form>
         </v-dialog>
+        <!--END Tabla de categorias-->
 
 
-        <!--Modificacion clusters-->
-          <v-card class="mx-auto mt-5" color="transparent" max-width="1280" elevation="0">
-            <v-btn class="mx-2" fab dark color="#FF9B00" @click="formNuevoCluster()"><v-icon dark>mdi-plus</v-icon></v-btn>
+
+        <!--Tabla de modulos-->
+        <v-card class="mx-auto mt-5" color="transparent" max-width="1280" elevation="0">
+            <v-btn class="mx-2" fab dark color="#FF9B00" @click="formNuevoModules()"><v-icon dark>mdi-plus</v-icon></v-btn>
         
                 <v-simple-table class="mt-5">
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th><h2>Clusters</h2> </th>
-                        <th><h2>Porcentaje</h2> </th>
+                        <th><h2>Categoria</h2> </th>
+                        <th><h2>Modulo</h2> </th>
                         <th><h2>Acciones</h2> </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="basescore in clustersSelect" :key="basescore.name">
-                        <td>{{basescore.name}}</td>
-                        <td>{{basescore.valor}}</td>
+                      <tr v-for="baseModule in baseModules" :key="baseModule._id">
+                        <td>{{baseModule.nameCategory}} </td>
+                        <td>{{baseModule.nameModule}}</td>
+                        
                         <td>
                           <v-btn
                               class="orange"
@@ -146,9 +132,10 @@
                               small
                               fab
                               @click="
-                                formEditarCluster(
-                                  basescore.name,
-                                  basescore.valor,
+                                formEditarModules(
+                                  baseModule._id,
+                                  baseModule.nameCategory,
+                                  baseModule.nameModule
                                   
 
                                 )
@@ -161,7 +148,7 @@
                               fab
                               dark
                               small
-                              @click="borrar(basescore.name)"
+                              @click="borrarModules(baseModule._id)"
                               ><v-icon>mdi-delete</v-icon>
                           </v-btn>
                             
@@ -171,35 +158,168 @@
                   </template>
                 </v-simple-table>
         </v-card>
-        <!--fin cluster-->
+        <!--Dialog-->
+        <v-dialog v-model="dialogModules" max-width="700">
+          
+          <v-form>
+            <v-card>
+            
+            <v-card-title class="orange accent-3 white--text">Modulos</v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" md="12">
+                      <v-text-field
+                        v-model="baseModule.nameCategory"
+                        label="Categoria"
+                        solo
+                        required
+                        >{{ baseModule.nameCategory }}
+                        </v-text-field
+                      >
+                    </v-col>
+
+                    <v-col cols="12" md="12">
+                      <v-text-field
+                        v-model="baseModule.nameModule"
+                        label="Modulo"
+                        solo
+                        required
+                        >{{ baseModule.nameModule }}
+                        </v-text-field
+                      >
+                    </v-col>
+                    
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn @click="dialogModules = false" color="blue-grey" dark
+                  >Cancelar</v-btn
+                >
+                <v-btn
+                  @click="guardarModules()"
+                  type="submit"
+                  color="orange accent-3"
+                  dark
+                  >Guardar</v-btn
+                >
+            </v-card-actions>
+            
+            </v-card>
+          </v-form>
+        </v-dialog>
+        <!--END Tabla de modulos-->
+
+
+        <!--Tabla de clusters-->
+        <v-card class="mx-auto mt-5" color="transparent" max-width="1280" elevation="0">
+            <v-btn class="mx-2" fab dark color="#FF9B00" @click="formNuevoClusters()"><v-icon dark>mdi-plus</v-icon></v-btn>
+        
+                <v-simple-table class="mt-5">
+                  <template v-slot:default>
+                    <thead>
+                      <tr>
+                        <th><h2>Categoria</h2> </th>
+                        <th><h2>Modulo</h2> </th>
+                        <th><h2>Cluster</h2> </th>
+                        <th><h2>Puntaje</h2> </th>
+
+                        <th><h2>Acciones</h2> </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="baseCluster in baseClusters" :key="baseCluster._id">
+                        <td>{{baseCluster.nameCategory}} </td>
+                        <td>{{baseCluster.nameModule}}</td>
+                        <td>{{baseCluster.nameClusters}} </td>
+                        <td>{{baseCluster.puntaje}}</td>
+                        
+                        <td>
+                          <v-btn
+                              class="orange"
+                              dark
+                              small
+                              fab
+                              @click="
+                                formEditarClusters(
+                                  baseCluster._id,
+                                  baseCluster.nameCategory,
+                                  baseCluster.nameModule,
+                                  baseCluster.nameClusters,
+                                  baseCluster.puntaje,
+
+                                )
+                              "
+                              ><v-icon>mdi-pencil</v-icon>
+                          </v-btn>
+
+                          <v-btn
+                              class="error"
+                              fab
+                              dark
+                              small
+                              @click="borrarClusters(baseCluster._id)"
+                              ><v-icon>mdi-delete</v-icon>
+                          </v-btn>
+                            
+                        </td>
+                      </tr>
+                    </tbody>
+                  </template>
+                </v-simple-table>
+        </v-card>
         <!--Dialog-->
         <v-dialog v-model="dialogCluster" max-width="700">
           
           <v-form>
             <v-card>
             
-            <v-card-title class="orange accent-3 white--text">Cluster</v-card-title>
+            <v-card-title class="orange accent-3 white--text">Modulos</v-card-title>
             <v-card-text>
               <v-container>
                 <v-row>
                   <v-col cols="12" md="12">
                       <v-text-field
-                        v-model="basescore.name"
-                        label="Cluster"
+                        v-model="baseCluster.nameCategory"
+                        label="Categoria"
                         solo
                         required
-                        >{{ basescore.name }}
+                        >{{ baseCluster.nameCategory }}
                         </v-text-field
                       >
                     </v-col>
 
-                     <v-col cols="12" md="12">
+                    <v-col cols="12" md="12">
                       <v-text-field
-                        v-model="basescore.valor"
-                        label="Porcentaje"
+                        v-model="baseCluster.nameModule"
+                        label="Modulo"
                         solo
                         required
-                        >{{ basescore.valor }}
+                        >{{ baseCluster.nameModule }}
+                        </v-text-field
+                      >
+                    </v-col>
+
+                    <v-col cols="12" md="12">
+                      <v-text-field
+                        v-model="baseCluster.nameClusters"
+                        label="Cluster"
+                        solo
+                        required
+                        >{{ baseCluster.nameClusters }}
+                        </v-text-field
+                      >
+                    </v-col>
+
+                    <v-col cols="12" md="12">
+                      <v-text-field
+                        v-model="baseCluster.puntaje"
+                        label="Puntaje"
+                        solo
+                        required
+                        >{{ baseCluster.puntaje }}
                         </v-text-field
                       >
                     </v-col>
@@ -213,7 +333,7 @@
                   >Cancelar</v-btn
                 >
                 <v-btn
-                  @click="guardarCluster()"
+                  @click="guardarClusters()"
                   type="submit"
                   color="orange accent-3"
                   dark
@@ -224,7 +344,7 @@
             </v-card>
           </v-form>
         </v-dialog>
-
+        <!--END Tabla de clusters-->
       </v-main>
     </v-app>
   </div>
@@ -233,26 +353,41 @@
 <script>
 require("dotenv").config();
 let currentUrl = window.location.pathname;
-let url = `${process.env.VUE_APP_URLBACKEND}${currentUrl}/`; //igsSerfinanzaCO/basephrases/
+let nameBDconn = currentUrl.split("/");
+let url = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/basecategories/`; //igsSerfinanzaCO/basephrases/
+let url2 = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/modules/`;
+let url3 = `${process.env.VUE_APP_URLBACKEND}/${nameBDconn[1]}/clusters/`;
 
 export default {
   name: "PxTableBasescore",
   data() {
     return {
-      basescores:[],
-      clustersSelect:[],
-      clusterMostrar:[],
+      baseCategories:[],
+      baseModules:[],
+      baseClusters:[],
       
       dialog:false,
+      dialogModules:false,
       dialogCluster:false,
       operacion:'',
+      operacionModules:'',
       operacionCluster:'',
-      basescore:{
+      baseCategorie:{
         _id:null,
-        category:"infaltable",
-        modulo:"",
-        clusters:[{}],
-        
+        name:"",
+        qualifying:0
+      },
+      baseModule:{
+        _id:null,
+        nameCategory:"",
+        nameModule:""
+      },
+      baseCluster:{
+        _id:null,
+        nameCategory:"",
+        nameModule:"",
+        nameClusters:"",
+        puntaje:0
       }
     };
   },
@@ -262,36 +397,22 @@ export default {
   methods:{
     async mostrar(){
       const response = await this.axios.get(url);
-      this.basescores =response.data.body;
-      console.log(this.basescores)
+      this.baseCategories =response.data.body;
+      console.log(this.baseCategories)
 
-      
+      const response2 = await this.axios.get(url2);
+      this.baseModules = response2.data.body;
+
+      const response3 = await this.axios.get(url3);
+      this.baseClusters = response3.data.body;
+
     },
-    obtenerClusters(moduleName){
-      console.log(moduleName)
-      this.clustersSelect=[];
-      
-      
-        for(let i =0 ; i<this.basescores.length;i++){
-      
-            if(moduleName == this.basescores[i].modulo){
-              
-              this.clustersSelect = this.clustersSelect.concat(this.basescores[i].clusters)
-            }
-        }
-         
-        console.log('this.clustersSelect',this.clustersSelect)
-      
-      
-      
-    },
+    
     crear(){
       let parametros = {
-        category:this.basescore.category,
-        modulo:this.basescore.modulo,
-        clusters:[{name:this.basescore.clusters.name,valor:this.basescore.clusters.valor}]
+        name:this.baseCategorie.name,
+        qualifying:this.baseCategorie.qualifying,
         
-
       };
     
       this.axios.post(url, parametros).then(response => {
@@ -301,39 +422,57 @@ export default {
         this.mostrar();
         console.log(response);
       });
-      this.basescore.category="infaltable";
-      this.basescore.modulo="";
-      this.basescore.clusters=[{}];
+      this.baseCategorie.name="";
+      this.baseCategorie.qualifying="";
+      
       
 
     },
+    crearModules(){
+      let parametros = {
+        nameCategory:this.baseModule.nameCategory,
+        nameModule:this.baseModule.nameModule,
+        
+      };
+    
+      this.axios.post(url2, parametros).then(response => {
+        console.log(response);
+        //this.$swal.fire("¡Phrase ya existente!", "", "warning");
+        this.$swal.fire("¡Creado!", "", "success");
+        this.mostrar();
+        console.log(response);
+      });
+      this.baseModule.nameCategory="";
+      this.baseModule.nameModule="";
+    },
+    crearClusters(){
+      let parametros = {
+        nameCategory:this.baseCluster.nameCategory,
+        nameModule:this.baseCluster.nameModule,
+        nameClusters:this.baseCluster.nameClusters,
+        puntaje:this.baseCluster.puntaje
+      };
+    
+      this.axios.post(url3, parametros).then(response => {
+        console.log(response);
+        //this.$swal.fire("¡Phrase ya existente!", "", "warning");
+        this.$swal.fire("¡Creado!", "", "success");
+        this.mostrar();
+        console.log(response);
+      });
+      this.baseModule.nameCategory="";
+      this.baseModule.nameModule="";
+      this.baseCluster.nameClusters="";
+      this.baseCluster.puntaje="";
+    },
     editar(){
       let parametros = {
-        id:this.basescore._id,
-        category:this.basescore.category,
-        modulo:this.basescore.modulo,
-        clusters:[{name:this.basescore.clusters.name,valor:this.basescore.clusters.valor}]
-
-      }
-      this.axios.patch(url + this.basescore._id, parametros).then(response => {
-        console.log(response);
-        //this.$swal.fire("¡Phrase ya existente!", "", "warning");
-        this.$swal.fire("¡Modificado!", "", "success");
-        this.mostrar();
-        console.log(response);
-      });
-
-    },
-    editarCluster(){
-      let parametros = {
-        id:this.basescore._id,
-        category:this.basescore.category,
-        modulo:this.basescore.modulo,
-        clusters:this.basescore.clusters,
+        id:this.baseCategorie._id,
+        name:this.baseCategorie.name,
+        qualifying:this.baseCategorie.qualifying,
         
-
       }
-      this.axios.patch(url + this.basescore._id, parametros).then(response => {
+      this.axios.patch(url + this.baseCategorie._id, parametros).then(response => {
         console.log(response);
         //this.$swal.fire("¡Phrase ya existente!", "", "warning");
         this.$swal.fire("¡Modificado!", "", "success");
@@ -342,6 +481,41 @@ export default {
       });
 
     },
+    editarModules(){
+      let parametros = {
+        id:this.baseModule._id,
+        nameCategory:this.baseModule.nameCategory,
+        nameModule:this.baseModule.nameModule,
+        
+      }
+      this.axios.patch(url2 + this.baseModule._id, parametros).then(response => {
+        console.log(response);
+        //this.$swal.fire("¡Phrase ya existente!", "", "warning");
+        this.$swal.fire("¡Modificado!", "", "success");
+        this.mostrar();
+        console.log(response);
+      });
+
+    },
+    editarClusters(){
+      let parametros = {
+        id:this.baseCluster._id,
+        nameCategory:this.baseCluster.nameCategory,
+        nameModule:this.baseCluster.nameModule,
+        nameClusters:this.baseCluster.nameClusters,
+        puntaje:this.baseCluster.puntaje
+        
+      }
+      this.axios.patch(url3 + this.baseCluster._id, parametros).then(response => {
+        console.log(response);
+        //this.$swal.fire("¡Phrase ya existente!", "", "warning");
+        this.$swal.fire("¡Modificado!", "", "success");
+        this.mostrar();
+        console.log(response);
+      });
+
+    },
+    
     borrar(id){
       this.$swal
         .fire({
@@ -362,6 +536,46 @@ export default {
           }
         });
     },
+    borrarModules(id){
+      this.$swal
+        .fire({
+          title: "¿Confirma eliminar el registro?",
+          confirmButtonText: `Confirmar`,
+          showCancelButton: true
+        })
+        .then(result => {
+          if (result.isConfirmed) {
+            //procedimiento borrar
+            this.axios.delete(url2 + id).then(response => {
+              this.mostrar();
+              console.log(response);
+            });
+            this.$swal.fire("¡Eliminado!", "", "success");
+          } else if (result.isDenied) {
+            return false;
+          }
+        });
+    },
+    borrarClusters(id){
+      this.$swal
+        .fire({
+          title: "¿Confirma eliminar el registro?",
+          confirmButtonText: `Confirmar`,
+          showCancelButton: true
+        })
+        .then(result => {
+          if (result.isConfirmed) {
+            //procedimiento borrar
+            this.axios.delete(url3 + id).then(response => {
+              this.mostrar();
+              console.log(response);
+            });
+            this.$swal.fire("¡Eliminado!", "", "success");
+          } else if (result.isDenied) {
+            return false;
+          }
+        });
+    },
     guardar: function() {
       if (this.operacion == "crear") {
         this.crear();
@@ -371,49 +585,79 @@ export default {
       }
       this.dialog = false;
     },
-    guardarCluster: function() {
-      if (this.operacionCluster == "crear") {
-        this.crear();
+    guardarModules: function() {
+      if (this.operacionModules == "crearModules") {
+        this.crearModules();
       }
-      if (this.operacionCluster == "editar") {
-        this.editarCluster();
+      if (this.operacionModules == "editarModules") {
+        this.editarModules();
       }
-      this.dialog = false;
+      this.dialogModules = false;
     },
+    guardarClusters: function() {
+      if (this.operacionCluster == "crearClusters") {
+        this.crearClusters();
+      }
+      if (this.operacionCluster == "editarClusters") {
+        this.editarClusters();
+      }
+      this.dialogCluster = false;
+    },
+    
     formNuevo: function() {
       this.dialog = true;
       this.operacion = "crear";
-      this.basescore.category = "";
-      this.basescore.modulo = "" ;
+      this.baseCategorie.name = "";
+      this.baseCategorie.qualifying = "" ;
       
      
     },
-    formNuevoCluster: function() {
+    formNuevoModules: function() {
+      this.dialogModules = true;
+      this.operacionModules = "crearModules";
+      this.baseModule.nameCategory = "";
+      this.baseModule.nameModule = "" ;
+    },
+
+    formNuevoClusters: function() {
       this.dialogCluster = true;
-      this.operacionCluster = "crear";
-      this.basescore.category = "";
-      this.basescore.modulo = "" ;
-      
-     
+      this.operacionCluster = "crearClusters";
+      this.baseCluster.nameCategory = "";
+      this.baseCluster.nameModule = "" ;
+      this.baseCluster.nameClusters = "";
+      this.baseCluster.puntaje = "";
     },
-    formEditar: function(id, category, modulo) {
-      this.basescore._id = id;
-      this.basescore.category = category;
-      this.basescore.modulo = modulo ;
+    
+    formEditar: function(id, name, qualifying) {
+      this.baseCategorie._id = id;
+      this.baseCategorie.name = name;
+      this.baseCategorie.qualifying = qualifying ;
       
       
       this.dialog = true;
       this.operacion = "editar";
     },
-    formEditarCluster: function(id, category, modulo) {
-      this.basescore._id = id;
-      this.basescore.category = category;
-      this.basescore.modulo = modulo ;
+
+    formEditarModules: function(id, nameCategory, nameModule) {
+      this.baseModule._id = id;
+      this.baseModule.nameCategory = nameCategory;
+      this.baseModule.nameModule = nameModule ;
+      
+      
+      this.dialogModules = true;
+      this.operacionModules = "editarModules";
+    },
+    formEditarClusters: function(id, nameCategory, nameModule, nameClusters , puntaje) {
+      this.baseCluster._id = id;
+      this.baseCluster.nameCategory = nameCategory;
+      this.baseCluster.nameModule = nameModule ;
+      this.baseCluster.nameClusters=nameClusters,
+      this.baseCluster.puntaje=puntaje
       
       
       this.dialogCluster = true;
-      this.operacionCluster = "editar";
-    }
+      this.operacionCluster = "editarClusters";
+    },
   }
   
   

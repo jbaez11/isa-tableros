@@ -8,8 +8,8 @@ const Schema = mongoose.Schema;
 
 const clustersSchema = new Schema({
     nameCategory : {
-        type: String,
-        required:true,
+        type: Schema.ObjectId,
+        ref : 'basecategories'
         
     },
     nameModule : {
@@ -21,6 +21,10 @@ const clustersSchema = new Schema({
         type: String,
         required:true,
         
+    },
+    puntaje:{
+        type:Number,
+        required:true,
     },
 
     

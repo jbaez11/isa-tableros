@@ -181,7 +181,7 @@
                       >
                         <option disabled value="">Categoria</option>
                         <option value="infaltable">infaltable</option>
-                        <option value="recomendacion">recomendación</option>
+                        <option value="recomendación">recomendación</option>
                         <option value="no permitida">no permitida</option>
                       </select>
                     </v-col>
